@@ -1,1 +1,1 @@
-FROM nginx
+FROM 7imbrook/landing
