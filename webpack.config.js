@@ -4,7 +4,9 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: {
+        main: "./src/index.tsx"
+    },
     output: {
         path: "./dist",
         filename: "bundle.js"
@@ -57,7 +59,6 @@ module.exports = {
         new ExtractTextPlugin('style.css', {
             allChunks: true
         }),
-
         new CopyWebpackPlugin([{from: '*', context: 'public'}])
     ],
 

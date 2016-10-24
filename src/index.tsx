@@ -18,9 +18,7 @@ injectTapEventPlugin();
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-store.dispatch(loginCheck());
-
-ReactDOM.render(
+const base = (
     <MuiThemeProvider>
         <Provider store={store}>
             <Router history={history}>
@@ -31,6 +29,9 @@ ReactDOM.render(
                 </Route>
             </Router>
         </Provider>
-    </MuiThemeProvider>,
+    </MuiThemeProvider>);
+
+ReactDOM.render(
+    base,
     document.getElementById('app')
 );

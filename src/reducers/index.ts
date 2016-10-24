@@ -1,19 +1,16 @@
 import { SessionState, sessionReducer } from './sessionReducer';
-import { LessonState, lessonReducer } from './lessonReducer';
-import { RegistrationState, registrationReducer } from './registrationReducer';
+import { TasksState, tasksReducer } from './tasksReducer';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 export interface State {
     session: SessionState;
-    registration: RegistrationState;
+    tasks: TasksState;
     routing: any;
-    lesson: LessonState;
 }
 
 export const app = combineReducers({
     session: sessionReducer,
-    registration: registrationReducer,
     routing: routerReducer,
-    lesson: lessonReducer,
+    tasks: tasksReducer,
 });
