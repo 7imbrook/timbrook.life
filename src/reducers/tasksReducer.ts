@@ -13,6 +13,10 @@ export const tasksReducer = (state: TasksState, action: any): TasksState => {
             tasks: [{
                 name: 'There is stuff in here',
                 done: false
+            },
+            {
+                name: 'say hi joe',
+                done: false
             }]
         };
     }
