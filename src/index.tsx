@@ -7,7 +7,6 @@ import store from './store/exampleStore';
 import App from './components/App';
 import DashboardContainer from './containers/DashboardContainer';
 import { MuiThemeProvider } from 'material-ui/styles';
-import { loginCheck } from './actions/user';
 import HomeContainer from './containers/HomeContainer';
 
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
