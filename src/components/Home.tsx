@@ -10,16 +10,25 @@ import * as React from 'react';
 import { Task } from '../reducers/tasksReducer';
 export interface HomeProps {
     tasks: Task[];
+    loadTasks?: () => void;
 }
 
-export const Home = (_props: HomeProps) => {
-    const ts = _props.tasks.map((task: Task) => <ListItem key={task.name} rightIcon={<ActionInfo />}>{task.name}</ListItem> );
-    return (<Page>
-        <List>
-            <Subheader>Tasks</Subheader>
-            {ts}
-        </List>
-    </Page>);
+class Home extends React.Component<HomeProps, {}> {
+    componentWillMount() {
+        if (this.props.loadTasks !== undefined) {
+            this.props.loadTasks();
+        }
+    }
+
+    render () {
+        const ts = this.props.tasks.map((task: Task) => <ListItem key={task.name} rightIcon={<ActionInfo />}>{task.name}</ListItem> );
+        return (<Page>
+            <List>
+                <Subheader>Tasks</Subheader>
+                {ts}
+            </List>
+        </Page>);
+    }
 };
 
 export default Home;

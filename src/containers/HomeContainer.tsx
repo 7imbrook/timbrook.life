@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Home, { HomeProps } from '../components/Home';
 import { State } from '../reducers/index';
+import { loadTasks } from '../actions/tasks';
 
 function mapStateToProps(state: State): HomeProps {
     return {
@@ -8,9 +9,11 @@ function mapStateToProps(state: State): HomeProps {
     };
 }
 
-function mapDispatchToProps(_dispatch: any): {} {
+function mapDispatchToProps(dispatch: any): {} {
     return {
-
+        loadTasks: () => {
+            dispatch(loadTasks());
+        }
     };
 }
 
