@@ -24,7 +24,7 @@ export const tasksReducer = (state: TasksState, action: any): TasksState => {
         case 'tasks_request':
             return {
                 loading: true,
-                tasks: []
+                tasks: state.tasks
             };
         default:
             return state;

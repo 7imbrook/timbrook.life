@@ -1,7 +1,12 @@
 import * as React from 'react';
 import {Link} from 'react-router';
-import { AppBar, Drawer } from 'material-ui';
-
+import {
+    AppBar,
+    Drawer,
+    List,
+    ListItem
+} from 'material-ui';
+import AddTaskDialogContainer from '../containers/AddTaskDialogContainer';
 export interface AppProps {
     children?: Element[];
 }
@@ -25,10 +30,16 @@ class App extends React.Component<AppProps, AppState> {
         });
     }
 
+    addItem() {
+        console.log('add item');
+        this.toggleDrawState(false);
+    }
+
     render() {
         let title = <Link style={{color: 'white', textDecoration: 'none'}} to='/'>Task Queue</Link>;
         return (
             <div style={{position: 'absolute', width: '100%', margin: 0}}>
+                {/* <AddTaskDialogContainer /> */}
                 <AppBar
                         title={title}
                         iconClassNameRight='muidocs-icon-navigation-expand-more'
@@ -41,6 +52,9 @@ class App extends React.Component<AppProps, AppState> {
                     <AppBar
                         onLeftIconButtonTouchTap={ () => this.toggleDrawState() }
                         title='Menu' />
+                    <List>
+                        <ListItem onClick={ () => this.addItem() } >Add Item</ListItem>
+                    </List>
                 </Drawer>
                 {this.props.children}
             </div>

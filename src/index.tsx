@@ -8,6 +8,9 @@ import App from './components/App';
 import DashboardContainer from './containers/DashboardContainer';
 import { MuiThemeProvider } from 'material-ui/styles';
 import HomeContainer from './containers/HomeContainer';
+import { init } from './actions/index';
+
+import './main.scss';
 
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -16,6 +19,8 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 const history = syncHistoryWithStore(browserHistory, store);
+
+store.dispatch(init());
 
 const base = (
     <MuiThemeProvider>

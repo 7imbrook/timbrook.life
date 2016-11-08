@@ -5,7 +5,7 @@ import { loadTasks } from '../actions/tasks';
 
 function mapStateToProps(state: State): HomeProps {
     return {
-        loading: state.tasks.loading,
+        loading: state.tasks.loading && state.tasks.tasks.length === 0,
         tasks: state.tasks.tasks
     };
 }
