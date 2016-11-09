@@ -56,7 +56,9 @@ class App extends React.Component<AppProps, AppState> {
                         <ListItem onClick={ () => this.addItem() } >Add Item</ListItem>
                     </List>
                 </Drawer>
-                {this.props.children}
+                <div style={{ width: '90%', margin: 'auto' }}>
+                    {this.props.children}
+                </div>
             </div>
         );
     }

@@ -2,7 +2,6 @@ import {
     Subheader,
     List,
     ListItem,
-    LinearProgress,
     Paper
 } from 'material-ui';
 import ActionInfo from 'material-ui/svg-icons/action/info';
@@ -13,14 +12,16 @@ import { Task } from '../reducers/tasksReducer';
 import './grid.scss';
 
 export interface HomeProps {
-    tasks: Task[];
+    categories: string[];
     loading: boolean;
     loadTasks?: () => void;
+    tasks: {[id: string]: Task[]};
 }
 
 const style = {
-    minWidth: '30%',
-    margin: '10px'
+    minWidth: '400px',
+    margin: '10px',
+    alignSelf: 'flex-start'
 };
 
 class Home extends React.Component<HomeProps, {}> {
@@ -30,37 +31,25 @@ class Home extends React.Component<HomeProps, {}> {
         }
     }
 
+    _renderSublist(cat: String) {
+        const tasks: Task[] = this.props.tasks[cat as string] || [];
+        return tasks.map(task => {
+            return <ListItem key={task.name} rightIcon={<ActionInfo />} >{task.name}</ListItem>;
+        });
+    }
+
     render () {
-        const refresh = <LinearProgress mode='indeterminate' />;
-        const ts = this.props.loading ?
-            refresh :
-            this.props.tasks.map((task: Task) => <ListItem key={task.name} rightIcon={<ActionInfo />}>{task.name}</ListItem> )
-        ;
+        const pads = this.props.categories.map(cat => {
+            return (<Paper key={cat} style={style}>
+                <List>
+                    <Subheader>{cat}</Subheader>
+                    {this._renderSublist(cat)}
+                </List>
+            </Paper>);
+        });
+
         return (<div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <Paper style={style}>
-                <List>
-                    <Subheader>Tasks</Subheader>
-                    {ts}
-                </List>
-            </Paper>
-            <Paper style={style}>
-                <List>
-                    <Subheader>Tasks</Subheader>
-                    {ts}
-                </List>
-            </Paper>
-            <Paper style={style}>
-                <List>
-                    <Subheader>Tasks</Subheader>
-                    {ts}
-                </List>
-            </Paper>
-            <Paper style={style}>
-                <List>
-                    <Subheader>Task</Subheader>
-                    {ts}
-                </List>
-            </Paper>
+            {pads}
         </div>);
     }
 };
