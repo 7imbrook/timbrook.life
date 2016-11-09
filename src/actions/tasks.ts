@@ -3,7 +3,7 @@ import { errorCheck } from './util';
 
 export function loadTasks(): any {
     return (dispatch: any) => {
-        fetch('/api/tasks', {
+        fetch('/api/tasks?done=eq.false', {
             credentials: 'same-origin'
         })
         .then(errorCheck)
