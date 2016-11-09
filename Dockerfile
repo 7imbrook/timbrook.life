@@ -1,10 +1,8 @@
 FROM node
 
-RUN npm install -g yarnpkg
-
 WORKDIR /app
 COPY ./package.json /app/package.json
-RUN yarn
+RUN npm install --warn
 
 COPY ./ /app
 RUN npm run build
