@@ -5,9 +5,9 @@ import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import store from './store/exampleStore';
 import App from './components/App';
-import DashboardContainer from './containers/DashboardContainer';
+import LoginRequiredContainer from './containers/LoginRequiredContainer';
 import { MuiThemeProvider } from 'material-ui/styles';
-import HomeContainer from './containers/HomeContainer';
+import TasksContainer from './containers/TasksContainer';
 import { init } from './actions/index';
 
 import './main.scss';
@@ -27,8 +27,8 @@ const base = (
         <Provider store={store}>
             <Router history={history}>
                 <Route path='/' component={App}>
-                    <Route component={DashboardContainer}>
-                        <IndexRoute component={HomeContainer} />
+                    <Route component={LoginRequiredContainer}>
+                        <IndexRoute component={TasksContainer} />
                     </Route>
                 </Route>
             </Router>

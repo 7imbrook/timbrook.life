@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import Home, { HomeProps } from '../components/Home';
+import Tasks, { TasksProps } from '../components/Tasks';
 import { State } from '../reducers/index';
 import { loadTasks } from '../actions/tasks';
 import { Task } from '../reducers/tasksReducer';
 
-function mapStateToProps(state: State): HomeProps {
+function mapStateToProps(state: State): TasksProps {
     return {
         loading: state.tasks.loading && state.tasks.tasks.length === 0,
         categories: state.tasks.catigories,
@@ -29,9 +29,9 @@ function mapDispatchToProps(dispatch: any): {} {
     };
 }
 
-const HomeContainer = connect(
+const TasksContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Home);
+)(Tasks);
 
-export default HomeContainer;
+export default TasksContainer;

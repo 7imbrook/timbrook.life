@@ -11,7 +11,7 @@ import { Task } from '../reducers/tasksReducer';
 
 import './grid.scss';
 
-export interface HomeProps {
+export interface TasksProps {
     categories: string[];
     loading: boolean;
     loadTasks?: () => void;
@@ -24,7 +24,7 @@ const style = {
     alignSelf: 'flex-start'
 };
 
-class Home extends React.Component<HomeProps, {}> {
+class Tasks extends React.Component<TasksProps, {}> {
     componentWillMount() {
         if (this.props.loadTasks !== undefined) {
             this.props.loadTasks();
@@ -33,8 +33,8 @@ class Home extends React.Component<HomeProps, {}> {
 
     _renderSublist(cat: String) {
         const tasks: Task[] = this.props.tasks[cat as string] || [];
-        return tasks.map(task => {
-            return <ListItem key={task.name} rightIcon={<ActionInfo />} >{task.name}</ListItem>;
+        return tasks.map((task, i) => {
+            return <ListItem key={task.name + i} rightIcon={<ActionInfo />} >{task.name}</ListItem>;
         });
     }
 
@@ -54,4 +54,4 @@ class Home extends React.Component<HomeProps, {}> {
     }
 };
 
-export default Home;
+export default Tasks;

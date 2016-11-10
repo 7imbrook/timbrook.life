@@ -1,12 +1,12 @@
 import * as React from 'react';
 import LoginFormContainer from '../containers/LoginFormContainer';
 
-export interface DashboardProps {
+export interface LoginRequiredProps {
     isLoggedIn: boolean;
     children?: Element[];
 }
 
-export class Dashboard extends React.Component<DashboardProps, {}> {
+export class LoginRequired extends React.Component<LoginRequiredProps, {}> {
 
     render() {
         const content = this.props.isLoggedIn ? this.props.children : <LoginFormContainer />;
@@ -18,4 +18,4 @@ export class Dashboard extends React.Component<DashboardProps, {}> {
     }
 }
 
-export default Dashboard;
+export default LoginRequired;
