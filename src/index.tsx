@@ -9,6 +9,7 @@ import LoginRequiredContainer from './containers/LoginRequiredContainer';
 import { MuiThemeProvider } from 'material-ui/styles';
 import TasksContainer from './containers/TasksContainer';
 import { init } from './actions/index';
+import Dashboard from './components/Dashboard';
 
 import './main.scss';
 
@@ -28,7 +29,8 @@ const base = (
             <Router history={history}>
                 <Route path='/' component={App}>
                     <Route component={LoginRequiredContainer}>
-                        <IndexRoute component={TasksContainer} />
+                        <IndexRoute component={Dashboard} />
+                        <Route path='/tasks' component={TasksContainer} />
                     </Route>
                 </Route>
             </Router>

@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {Link} from 'react-router';
 import {
-    AppBar,
-    Drawer,
-    List,
-    ListItem
+    AppBar
 } from 'material-ui';
-// import AddTaskDialogContainer from '../containers/AddTaskDialogContainer';
+import DrawerContainer from '../containers/DrawerContainer';
+import store from '../store/exampleStore';
+import { push } from 'react-router-redux';
+
 export interface AppProps {
     children?: Element[];
 }
@@ -24,38 +23,29 @@ class App extends React.Component<AppProps, AppState> {
         };
     }
 
+    pushRoute(path: string) {
+        store.dispatch(push(path));
+    }
+
     toggleDrawState(to?: boolean) {
         this.setState({
             drawerOpen: to !== undefined ? to : !this.state.drawerOpen
         });
     }
 
-    addItem() {
-        console.log('add item');
-        this.toggleDrawState(false);
-    }
-
     render() {
-        let title = <Link style={{color: 'white', textDecoration: 'none'}} to='/'>Task Queue</Link>;
+        let title = <div
+            style={{color: 'white', textDecoration: 'none'}}
+            onClick={() => this.pushRoute('/')}>
+                Timbrook.Life
+        </div>;
         return (
             <div style={{position: 'absolute', width: '100%', margin: 0}}>
-                {/* <AddTaskDialogContainer /> */}
                 <AppBar
                         title={title}
                         iconClassNameRight='muidocs-icon-navigation-expand-more'
                         onLeftIconButtonTouchTap={ () => this.toggleDrawState() }/>
-                <Drawer
-                    docked={false}
-                    width={300}
-                    open={this.state.drawerOpen}
-                    onRequestChange={ (open) => this.toggleDrawState(open) }>
-                    <AppBar
-                        onLeftIconButtonTouchTap={ () => this.toggleDrawState() }
-                        title='Menu' />
-                    <List>
-                        <ListItem onClick={ () => this.addItem() } >Add Item</ListItem>
-                    </List>
-                </Drawer>
+                <DrawerContainer open={this.state.drawerOpen} onLeftIconButtonTouchTap={ () => this.toggleDrawState() } />
                 <div style={{ width: '90%', margin: 'auto' }}>
                     {this.props.children}
                 </div>

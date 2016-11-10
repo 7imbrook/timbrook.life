@@ -12,7 +12,7 @@ export class LoginRequired extends React.Component<LoginRequiredProps, {}> {
         const content = this.props.isLoggedIn ? this.props.children : <LoginFormContainer />;
         return  (
             <div>
-            {content}
+                {content}
             </div>
         );
     }

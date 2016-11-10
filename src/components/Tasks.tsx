@@ -2,10 +2,11 @@ import {
     Subheader,
     List,
     ListItem,
-    Paper
+    Paper,
+    LinearProgress
 } from 'material-ui';
 import ActionInfo from 'material-ui/svg-icons/action/info';
-
+import Page from './util/Page';
 import * as React from 'react';
 import { Task } from '../reducers/tasksReducer';
 
@@ -38,7 +39,16 @@ class Tasks extends React.Component<TasksProps, {}> {
         });
     }
 
+    _renderLoading() {
+        return (<Page>
+            <LinearProgress mode='indeterminate' />
+        </Page>);
+    }
+
     render () {
+        if (this.props.loading) {
+            return this._renderLoading();
+        }
         const pads = this.props.categories.map(cat => {
             return (<Paper key={cat} style={style}>
                 <List>
