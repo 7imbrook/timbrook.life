@@ -11,6 +11,11 @@ import TasksContainer from './containers/TasksContainer';
 import { init } from './actions/index';
 import Dashboard from './components/Dashboard';
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {
+    blue400
+} from 'material-ui/styles/colors';
+
 import './main.scss';
 
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
@@ -23,8 +28,14 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch(init());
 
+const theme = getMuiTheme({
+    palette: {
+        primary1Color: blue400
+    }
+});
+
 const base = (
-    <MuiThemeProvider>
+    <MuiThemeProvider muiTheme={theme}>
         <Provider store={store}>
             <Router history={history}>
                 <Route path='/' component={App}>
