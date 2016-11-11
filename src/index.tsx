@@ -13,7 +13,7 @@ import Dashboard from './components/Dashboard';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
-    blue400
+    blueGrey400
 } from 'material-ui/styles/colors';
 
 import './main.scss';
@@ -30,7 +30,7 @@ store.dispatch(init());
 
 const theme = getMuiTheme({
     palette: {
-        primary1Color: blue400
+        primary1Color: blueGrey400
     }
 });
 

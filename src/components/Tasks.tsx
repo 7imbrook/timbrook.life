@@ -20,9 +20,15 @@ export interface TasksProps {
 }
 
 const style = {
-    minWidth: '400px',
+    width: '400px',
     margin: '10px',
     alignSelf: 'flex-start'
+};
+
+const centering = {
+    margin: '0 auto',
+    display: 'flex',
+    maxWidth: '80%'
 };
 
 class Tasks extends React.Component<TasksProps, {}> {
@@ -58,7 +64,7 @@ class Tasks extends React.Component<TasksProps, {}> {
             </Paper>);
         });
 
-        return (<div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        return (<div style={centering}>
             {pads}
         </div>);
     }
