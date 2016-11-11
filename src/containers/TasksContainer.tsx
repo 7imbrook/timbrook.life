@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Tasks, { TasksProps } from '../components/Tasks';
 import { State } from '../reducers/index';
-import { loadTasks } from '../actions/tasks';
+import { loadTasks, addTask, deleteTask } from '../actions/tasks';
 import { Task } from '../reducers/tasksReducer';
 
 function mapStateToProps(state: State): TasksProps {
@@ -25,6 +25,12 @@ function mapDispatchToProps(dispatch: any): {} {
     return {
         loadTasks: () => {
             dispatch(loadTasks());
+        },
+        addTask: (name: string, cat: string) => {
+            dispatch(addTask(name, cat));
+        },
+        deleteTask: (id: string) => {
+            dispatch(deleteTask(id));
         }
     };
 }

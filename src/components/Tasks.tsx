@@ -3,9 +3,10 @@ import {
     List,
     ListItem,
     Paper,
-    LinearProgress
+    LinearProgress,
+    TextField
 } from 'material-ui';
-import ActionInfo from 'material-ui/svg-icons/action/info';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 import Page from './util/Page';
 import * as React from 'react';
 import { Task } from '../reducers/tasksReducer';
@@ -16,7 +17,15 @@ export interface TasksProps {
     categories: string[];
     loading: boolean;
     loadTasks?: () => void;
+    addTask?: (n: string, c: string) => void;
+    deleteTask?: (id: string) => void;
     tasks: {[id: string]: Task[]};
+}
+
+interface TasksState {
+    inputs: {
+        [id: string]: string
+    };
 }
 
 const style = {
@@ -31,17 +40,43 @@ const centering = {
     maxWidth: '80%'
 };
 
-class Tasks extends React.Component<TasksProps, {}> {
+class Tasks extends React.Component<TasksProps, TasksState> {
+
+    constructor(props: TasksProps) {
+        super(props);
+        this.state = {
+            inputs: {}
+        };
+    }
+
     componentWillMount() {
         if (this.props.loadTasks !== undefined) {
             this.props.loadTasks();
         }
     }
 
+    addTaskFromCategory(cat: string) {
+        const value = this.state.inputs[cat];
+        const newInputs = this.state.inputs;
+        newInputs[cat] = '';
+        this.setState({
+            inputs: newInputs
+        });
+        if (this.props.addTask !== undefined) {
+            this.props.addTask(value, cat);
+        }
+    }
+
+    deleteTask(id: string) {
+        if (this.props.deleteTask !== undefined) {
+            this.props.deleteTask(id);
+        }
+    }
+
     _renderSublist(cat: String) {
         const tasks: Task[] = this.props.tasks[cat as string] || [];
         return tasks.map((task, i) => {
-            return <ListItem key={task.name + i} rightIcon={<ActionInfo />} >{task.name}</ListItem>;
+            return <ListItem key={task.name + i} rightIcon={<ActionDelete onClick={ () => this.deleteTask(task.id) } />} >{task.name}</ListItem>;
         });
     }
 
@@ -51,16 +86,49 @@ class Tasks extends React.Component<TasksProps, {}> {
         </Page>);
     }
 
+    _renderAddField(cat: string) {
+        const handleChange = (ev: any) => {
+            const value: string = ev.target.value;
+            const newInputs = this.state.inputs;
+            newInputs[cat] = value;
+            this.setState({
+                inputs: newInputs
+            });
+        };
+
+        const handleEnter = (ev: any) => {
+            if (ev.keyCode === 13) {
+                this.addTaskFromCategory(cat);
+            }
+        };
+
+        return <TextField
+                name={cat}
+                floatingLabelText={ 'Add task to ' + cat }
+                onChange={handleChange}
+                onKeyDown={handleEnter}
+                value={this.state.inputs[cat] || ''}
+                style={{
+                    marginRight: '20px',
+                    marginLeft: '20px',
+                    marginTop: '-25px',
+                    marginBottom: '10px',
+                    width: '90%'
+                }}
+            />;
+    }
+
     render () {
         if (this.props.loading) {
             return this._renderLoading();
         }
         const pads = this.props.categories.map(cat => {
             return (<Paper key={cat} style={style}>
-                <List>
+                <List style={{ marginBottom: '0px' }}>
                     <Subheader>{cat}</Subheader>
                     {this._renderSublist(cat)}
                 </List>
+                {this._renderAddField(cat)}
             </Paper>);
         });
 
