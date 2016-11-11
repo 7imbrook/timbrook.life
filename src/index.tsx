@@ -31,6 +31,10 @@ store.dispatch(init());
 const theme = getMuiTheme({
     palette: {
         primary1Color: blueGrey400
+    },
+    appBar: {
+        height: 44,
+        titleFontWeight: 300
     }
 });
 
