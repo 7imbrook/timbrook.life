@@ -5,7 +5,7 @@ const style = {
     margin: '0 auto',
     padding: '40px',
     display: 'block',
-    maxWidth: '400px'
+    maxWidth: '525px'
 };
 
 export interface PageProps {
@@ -15,7 +15,7 @@ export interface PageProps {
 const Page = (props: PageProps) => {
     return (
             <Paper style={style}>
-            {props.children}
+                {props.children}
             </Paper>
     );
 };
