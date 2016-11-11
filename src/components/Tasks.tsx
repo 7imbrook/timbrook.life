@@ -4,12 +4,16 @@ import {
     ListItem,
     Paper,
     LinearProgress,
-    TextField
+    TextField,
+    Checkbox
 } from 'material-ui';
-import ActionDelete from 'material-ui/svg-icons/action/delete';
 import Page from './util/Page';
 import * as React from 'react';
 import { Task } from '../reducers/tasksReducer';
+import TaskActionMenu from './TaskActionMenu';
+import {
+    grey400
+} from 'material-ui/styles/colors';
 
 import './grid.scss';
 
@@ -76,7 +80,14 @@ class Tasks extends React.Component<TasksProps, TasksState> {
     _renderSublist(cat: String) {
         const tasks: Task[] = this.props.tasks[cat as string] || [];
         return tasks.map((task, i) => {
-            return <ListItem key={task.name + i} rightIcon={<ActionDelete onClick={ () => this.deleteTask(task.id) } />} >{task.name}</ListItem>;
+            return <ListItem
+                key={task.name + i}
+                leftIcon={<Checkbox color={grey400} />}
+                rightIconButton={TaskActionMenu({
+                    deleteItem: () => this.deleteTask(task.id)
+                })}
+                primaryText={task.name}
+            />;
         });
     }
 
