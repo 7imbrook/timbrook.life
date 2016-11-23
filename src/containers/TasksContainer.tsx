@@ -25,6 +25,7 @@ function mapStateToProps(state: State): TasksProps {
     for (const cat of state.tasks.catigories) {
         if (tasksCategoryGrouped[cat] !== undefined) {
             tasksCategoryGrouped[cat].sort((a: Task, b: Task) => {
+                // TODO base32 decode, or sort creation date (when available)
                 return parseInt('0x' + a.id) > parseInt('0x' + b.id);
             });
         }

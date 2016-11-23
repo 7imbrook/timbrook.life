@@ -61,7 +61,7 @@ module.exports = {
             allChunks: true
         }),
         new CopyWebpackPlugin([{from: '*', context: 'public'}]),
-        new WebpackNotifierPlugin()
+        !process.env.NODE_TEST ? (new WebpackNotifierPlugin()) : undefined
     ],
 
     devServer: {
