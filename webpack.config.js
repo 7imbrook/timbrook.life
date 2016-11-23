@@ -1,5 +1,6 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var WebpackNotifierPlugin = require('webpack-notifier');
 var path = require('path');
 var webpack = require('webpack');
 
@@ -59,7 +60,8 @@ module.exports = {
         new ExtractTextPlugin('style.css', {
             allChunks: true
         }),
-        new CopyWebpackPlugin([{from: '*', context: 'public'}])
+        new CopyWebpackPlugin([{from: '*', context: 'public'}]),
+        new WebpackNotifierPlugin()
     ],
 
     devServer: {

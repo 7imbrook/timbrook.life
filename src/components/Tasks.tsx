@@ -23,6 +23,7 @@ export interface TasksProps {
     loadTasks?: () => void;
     addTask?: (n: string, c: string) => void;
     deleteTask?: (id: string) => void;
+    completeTask?: (id: string) => void;
     tasks: {[id: string]: Task[]};
 }
 
@@ -82,8 +83,17 @@ class Tasks extends React.Component<TasksProps, TasksState> {
         return tasks.map((task, i) => {
             return <ListItem
                 key={task.name + i}
-                leftIcon={<Checkbox color={grey400} />}
+                leftIcon={
+                <Checkbox
+                    color={grey400}
+                    onCheck={(_e: any, checked: boolean) => {
+                        if(checked && this.props.completeTask !== undefined) {
+                            this.props.completeTask(task.id);
+                        }
+                    }}
+                />}
                 rightIconButton={TaskActionMenu({
+                    task: task,
                     deleteItem: () => this.deleteTask(task.id)
                 })}
                 primaryText={task.name}

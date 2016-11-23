@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 import Tasks, { TasksProps } from '../components/Tasks';
 import { State } from '../reducers/index';
-import { loadTasks, addTask, deleteTask } from '../actions/tasks';
+import {
+    loadTasks,
+    addTask,
+    deleteTask,
+    addTaskToCompletion
+} from '../actions/tasks';
 import { Task } from '../reducers/tasksReducer';
 
 function mapStateToProps(state: State): TasksProps {
-    return {
-        loading: state.tasks.loading && state.tasks.tasks.length === 0,
-        categories: state.tasks.catigories,
-        tasks: state.tasks.tasks.reduce(
+    let tasksCategoryGrouped = state.tasks.tasks.reduce(
             (acc: any, task: Task) => {
                 if (acc[task.category] === undefined) {
                     acc[task.category] = [];
@@ -17,7 +19,21 @@ function mapStateToProps(state: State): TasksProps {
                 return acc;
             },
             {}
-        )
+        );
+
+    // Sorting
+    for (const cat of state.tasks.catigories) {
+        if (tasksCategoryGrouped[cat] !== undefined) {
+            tasksCategoryGrouped[cat].sort((a: Task, b: Task) => {
+                return parseInt('0x' + a.id) > parseInt('0x' + b.id);
+            });
+        }
+    }
+
+    return {
+        loading: state.tasks.loading && state.tasks.tasks.length === 0,
+        categories: state.tasks.catigories,
+        tasks: tasksCategoryGrouped
     };
 }
 
@@ -31,6 +47,9 @@ function mapDispatchToProps(dispatch: any): {} {
         },
         deleteTask: (id: string) => {
             dispatch(deleteTask(id));
+        },
+        completeTask: (id: string) => {
+            dispatch(addTaskToCompletion(id));
         }
     };
 }

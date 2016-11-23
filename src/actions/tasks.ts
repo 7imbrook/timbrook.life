@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
-import { errorCheck } from './util';
+import { errorCheck, throttle } from './util';
+import { State } from '../reducers';
 
 interface CategoryRes {
     name: string;
@@ -64,5 +65,31 @@ export function loadTasks(): any {
     };
 }
 
-
+export function addTaskToCompletion(id: string) {
+    return (dispatch: any, getState: () => State) => {
+        setTimeout(() => dispatch({
+            type: 'complete_taskid_local',
+            id,
+        }), 3000);
+        dispatch({
+            type: 'add_task_to_complete',
+            id,
+        });
+        throttle(() => {
+            const query = 'id=in.' + getState().requests.pendingCompletion.join(',');
+            fetch('/api/tasks?' + query, {
+                method: 'PATCH',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({ done: true })
+            })
+            .then(() => {
+                dispatch({
+                    type: 'clear_pending_completion'
+                });
+            });
+        }, 5000);
+    };
+}
 

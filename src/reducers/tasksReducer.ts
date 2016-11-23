@@ -20,6 +20,12 @@ export const tasksReducer = (state: TasksState, action: any): TasksState => {
         };
     }
     switch (action.type) {
+        case 'complete_taskid_local':
+            return {
+                loading: false,
+                tasks: state.tasks.filter(task => task.id !== action.id),
+                catigories: state.catigories
+            };
         case 'load_all_tasks':
             return {
                 loading: false,
