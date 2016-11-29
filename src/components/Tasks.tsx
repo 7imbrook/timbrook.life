@@ -87,7 +87,7 @@ class Tasks extends React.Component<TasksProps, TasksState> {
                 <Checkbox
                     color={grey400}
                     onCheck={(_e: any, checked: boolean) => {
-                        if(checked && this.props.completeTask !== undefined) {
+                        if (this.props.completeTask !== undefined) {
                             this.props.completeTask(task.id, checked);
                         }
                     }}

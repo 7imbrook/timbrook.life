@@ -66,26 +66,23 @@ export function loadTasks(): any {
 }
 
 export function removeTaskFromCompletion(id: string) {
-    return (dispatch: any, getState: () => State) => {
-        const state = getState();
-        if (state.requests.pendingCompletion.indexOf(id) > 0) {
-            dispatch({ type: 'remove_task_from_complete', id});
-        }
+    return (dispatch: any) => {
+        dispatch({ type: 'remove_task_from_complete', id});
     };
 }
 
 export function addTaskToCompletion(id: string) {
     return (dispatch: any, getState: () => State) => {
-        setTimeout(() => dispatch({
-            type: 'complete_taskid_local',
-            id,
-        }), 3000);
         dispatch({
             type: 'add_task_to_complete',
             id,
         });
         throttle(() => {
-            const query = 'id=in.' + getState().requests.pendingCompletion.join(',');
+            const tasks = getState().requests.pendingCompletion;
+            const query = 'id=in.' + tasks.join(',');
+            if (query === 'id=in.') {
+                return;
+            }
             fetch('/api/tasks?' + query, {
                 method: 'PATCH',
                 headers: {
@@ -94,6 +91,10 @@ export function addTaskToCompletion(id: string) {
                 body: JSON.stringify({ done: true })
             })
             .then(() => {
+                tasks.forEach(id => dispatch({
+                    type: 'complete_taskid_local',
+                    id,
+                }));
                 dispatch({
                     type: 'clear_pending_completion'
                 });

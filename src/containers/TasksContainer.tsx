@@ -51,6 +51,7 @@ function mapDispatchToProps(dispatch: any): {} {
             dispatch(deleteTask(id));
         },
         completeTask: (id: string, checked: boolean) => {
+            console.log(checked);
             if (checked) {
                 dispatch(addTaskToCompletion(id));
             } else {
