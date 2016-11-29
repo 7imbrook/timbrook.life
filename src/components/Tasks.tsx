@@ -33,16 +33,11 @@ interface TasksState {
     };
 }
 
-const style = {
-    width: '400px',
-    margin: '10px',
-    alignSelf: 'flex-start'
-};
-
 const centering = {
     margin: '0 auto',
     display: 'flex',
-    maxWidth: '80%'
+    flexWrap: 'wrap',
+    maxWidth: '90%'
 };
 
 class Tasks extends React.Component<TasksProps, TasksState> {
@@ -78,6 +73,7 @@ class Tasks extends React.Component<TasksProps, TasksState> {
         }
     }
 
+    // TODO: Make own component
     _renderSublist(cat: String) {
         const tasks: Task[] = this.props.tasks[cat as string] || [];
         return tasks.map((task, i) => {
@@ -140,6 +136,11 @@ class Tasks extends React.Component<TasksProps, TasksState> {
     }
 
     render () {
+        const style = {
+            minWidth: '400px',
+            margin: '10px',
+            alignSelf: 'flex-start'
+        };
         if (this.props.loading) {
             return this._renderLoading();
         }
