@@ -65,6 +65,15 @@ export function loadTasks(): any {
     };
 }
 
+export function removeTaskFromCompletion(id: string) {
+    return (dispatch: any, getState: () => State) => {
+        const state = getState();
+        if (state.requests.pendingCompletion.indexOf(id) > 0) {
+            dispatch({ type: 'remove_task_from_complete', id});
+        }
+    };
+}
+
 export function addTaskToCompletion(id: string) {
     return (dispatch: any, getState: () => State) => {
         setTimeout(() => dispatch({

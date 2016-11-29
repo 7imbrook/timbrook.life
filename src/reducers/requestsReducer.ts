@@ -10,6 +10,10 @@ export const requestsReducer = (state: RequestsState, action: any): RequestsStat
             return {
                 pendingCompletion:  state.pendingCompletion
             };
+        case 'remove_task_from_complete':
+            return {
+                pendingCompletion: state.pendingCompletion.filter(id => id !== action.id)
+            };
         case 'clear_pending_completion':
             return {
                 pendingCompletion: []

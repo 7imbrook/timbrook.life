@@ -23,7 +23,7 @@ export interface TasksProps {
     loadTasks?: () => void;
     addTask?: (n: string, c: string) => void;
     deleteTask?: (id: string) => void;
-    completeTask?: (id: string) => void;
+    completeTask?: (id: string, checked: boolean) => void;
     tasks: {[id: string]: Task[]};
 }
 
@@ -88,7 +88,7 @@ class Tasks extends React.Component<TasksProps, TasksState> {
                     color={grey400}
                     onCheck={(_e: any, checked: boolean) => {
                         if(checked && this.props.completeTask !== undefined) {
-                            this.props.completeTask(task.id);
+                            this.props.completeTask(task.id, checked);
                         }
                     }}
                 />}

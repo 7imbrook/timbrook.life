@@ -5,7 +5,8 @@ import {
     loadTasks,
     addTask,
     deleteTask,
-    addTaskToCompletion
+    addTaskToCompletion,
+    removeTaskFromCompletion
 } from '../actions/tasks';
 import { Task } from '../reducers/tasksReducer';
 
@@ -49,8 +50,12 @@ function mapDispatchToProps(dispatch: any): {} {
         deleteTask: (id: string) => {
             dispatch(deleteTask(id));
         },
-        completeTask: (id: string) => {
-            dispatch(addTaskToCompletion(id));
+        completeTask: (id: string, checked: boolean) => {
+            if (checked) {
+                dispatch(addTaskToCompletion(id));
+            } else {
+                dispatch(removeTaskFromCompletion(id));
+            }
         }
     };
 }
