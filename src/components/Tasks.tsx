@@ -15,6 +15,8 @@ import {
     grey400
 } from 'material-ui/styles/colors';
 
+// import * as Sort from 'react-anything-sortable';
+
 import './grid.scss';
 
 export interface TasksProps {
