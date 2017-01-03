@@ -15,5 +15,9 @@
     },
     "include": [
         "src/**/*.{tsx,ts}"
-    ]
+    ],
+    "exclude": [
+        "auth/**/*"
+    ],
+    "files": ["src/index.tsx"]
 }

@@ -15,7 +15,7 @@ let store = createStore(
     compose(
         applyMiddleware(thunk),
         applyMiddleware(routerMiddleware(browserHistory)),
-        window.devToolsExtension ? window.devToolsExtension() : f => f
+        window.devToolsExtension ? window.devToolsExtension() : (f: any) => f
     )
 );
 
