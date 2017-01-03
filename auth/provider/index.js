@@ -23,7 +23,9 @@ function tokenForUser(user) {
                     role: dbuser.role
                 }, config.jwt_secret);
             } else {
-                throw new Error('Not a valid user');
+                const error = new Error('Not a valid user');
+                error.statusCode = 401;
+                throw error;
             }
         });
 };
@@ -31,3 +33,4 @@ function tokenForUser(user) {
 module.exports = {
     tokenForUser
 }
+
