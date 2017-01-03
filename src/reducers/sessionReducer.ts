@@ -1,4 +1,5 @@
 export interface SessionState {
+    token?: string;
     isLoggedIn: boolean;
     pending?: boolean;
     error?: string;
@@ -7,6 +8,12 @@ export interface SessionState {
 export const sessionReducer = (state: SessionState, action: any): SessionState => {
     if (state === undefined) return {isLoggedIn: false};
     switch (action.type) {
+        case 'set_auth_token':
+            return Object.assign({}, state, {
+                token: action.token,
+                isLoggedIn: true,
+                pending: false
+            });
         case 'login':
             return {
                 pending: false,
