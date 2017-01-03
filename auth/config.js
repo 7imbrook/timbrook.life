@@ -1,5 +1,5 @@
 module.exports = {
-    jwt_secret: 'a9snfp9p23fiq23',
+    jwt_secret: process.env.JWT_SECRET || 'shhhh',
     db: process.env.NODE_ENV == 'production' ?
     {
         client: 'pg',
