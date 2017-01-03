@@ -1,5 +1,8 @@
 import 'whatwg-fetch';
-import { errorCheck, throttle } from './util';
+import {
+    throttle,
+    simpleFetch
+ } from '../utils';
 import { State } from '../reducers';
 
 interface CategoryRes {
@@ -8,8 +11,7 @@ interface CategoryRes {
 
 export function deleteTask(id: string) {
     return (dispatch: any) => {
-        fetch('/api/tasks?id=eq.' + id, {
-            credentials: 'same-origin',
+        simpleFetch('/api/tasks?id=eq.' + id, {
             method: 'DELETE'
         })
         .then((_res: Response) => {
@@ -20,12 +22,8 @@ export function deleteTask(id: string) {
 
 export function addTask(name: string, category: string) {
     return (dispatch: any) => {
-        fetch('/api/tasks', {
-            credentials: 'same-origin',
+        simpleFetch('/api/tasks', {
             method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
             body: JSON.stringify({ name, category })
         })
         .then((_res: Response) => {
@@ -36,28 +34,21 @@ export function addTask(name: string, category: string) {
 
 export function loadTasks(): any {
     return (dispatch: any) => {
-        const tasksp: Promise<JSON> = fetch('/api/tasks?done=eq.false', {
-            credentials: 'same-origin'
-        })
-        .then(errorCheck);
-
-        const categoriesp: Promise<CategoryRes[]> = fetch('/api/categories', {
-            credentials: 'same-origin'
-        })
-        .then(errorCheck);
+        const tasksp: Promise<JSON> = simpleFetch('/api/tasks?done=eq.false');
+        const categoriesp: Promise<CategoryRes[]> = simpleFetch('/api/categories');
 
         Promise.all([tasksp, categoriesp])
-        .then((all: any[]) => {
-            const catigories: CategoryRes[] = all[1];
-            dispatch({
-                type: 'set_catigories',
-                catigories: catigories.map(c => c.name)
+            .then((all: any[]) => {
+                const catigories: CategoryRes[] = all[1];
+                dispatch({
+                    type: 'set_catigories',
+                    catigories: catigories.map(c => c.name)
+                });
+                dispatch({
+                    type: 'load_all_tasks',
+                    tasks: all[0]
+                });
             });
-            dispatch({
-                type: 'load_all_tasks',
-                tasks: all[0]
-            });
-        });
 
         return dispatch({
             type: 'tasks_request'
@@ -83,11 +74,8 @@ export function addTaskToCompletion(id: string) {
             if (query === 'id=in.') {
                 return;
             }
-            fetch('/api/tasks?' + query, {
+            simpleFetch('/api/tasks?' + query, {
                 method: 'PATCH',
-                headers: {
-                    'content-type': 'application/json'
-                },
                 body: JSON.stringify({ done: true })
             })
             .then(() => {

@@ -1,7 +1,30 @@
 import 'whatwg-fetch';
 
+export function remoteFetch(url: string, options?: RequestInit) {
+    return fetch(url, Object.assign({}, options || {}, {
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+        }
+    }))
+    .then(errorCheck);
+}
+
+export function simpleFetch(url: string, options?: RequestInit) {
+    return fetch(url, Object.assign({}, options || {}, {
+        credentials: 'same-origin',
+        headers: {
+            'content-type': 'application/json'
+        }
+    }))
+    .then(errorCheck);
+}
+
 export function errorCheck(response: Response): any {
     if (response.status >= 200 && response.status < 400) {
+        // Content created has no body
+        if (response.status === 201 || response.status === 204) {
+            return undefined;
+        }
         return response.json();
     }
     switch (response.status) {
@@ -18,6 +41,7 @@ export function errorCheck(response: Response): any {
     }
 }
 
+// TODO: THIS IS SHIT
 let pending: boolean = false;
 let execution: () => void = () => {};
 export function throttle(fn: () => void, threshhold: number) {

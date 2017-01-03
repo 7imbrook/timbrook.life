@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { LoginForm, LoginProps} from '../components/LoginForm';
-import { login } from '../actions/user';
 
 function mapStateToProps(state: any): LoginProps {
     return {
@@ -9,10 +8,10 @@ function mapStateToProps(state: any): LoginProps {
     };
 }
 
-function mapDispatchToProps(dispatch: any): LoginProps {
+function mapDispatchToProps(_dispatch: any): LoginProps {
     return {
-        onSubmit(email: string, pass: string) {
-            dispatch(login(email, pass));
+        onSubmit(_email: string, _pass: string) {
+
         }
     };
 }
