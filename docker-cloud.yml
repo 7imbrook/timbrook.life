@@ -1,0 +1,16 @@
+webservice:
+  autoredeploy: true
+  image: '7imbrook/life:latest'
+  restart: always
+  sequential_deployment: true
+  target_num_containers: 2
+webservice-lb:
+  autoredeploy: true
+  image: 'dockercloud/haproxy:1.6.2'
+  links:
+    - 'webservice:web'
+  ports:
+    - '80'
+  restart: always
+  roles:
+    - global

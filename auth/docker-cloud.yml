@@ -1,0 +1,19 @@
+auth:
+  environment:
+    - JWT_SECRET=<put jwt signing token here>
+  expose:
+    - '8080'
+  image: '7imbrook/auth:latest'
+  links:
+    - 'postgres.PostgREST:pg'
+  target_num_containers: 2
+authservice-lb:
+  autoredeploy: true
+  image: 'dockercloud/haproxy:1.6.2'
+  links:
+    - 'auth:web'
+  ports:
+    - '80'
+  restart: always
+  roles:
+    - global
