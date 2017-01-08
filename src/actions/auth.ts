@@ -15,12 +15,18 @@ export function refreshAuthToken() {
         .then((token: TokenPayload) => {
             return dispatch(updateAuthToken(token.token));
         });
+        return dispatch({
+            type: 'requesting_auth_token'
+        });
     };
 }
 
 function updateAuthToken(token: string) {
-    return (dispatch: any) => dispatch({
-        type: 'set_auth_token',
-        token
-    });
+    if (token !== undefined) {
+        return (dispatch: any) => dispatch({
+            type: 'set_auth_token',
+            token
+        });
+    }
+    return;
 }

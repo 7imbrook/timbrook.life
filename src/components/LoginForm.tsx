@@ -1,12 +1,11 @@
 import * as React from 'react';
 import BindingComponent from './util/BindingComponent';
-import {Link} from 'react-router';
-import Page from './util/Page';
 
 import {
     RaisedButton,
     TextField,
-    CircularProgress
+    CircularProgress,
+    Paper
 } from 'material-ui';
 
 export interface LoginProps {
@@ -27,8 +26,6 @@ export class LoginForm extends BindingComponent<LoginProps> {
     render() {
         const buttons = <div>
             <RaisedButton type='submit' style={{marginTop: '20px'}} label='Login' />
-            <br /> <br />
-            <Link to='/register'>Register</Link>
         </div>;
 
         const spinner = <div>
@@ -36,27 +33,35 @@ export class LoginForm extends BindingComponent<LoginProps> {
             <CircularProgress />
         </div>;
 
+        const style = {
+            margin: '0 auto',
+            padding: '40px',
+            display: 'block',
+            maxWidth: '350px',
+            textAlign: 'center'
+        };
+
         return (
-            <Page>
-            <form onSubmit={this.submit.bind(this)}>
-                <TextField hintText='email' name='email'
-                            value={this.state['email']}
-                            onChange={this.bindValueToName.bind(this)}
-                            disabled={this.props.lock} />
-                <br />
-                <TextField hintText='Password' name='password'
-                            type='password' value={this.state['password']}
-                            onChange={this.bindValueToName.bind(this)}
-                            disabled={this.props.lock} />
-                <br />
-                <div style={{
-                    color: 'red'
-                }}>
-                    {this.props.error}
-                </div>
-                {this.props.lock ? spinner : buttons}
-            </form>
-            </Page>
+            <Paper style={style}>
+                <form onSubmit={this.submit.bind(this)}>
+                    <TextField hintText='email' name='email'
+                                value={this.state['email']}
+                                onChange={this.bindValueToName.bind(this)}
+                                disabled={this.props.lock} />
+                    <br />
+                    <TextField hintText='Password' name='password'
+                                type='password' value={this.state['password']}
+                                onChange={this.bindValueToName.bind(this)}
+                                disabled={this.props.lock} />
+                    <br />
+                    <div style={{
+                        color: 'red'
+                    }}>
+                        {this.props.error}
+                    </div>
+                    {this.props.lock ? spinner : buttons}
+                </form>
+            </Paper>
         );
     }
 

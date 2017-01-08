@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { LoginForm, LoginProps} from '../components/LoginForm';
+import { State } from '../reducers';
 
-function mapStateToProps(state: any): LoginProps {
+function mapStateToProps(state: State): LoginProps {
     return {
-        lock: state.session.pending,
+        lock: state.session.pending && !state.session.isLoggedIn,
         error: state.session.error
     };
 }
