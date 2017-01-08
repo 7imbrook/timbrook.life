@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.post('/', (req, res, next) => {
     provider.tokenForUser(req.body.username)
         .then(token => {
+            console.info('Leasing token for ' + req.body.username);
             res.send({token});
         })
         .catch(next);
@@ -22,9 +23,10 @@ app.use((err, req, res, next) => {
     res.send(err.message);
 });
 
+app.set('PORT', parseInt(process.env.PORT || 8080));
 db.setup(conn)
     .then(() => {
-        app.listen(8080, () => {
-            console.log('Example app listening on port 8080!')
+        app.listen(app.get('PORT'), () => {
+            console.info('Auth service up listening on ' + app.get('PORT'));
         });
     });
