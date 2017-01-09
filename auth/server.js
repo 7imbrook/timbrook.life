@@ -24,7 +24,8 @@ app.post('/', (req, res, next) => {
                 err.statusCode = 401;
                 next(err);
             }
-        });
+        })
+        .catch(next);
 });
 
 app.use((err, req, res, next) => {

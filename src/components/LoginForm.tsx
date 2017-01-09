@@ -9,7 +9,7 @@ import {
 } from 'material-ui';
 
 export interface LoginProps {
-    onSubmit?: (u: String) => void;
+    onSubmit?: (u: string, c: string) => void;
     lock?: boolean;
     error?: Error;
 }
@@ -18,7 +18,8 @@ export class LoginForm extends BindingComponent<LoginProps> {
     constructor(_: LoginProps) {
         super();
         this.state = {
-            username: ''
+            username: '',
+            code: ''
         };
     }
 
@@ -51,6 +52,12 @@ export class LoginForm extends BindingComponent<LoginProps> {
                                 onChange={this.bindValueToName.bind(this)}
                                 disabled={this.props.lock} />
                     <br />
+                    <TextField hintText='Code' name='code'
+                                errorText={errText}
+                                value={this.state['code']}
+                                onChange={this.bindValueToName.bind(this)}
+                                disabled={this.props.lock} />
+                    <br />
                     {this.props.lock ? spinner : buttons}
                 </form>
             </Paper>
@@ -59,8 +66,9 @@ export class LoginForm extends BindingComponent<LoginProps> {
 
     submit(ev: Event) {
         const username = this.state['username'];
+        const code = this.state['code'];
         if (this.props.onSubmit !== undefined) {
-            this.props.onSubmit(username);
+            this.props.onSubmit(username, code);
         }
         ev.preventDefault();
         return false;

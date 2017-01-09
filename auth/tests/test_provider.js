@@ -57,19 +57,24 @@ describe('Provider', () => {
                 .then(token => {
                     console.log(token);
                 }).catch(err => {
-                    err.message.should.equal('Not a valid user');
+                    err.message.should.equal('Unauthorized');
                 });
         });
     });
+
     describe('#validOTPCode', () => {
+        it('doesn\'t work for a non existant user', () => {
+            return provider.validOTPCode('blabla', 000000)
+                .should.be.rejectedWith(Error, { message: 'Unauthorized' });
+        });
         it('correctly fails wrong code', () => {
-            return provider.validOTPCode('testuser', 000000).should.be.fulfilledWith(false);
+            return provider.validOTPCode('testuser', 000000)
+                .should.be.fulfilledWith(false);
         });
         it('correctly verify correct code', () => {
             const code = otp.generate(SECRET);
-            return provider.validOTPCode('testuser', code).should.be.fulfilledWith(true);
+            return provider.validOTPCode('testuser', code)
+                .should.be.fulfilledWith(true);
         });
     });
-
 });
-

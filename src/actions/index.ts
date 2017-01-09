@@ -1,11 +1,11 @@
 import 'whatwg-fetch';
 import { loadTasks } from './tasks';
-import { refreshAuthToken } from './auth';
+// import { requestFreshAuthToken } from './auth';
 
 export function init() {
     return (dispatch: any) => {
-        // Auth check
-        dispatch(refreshAuthToken());
+        // Auth check, TODO, use refresh
+        // dispatch(requestFreshAuthToken());
 
         // Auto refresh
         setInterval(() => {

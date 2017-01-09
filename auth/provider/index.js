@@ -5,6 +5,15 @@ const jwt = require('jsonwebtoken'),
       conn  = db.init()
 ;
 
+function assertDefined(arg) {
+    if (arg === undefined) {
+        const error = new Error('Unauthorized');
+        error.statusCode = 401;
+        throw error;
+    }
+    return arg;
+}
+
 /**
  * Check a users otp from google authenticator
  */
@@ -15,6 +24,7 @@ function validOTPCode(username, code) {
         .where({name: username})
         .limit(1)
         .then(users => users[0])
+        .then(assertDefined)
         .then(dbuser => {
             return otp.check(code, dbuser.secret);
         });
@@ -31,18 +41,13 @@ function tokenForUser(user) {
         .where({name: user})
         .limit(1)
         .then(users => users[0])
+        .then(assertDefined)
         .then(dbuser => {
-            if (dbuser !== undefined) {
-                return jwt.sign({
-                    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
-                    user,
-                    role: dbuser.role
-                }, config.jwt_secret);
-            } else {
-                const error = new Error('Not a valid user');
-                error.statusCode = 401;
-                throw error;
-            }
+            return jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
+                user,
+                role: dbuser.role
+            }, config.jwt_secret);
         });
 };
 

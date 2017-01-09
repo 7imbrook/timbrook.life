@@ -6,15 +6,16 @@ interface TokenPayload {
     token: string;
 }
 
-export function refreshAuthToken() {
+export function requestFreshAuthToken(code: string) {
     return (dispatch:  any, getState: () => State) => {
         const user = getState().session.username;
         if (user === undefined) {
             return;
         }
-        remoteFetch('https://auth.timbrook.life/', {
+        remoteFetch('http://localhost:3000/', {
             method: 'POST',
-            body: 'username=' + encodeURIComponent(user)
+            // TODO: use map -> encoded
+            body: 'username=' + encodeURIComponent(user) + '&code=' + code
         })
         .then((token: TokenPayload) => {
             return dispatch(updateAuthToken(token.token));
