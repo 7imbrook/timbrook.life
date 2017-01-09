@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import { SessionState } from '../reducers/sessionReducer';
 
 export function remoteFetch(url: string, options?: RequestInit) {
     return fetch(url, Object.assign({}, options || {}, {
@@ -9,12 +10,16 @@ export function remoteFetch(url: string, options?: RequestInit) {
     .then(errorCheck);
 }
 
-export function simpleFetch(url: string, options?: RequestInit) {
+export function simpleFetch(url: string, options?: RequestInit, state?: SessionState) {
+    let headers: any = {
+        'content-type': 'application/json'
+    };
+    if (state !== undefined && state.token !== undefined) {
+        headers['Authorization'] = 'Bearer ' + state.token;
+    }
     return fetch(url, Object.assign({}, options || {}, {
         credentials: 'same-origin',
-        headers: {
-            'content-type': 'application/json'
-        }
+        headers
     }))
     .then(errorCheck);
 }

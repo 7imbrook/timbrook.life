@@ -10,10 +10,10 @@ interface CategoryRes {
 }
 
 export function deleteTask(id: string) {
-    return (dispatch: any) => {
+    return (dispatch: any, getState: () => State) => {
         simpleFetch('/api/tasks?id=eq.' + id, {
             method: 'DELETE'
-        })
+        }, getState().session)
         .then((_res: Response) => {
             dispatch(loadTasks());
         });
@@ -21,11 +21,11 @@ export function deleteTask(id: string) {
 }
 
 export function addTask(name: string, category: string) {
-    return (dispatch: any) => {
+    return (dispatch: any, getState: () => State) => {
         simpleFetch('/api/tasks', {
             method: 'POST',
             body: JSON.stringify({ name, category })
-        })
+        }, getState().session)
         .then((_res: Response) => {
             dispatch(loadTasks());
         });
@@ -77,7 +77,7 @@ export function addTaskToCompletion(id: string) {
             simpleFetch('/api/tasks?' + query, {
                 method: 'PATCH',
                 body: JSON.stringify({ done: true })
-            })
+            }, getState().session)
             .then(() => {
                 tasks.forEach(id => dispatch({
                     type: 'complete_taskid_local',
