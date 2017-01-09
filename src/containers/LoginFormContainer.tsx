@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { LoginForm, LoginProps} from '../components/LoginForm';
 import { State } from '../reducers';
+import { refreshAuthToken } from '../actions/auth';
 
 function mapStateToProps(state: State): LoginProps {
     return {
@@ -9,10 +10,14 @@ function mapStateToProps(state: State): LoginProps {
     };
 }
 
-function mapDispatchToProps(_dispatch: any): LoginProps {
+function mapDispatchToProps(dispatch: any): LoginProps {
     return {
-        onSubmit(_email: string, _pass: string) {
-
+        onSubmit(username: string) {
+            dispatch({
+                type: 'set_active_user',
+                username
+            });
+            dispatch(refreshAuthToken());
         }
     };
 }

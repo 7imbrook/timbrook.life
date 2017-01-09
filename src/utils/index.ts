@@ -37,11 +37,11 @@ export function errorCheck(response: Response): any {
         case 500:
             throw new Error('The server failed to respond');
         default:
-            return new Error('Unknown error');
+            throw new Error('Unknown error');
     }
 }
 
-// TODO: THIS IS SHIT
+// TODO: THIS IS SHIT, rx probs
 let pending: boolean = false;
 let execution: () => void = () => {};
 export function throttle(fn: () => void, threshhold: number) {

@@ -9,17 +9,16 @@ import {
 } from 'material-ui';
 
 export interface LoginProps {
-    onSubmit?: (u: String, p: String) => void;
+    onSubmit?: (u: String) => void;
     lock?: boolean;
-    error?: string;
+    error?: Error;
 }
 
 export class LoginForm extends BindingComponent<LoginProps> {
     constructor(_: LoginProps) {
         super();
         this.state = {
-            email: '',
-            password: ''
+            username: ''
         };
     }
 
@@ -41,24 +40,17 @@ export class LoginForm extends BindingComponent<LoginProps> {
             textAlign: 'center'
         };
 
+        const errText = this.props.error !== undefined ? this.props.error.message : undefined;
+
         return (
             <Paper style={style}>
                 <form onSubmit={this.submit.bind(this)}>
-                    <TextField hintText='email' name='email'
-                                value={this.state['email']}
+                    <TextField hintText='Username' name='username'
+                                errorText={errText}
+                                value={this.state['username']}
                                 onChange={this.bindValueToName.bind(this)}
                                 disabled={this.props.lock} />
                     <br />
-                    <TextField hintText='Password' name='password'
-                                type='password' value={this.state['password']}
-                                onChange={this.bindValueToName.bind(this)}
-                                disabled={this.props.lock} />
-                    <br />
-                    <div style={{
-                        color: 'red'
-                    }}>
-                        {this.props.error}
-                    </div>
                     {this.props.lock ? spinner : buttons}
                 </form>
             </Paper>
@@ -66,10 +58,9 @@ export class LoginForm extends BindingComponent<LoginProps> {
     }
 
     submit(ev: Event) {
-        const email = this.state['email'];
-        const pass = this.state['password'];
+        const username = this.state['username'];
         if (this.props.onSubmit !== undefined) {
-            this.props.onSubmit(email, pass);
+            this.props.onSubmit(username);
         }
         ev.preventDefault();
         return false;

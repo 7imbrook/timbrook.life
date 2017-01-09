@@ -43,14 +43,15 @@ const base = (
         <Provider store={store}>
             <Router history={history}>
                 <Route path='/' component={App}>
+                    <IndexRoute component={Dashboard} />
                     <Route component={LoginRequiredContainer}>
-                        <IndexRoute component={Dashboard} />
                         <Route path='/tasks' component={TasksContainer} />
                     </Route>
                 </Route>
             </Router>
         </Provider>
-    </MuiThemeProvider>);
+    </MuiThemeProvider>
+);
 
 ReactDOM.render(
     base,
