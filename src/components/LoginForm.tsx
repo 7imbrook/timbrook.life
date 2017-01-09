@@ -47,7 +47,6 @@ export class LoginForm extends BindingComponent<LoginProps> {
             <Paper style={style}>
                 <form onSubmit={this.submit.bind(this)}>
                     <TextField hintText='Username' name='username'
-                                errorText={errText}
                                 value={this.state['username']}
                                 onChange={this.bindValueToName.bind(this)}
                                 disabled={this.props.lock} />
