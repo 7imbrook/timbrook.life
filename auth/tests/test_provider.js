@@ -1,7 +1,10 @@
 const provider = require('../provider'),
       should = require('should'),
-      db = require('../db')
+      db = require('../db'),
+      otp = require('otplib/lib/authenticator')
 ;
+
+const SECRET = otp.generateSecret();
 
 describe('Provider', () => {
     describe('#tokenForUser', () => {
@@ -13,7 +16,8 @@ describe('Provider', () => {
                     return conn('users')
                         .insert({
                             name: 'testuser',
-                            role: 'readonly'
+                            role: 'readonly',
+                            secret: SECRET
                         });
                 });
         });
@@ -57,4 +61,15 @@ describe('Provider', () => {
                 });
         });
     });
+    describe('#validOTPCode', () => {
+        it('correctly fails wrong code', () => {
+            return provider.validOTPCode('testuser', 000000).should.be.fulfilledWith(false);
+        });
+        it('correctly verify correct code', () => {
+            const code = otp.generate(SECRET);
+            return provider.validOTPCode('testuser', code).should.be.fulfilledWith(true);
+        });
+    });
+
 });
+

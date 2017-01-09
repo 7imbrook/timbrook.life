@@ -7,6 +7,7 @@ function setup(conn) {
         table.increments();
         table.string('name');
         table.string('role');
+        table.string('secret');
     });
 }
 
