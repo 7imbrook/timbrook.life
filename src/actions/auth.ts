@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
 import { remoteFetch } from '../utils';
 import { State } from '../reducers';
+import { resetAuth } from '../store/authPersistance';
 
 interface TokenPayload {
     token: string;
@@ -21,6 +22,7 @@ export function requestFreshAuthToken(code: string) {
             return dispatch(updateAuthToken(token.token));
         })
         .catch((err: Error) => {
+            resetAuth();
             return dispatch(refreshError(err));
         });
         return dispatch({

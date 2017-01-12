@@ -34,6 +34,10 @@ function decode(token: string): string | null {
     }
 }
 
+export function resetAuth() {
+    window.localStorage.removeItem(STORE_KEY);
+}
+
 export function loadState(): SessionState | undefined {
     const token = window.localStorage.getItem(STORE_KEY);
     const payload = token !== null ? decode(token) : null;
@@ -44,7 +48,7 @@ export function loadState(): SessionState | undefined {
             token
         };
     } else {
-        window.localStorage.removeItem(STORE_KEY);
+        resetAuth();
         return undefined;
     }
 }
