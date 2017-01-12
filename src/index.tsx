@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import store from './store/exampleStore';
+import store from './store';
 import App from './components/App';
 import LoginRequiredContainer from './containers/LoginRequiredContainer';
 import { MuiThemeProvider } from 'material-ui/styles';

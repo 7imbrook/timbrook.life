@@ -3,7 +3,7 @@ import {
     AppBar
 } from 'material-ui';
 import DrawerContainer from '../containers/DrawerContainer';
-import store from '../store/exampleStore';
+import store from '../store';
 import { push } from 'react-router-redux';
 
 export interface AppProps {

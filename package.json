@@ -41,10 +41,12 @@
     "whatwg-fetch": "^1.0.0"
   },
   "dependencies": {
+    "@types/js-base64": "^2.1.5",
     "@types/material-ui": "^0.15.37",
     "@types/react-dom": "^0.14.19",
     "es6-promise": "^4.0.3",
     "express": "^4.14.0",
+    "js-base64": "^2.1.9",
     "material-ui": "0.16.3",
     "react": "15.4.1",
     "react-dom": "15.4.1",
