@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken'),
       conn  = db.init()
 ;
 
+const EXP_TIME = (60 * 60 * 24);
+
 function assertDefined(arg) {
     if (arg === undefined) {
         const error = new Error('Unauthorized');
@@ -44,7 +46,7 @@ function tokenForUser(user) {
         .then(assertDefined)
         .then(dbuser => {
             return jwt.sign({
-                exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
+                exp: Math.floor(Date.now() / 1000) + EXP_TIME,
                 user,
                 role: dbuser.role
             }, config.jwt_secret);
@@ -52,6 +54,6 @@ function tokenForUser(user) {
 };
 
 module.exports = {
-    tokenForUser, validOTPCode
+    tokenForUser, validOTPCode, EXP_TIME
 }
 

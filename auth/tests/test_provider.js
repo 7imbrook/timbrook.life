@@ -48,7 +48,9 @@ describe('Provider', () => {
                     const buf = new Buffer(token.split('.')[1], 'base64');
                     const payload = JSON.parse(buf.toString());
                     const exp = parseInt(payload.exp);
-                    exp.should.equal(Math.floor(Date.now() / 1000) + (60 * 60));
+                    exp.should.equal(
+                        Math.floor(Date.now() / 1000) + provider.EXP_TIME
+                    );
                 }
             );
         });
