@@ -8,6 +8,7 @@ import {
 
 import Home from 'material-ui/svg-icons/action/home';
 import ActionAssignmentTurnedIn from 'material-ui/svg-icons/action/assignment-turned-in';
+import MapsLocalGasStation from 'material-ui/svg-icons/maps/local-gas-station';
 
 export interface SidebarDrawerProps {
     drawerOpen: boolean;
@@ -44,6 +45,7 @@ class SidebarDrawer extends React.Component<SidebarDrawerProps, SidebarDrawerSta
                     <List>
                         <ListItem leftIcon={<Home />} primaryText='Home' onClick={ () => this.goTo('/') } />
                         <ListItem leftIcon={<ActionAssignmentTurnedIn />} primaryText='Tasks' onClick={ () => this.goTo('/tasks') } />
+                        <ListItem leftIcon={<MapsLocalGasStation />} primaryText='Gas Tracker' onClick={ () => this.goTo('/gas') } />
                     </List>
                 </Drawer>);
     }

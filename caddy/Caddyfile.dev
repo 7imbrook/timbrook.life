@@ -1,8 +1,8 @@
 # Main Site
-timbrook.life {
+localhost:8000 {
   gzip
   proxy /api {
-    upstream api:3000
+    upstream https://timbrook.life/api
     without /api
   }
   root ./dist
@@ -11,11 +11,4 @@ timbrook.life {
     if {file} not_match (.*\.js|.*\.html|.*\.css)
     to /index.html
   }
-}
-
-# Auth backend
-auth.timbrook.life {
-  cors / https://timbrook.life http://localhost:8000
-  gzip
-  proxy / auth:8080
 }
