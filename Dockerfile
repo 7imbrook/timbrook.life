@@ -7,6 +7,6 @@ RUN npm install --warn
 COPY ./ /app
 RUN npm run build
 
-EXPOSE 8080
+EXPOSE 8000
 
-CMD node server.js
+CMD ./caddy/caddy -conf ./caddy/Caddyfile.dev
