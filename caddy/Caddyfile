@@ -1,6 +1,5 @@
 # Main Site
-# I got rate limited :(
-http://timbrook.life {
+timbrook.life {
   gzip
   proxy /api {
     upstream api:3000
@@ -15,8 +14,7 @@ http://timbrook.life {
 }
 
 # Auth backend
-# sad rate limit
-http://auth.timbrook.life {
+auth.timbrook.life {
   cors / https://timbrook.life http://localhost:8000
   gzip
   proxy / auth:8080
