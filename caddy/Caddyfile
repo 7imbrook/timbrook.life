@@ -1,5 +1,6 @@
 # Main Site
-timbrook.life {
+# I got rate limited :(
+http://timbrook.life {
   gzip
   proxy /api {
     upstream api:3000
