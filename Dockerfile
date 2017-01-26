@@ -9,4 +9,4 @@ RUN npm run build
 
 EXPOSE 8000
 
-CMD ./caddy/caddy -conf ./caddy/Caddyfile
+CMD ./caddy/caddy -conf ./caddy/Caddyfile -email timbrook480@gmail.com
