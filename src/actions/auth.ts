@@ -13,7 +13,9 @@ export function requestFreshAuthToken(code: string) {
         if (user === undefined) {
             return;
         }
-        remoteFetch('https://auth.timbrook.life/', {
+        
+        // TODO: don't let my cert expire and then get rate limited.
+        remoteFetch('http://auth.timbrook.life/', {
             method: 'POST',
             // TODO: use map -> encoded
             body: 'username=' + encodeURIComponent(user) + '&code=' + code
