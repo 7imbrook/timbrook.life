@@ -1,5 +1,5 @@
 # Main Site
-timbrook.life {
+http://timbrook.life {
   gzip
   proxy /api {
     upstream api:3000
@@ -14,7 +14,7 @@ timbrook.life {
 }
 
 # Auth backend
-auth.timbrook.life {
+http://auth.timbrook.life {
   cors / https://timbrook.life http://localhost:8000
   gzip
   proxy / auth:80
