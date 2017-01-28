@@ -17,5 +17,5 @@ timbrook.life {
 auth.timbrook.life {
   cors / https://timbrook.life http://localhost:8000
   gzip
-  proxy / auth:8080
+  proxy / auth:80
 }
