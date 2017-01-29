@@ -1,4 +1,5 @@
 import * as React from 'react';
+import AutoFormContainer from '../containers/AutoFormContainer';
 
 export interface GasTrackerProps {
 }
@@ -23,7 +24,7 @@ class GasTracker extends React.Component<GasTrackerProps, GasTrackerState> {
     render() {
         return (
             <div style={centering}>
-                Gas Tracker
+                <AutoFormContainer endpoint={'/api/tasks'}/>
             </div>
         );
     }

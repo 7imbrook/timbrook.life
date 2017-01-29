@@ -13,7 +13,6 @@ export function requestFreshAuthToken(code: string) {
         if (user === undefined) {
             return;
         }
-        
         // TODO: don't let my cert expire and then get rate limited.
         remoteFetch('http://auth.timbrook.life/', {
             method: 'POST',

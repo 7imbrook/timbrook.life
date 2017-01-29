@@ -1,9 +1,9 @@
 # Main Site
 localhost:8000 {
-  gzip
   proxy /api {
-    upstream https://timbrook.life/api
+    upstream http://postgrest.postgrest.bbbad713.svc.dockerapp.io:9001
     without /api
+    transparent
   }
   root ./dist
   rewrite {
