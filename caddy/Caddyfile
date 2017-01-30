@@ -4,6 +4,7 @@ http://timbrook.life {
   proxy /api {
     upstream api:3000
     without /api
+    transparent
   }
   root ./dist
   rewrite {
