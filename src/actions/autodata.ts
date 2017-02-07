@@ -53,7 +53,7 @@ export function formSpecForURL(url: string) {
                                     });
                                 })
                                 .then((refValues: string[]) => {
-                                    return { name: col.name, type: col.type, refValues };
+                                    return { name: col.name, type: 'select', refValues };
                                 });
                         } else {
                             return new Promise((acc) => acc({ name: col.name, type: col.type }));
