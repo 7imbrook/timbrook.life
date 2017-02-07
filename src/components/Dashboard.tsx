@@ -12,7 +12,7 @@ const Dashboard = (_props: any) => {
                 <h2 style={{ margin: '0px'}}>Michael Timbrook</h2>
                 <h5 style={{ margin: '0px'}}>Software Engineer</h5>
                 <p>
-                    Someday I'll make this not completely open :P
+                    This is my task board, and other life tracking related tools site. Nothing really to see here because it's now not completely open.
                 </p>
             </div>
         </div>

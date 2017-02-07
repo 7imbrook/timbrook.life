@@ -6,10 +6,14 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        main: "./src/index.tsx"
+        main: [
+            "./src/index.tsx",
+            "webpack/hot/dev-server",
+            "webpack-dev-server/client?http://localhost:8000",
+        ]
     },
     output: {
-        path: "./dist",
+        path: path.resolve("./dist"),
         filename: "bundle.js"
     },
 
@@ -18,26 +22,21 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+        extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
     },
 
     module: {
-        loaders: [
+        rules: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
             { test: /\.tsx?$/, loader: "ts-loader" },
-            { test: /\.scss$/, loader: ExtractTextPlugin.extract("css!sass") }
-        ],
-
-        preLoaders: [
-            { test: /\.tsx?$/, loader: "tslint" },
+            {
+                test: /\.s?css$/,
+                loaders: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+            { test: /\.tsx?$/, loader: "tslint-loader", enforce: 'pre' },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: "source-map-loader" }
-        ]
-    },
-
-    tslint: {
-        emitErrors: process.env.NODE_TEST,
-        failOnHint: process.env.NODE_TEST,
+            { test: /\.js$/, loader: "source-map-loader", enforce: 'pre' }
+        ],
     },
 
     // When importing a module whose path matches one of the following, just
@@ -49,22 +48,21 @@ module.exports = {
         // "react-dom": "ReactDOM",
     },
 
-    sassLoader: {
-        includePaths: [path.resolve(__dirname, "./styles")]
-    },
-
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.ProvidePlugin({
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+            'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
         }),
-        new ExtractTextPlugin('style.css', {
-            allChunks: true
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                tslint: {
+                    emitErrors: process.env.NODE_TEST,
+                    failOnHint: process.env.NODE_TEST,
+                },
+            }
         }),
         new CopyWebpackPlugin([{from: '*', context: 'public'}]),
         !process.env.NODE_TEST ? (new WebpackNotifierPlugin()) : undefined
-    ],
+    ]
 
-    devServer: {
-        hot: true
-    }
-};
+   };

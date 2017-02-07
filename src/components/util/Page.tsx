@@ -5,7 +5,7 @@ const style = {
     margin: '0 auto',
     padding: '40px',
     display: 'block',
-    maxWidth: '525px'
+    maxWidth: '625px'
 };
 
 export interface PageProps {

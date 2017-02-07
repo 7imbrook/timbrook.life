@@ -25,6 +25,10 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
+// Webpack
+declare var module: any;
+if (module.hot) module.hot.accept();
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch(init());
