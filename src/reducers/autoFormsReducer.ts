@@ -8,7 +8,11 @@ export interface AutoFormState {
     [url: string]: AutoFormSpec[];
 }
 
-export type FormType = 'boolean' | 'text' | 'select';
+export type FormType =
+    'boolean' |
+    'text' |
+    'select' |
+    'numeric';
 
 export const autoFormReducer = (state: AutoFormState, action: any): AutoFormState => {
     if (state === undefined) return { };

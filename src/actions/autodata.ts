@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
-import { remoteFetch } from '../utils';
+import { simpleFetch } from '../utils';
+import { State } from '../reducers';
 
 interface PostgrestOptions extends JSON {
     columns: Column[];
@@ -31,33 +32,41 @@ export function formSpecForURL(url: string) {
             type: 'form_spec_request',
             url
         });
-        return remoteFetch(url, {
+        return simpleFetch(url, {
             method: 'OPTIONS'
         })
         .then((res: PostgrestOptions) => {
             return res.columns.map((col: Column) => {
                 switch (col.type) {
-                    case 'boolean':
+                    // ORDER Matters here for fallback types
                     case 'text':
                     case 'character varying':
-                    default:
-                        if (col.references !== null) {
-                            return remoteFetch('/api/' + col.references.table)
-                                .then((val: any[]) => {
-                                    return val.map((k: any) => {
-                                        if (col.references !== null) {
-                                            return k[col.references.column] as string;
-                                        } else {
-                                            return undefined;
-                                        }
-                                    });
-                                })
-                                .then((refValues: string[]) => {
-                                    return { name: col.name, type: 'select', refValues };
-                                });
-                        } else {
-                            return new Promise((acc) => acc({ name: col.name, type: col.type }));
-                        }
+                    case 'money':
+                        col.type = 'text';
+                        break;
+                    case 'boolean':
+                        break;
+                    case 'numeric':
+                    case 'integer':
+                        col.type = 'numeric';
+                        break;
+                }
+                if (col.references !== null) {
+                    return simpleFetch('/api/' + col.references.table)
+                        .then((val: any[]) => {
+                            return val.map((k: any) => {
+                                if (col.references !== null) {
+                                    return k[col.references.column] as string;
+                                } else {
+                                    return undefined;
+                                }
+                            });
+                        })
+                        .then((refValues: string[]) => {
+                            return { name: col.name, type: 'select', refValues };
+                        });
+                } else {
+                    return new Promise((acc) => acc({ name: col.name, type: col.type }));
                 }
             });
         })
@@ -72,5 +81,14 @@ export function formSpecForURL(url: string) {
                 }
             });
         });
+    };
+};
+
+export function submitURLGeneric(url: string, payload: any) {
+    return (_dispatch: any, getState: () => State) => {
+        return simpleFetch(url, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+        }, getState().session);
     };
 };

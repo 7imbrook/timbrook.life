@@ -11,7 +11,7 @@ const server = new WebpackDevServer(webpack(config), {
   historyApiFallback: true,
   proxy: {
       "/api/**": {
-          target: "http://postgrest-1.postgrest.3dca612f.cont.dockerapp.io:9001/",
+          target: "http://postgrest.postgrest.bbbad713.svc.dockerapp.io:9001/",
           changeOrigin: true,
           pathRewrite: {
               "^/api": ""

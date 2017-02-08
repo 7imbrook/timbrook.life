@@ -10,7 +10,7 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import TasksContainer from './containers/TasksContainer';
 import { init } from './actions/index';
 import Dashboard from './components/Dashboard';
-import GasTracker from './components/GasTracker';
+import GasTrackerContainer from './containers/GasTrackerContainer';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {
@@ -51,7 +51,7 @@ const base = (
                     <IndexRoute component={Dashboard} />
                     <Route component={LoginRequiredContainer}>
                         <Route path='/tasks' component={TasksContainer} />
-                        <Route path='/gas' component={GasTracker} />
+                        <Route path='/gas' component={GasTrackerContainer} />
                     </Route>
                 </Route>
             </Router>
