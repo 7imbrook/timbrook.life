@@ -12,7 +12,7 @@ services:
       - edge
     volumes: 
       - caddycache:/root/.caddy
-  
+
   # build my own image for this, this is ugly
   api:
     command: 'postgrest postgres://postgres:`cat /run/secrets/postgres_password`@postgres:5432/postgres -a readonly -j `cat /run/secrets/jwtkey`'
@@ -24,7 +24,7 @@ services:
     networks:
       - edge
       - database
-  
+
   auth:
     deploy:
       replicas: 2
@@ -37,7 +37,7 @@ services:
     networks:
       - edge
       - database
-    
+
   # Move to external service, you know that works makes it more stable
   # Databases don't belong in containers
   postgres:
