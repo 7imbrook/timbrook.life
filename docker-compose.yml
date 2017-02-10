@@ -1,7 +1,7 @@
 version: '3'
 services:
   gateway:
-    image: '7imbrook/life:notls'
+    image: '7imbrook/life'
     ports:
       - '80:80'
       - '443:443'
