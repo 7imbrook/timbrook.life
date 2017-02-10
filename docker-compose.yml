@@ -1,0 +1,65 @@
+version: '3'
+services:
+  gateway:
+    image: '7imbrook/life:notls'
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - api
+      - auth
+    networks: 
+      - edge
+    volumes: 
+      - caddycache:/root/.caddy
+  
+  # build my own image for this, this is ugly
+  api:
+    command: 'postgrest postgres://postgres:`cat /run/secrets/postgres_password`@postgres:5432/postgres -a readonly -j `cat /run/secrets/jwtkey`'
+    image: 'begriffs/postgrest:latest'
+    deploy:
+      replicas: 2
+    depends_on:
+      - postgres
+    networks:
+      - edge
+      - database
+  
+  auth:
+    deploy:
+      replicas: 2
+    environment:
+      - JWT_SECRET_FILE=/run/secrets/jwtkey
+      - POSTGRES_PASSWORD_FILE=/run/sercrets/postgres_password
+    image: '7imbrook/auth:latest'
+    depends_on:
+      - postgres
+    networks:
+      - edge
+      - database
+    
+  # Move to external service, you know that works makes it more stable
+  # Databases don't belong in containers
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/sercrets/postgres_password
+      - POSTGRES_USER=postgres
+    image: 'postgres:latest'
+    ports:
+      - '5432'
+    networks:
+      - database
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints:
+          - node.labels.db == true
+
+networks:
+  edge:
+  database:
+
+volumes:
+  caddycache:
+  pgdata:

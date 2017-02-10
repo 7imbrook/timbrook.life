@@ -6,11 +6,11 @@ var webpack = require('webpack');
 
 module.exports = {
     entry: {
-        main: [
+        main: process.env.NODE_ENV != 'production' ? [
             "./src/index.tsx",
             "webpack/hot/dev-server",
             "webpack-dev-server/client?http://localhost:8000",
-        ]
+        ] : ["./src/index.tsx"]
     },
     output: {
         path: path.resolve("./dist"),
@@ -48,21 +48,32 @@ module.exports = {
         // "react-dom": "ReactDOM",
     },
 
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
+    plugins: process.env.NODE_ENV != 'production' ? [
         new webpack.ProvidePlugin({
             'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
         }),
         new webpack.LoaderOptionsPlugin({
             options: {
                 tslint: {
-                    emitErrors: process.env.NODE_TEST,
-                    failOnHint: process.env.NODE_TEST,
+                    emitErrors: false,
+                    failOnHint: false,
                 },
             }
         }),
         new CopyWebpackPlugin([{from: '*', context: 'public'}]),
-        !process.env.NODE_TEST ? (new WebpackNotifierPlugin()) : undefined
+        new webpack.HotModuleReplacementPlugin(),
+    ] : [
+        new webpack.ProvidePlugin({
+            'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                tslint: {
+                    emitErrors: true,
+                    failOnHint: true,
+                },
+            }
+        }),
+        new CopyWebpackPlugin([{from: '*', context: 'public'}]),
     ]
-
    };

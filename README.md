@@ -1,4 +1,4 @@
-# timbrook.life
+# Timbrook.life
 
 Personal "life" board, and place for experimentation.
 
@@ -7,28 +7,19 @@ Building the source
 ```bash
 npm install
 npm run build
-# or
-npm run watch
+# or for webpack dev server
+npm start
 ```
 
-I run a local proxy to have localhost:8080/api go to prod and / go to a node server to handle url rewrites.
+For auth
 ```bash
-# node server
-node server.js
-
-# I use caddy for the proxy (also use it in prod for auto certs from lets encrypt)
-caddy -conf Caddyfile.dev
+npm install
+npm start
 ```
 
-That file looks like this
-```
-localhost:8000 {
-  proxy / localhost:8080
-  proxy /api {
-    upstream https://timbrook.life/api
-    without /api
-  }
-}
-```
+The proxy may need updated to point to the right upstream.
 
-Enjoy
+## Deployment
+```
+docker stack deploy -c docker-compose.yml site
+```
