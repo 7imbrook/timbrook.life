@@ -5,7 +5,7 @@ module.exports = {
         client: 'pg',
         connection:
             'postgres://' + (process.env.PG_ENV_POSTGRES_USER || 'postgres') + ':' +
-            process.env.PG_ENV_POSTGRES_PASSWORD + '@' + 'pg:5432/' +
+            process.env.PG_ENV_POSTGRES_PASSWORD + '@' + 'postgres:5432/' +
             (process.env.PG_ENV_POSTGRES_DB || 'postgres')
     }:
     {
