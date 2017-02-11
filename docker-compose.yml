@@ -15,8 +15,7 @@ services:
 
   # build my own image for this, this is ugly
   api:
-    command: 'postgrest postgres://postgres:`cat /run/secrets/postgres_password`@postgres:5432/postgres -a readonly -j `cat /run/secrets/jwtkey`'
-    image: 'begriffs/postgrest:latest'
+    image: '7imbrook/postgrest'
     deploy:
       replicas: 2
     depends_on:
@@ -24,13 +23,17 @@ services:
     networks:
       - edge
       - database
+    environment:
+      - POSTGRES_ROLE=readonly
+      - JWT_SECRET_FILE=/run/secrets/jwtkey
+      - POSTGRES_PASS_FILE=/run/secrets/postgres_password
 
   auth:
     deploy:
       replicas: 2
     environment:
       - JWT_SECRET_FILE=/run/secrets/jwtkey
-      - POSTGRES_PASSWORD_FILE=/run/sercrets/postgres_password
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
     image: '7imbrook/auth:latest'
     depends_on:
       - postgres
@@ -42,9 +45,8 @@ services:
   # Databases don't belong in containers
   postgres:
     environment:
-      - POSTGRES_PASSWORD_FILE=/run/sercrets/postgres_password
-      - POSTGRES_USER=postgres
-    image: 'postgres:latest'
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    image: 'postgres:9.4'
     ports:
       - '5432'
     networks:
