@@ -10,3 +10,6 @@ db-schema    = "POSTGRES_SCHEMA"
 # The database role to use when no client authentication is provided.
 # Can (and probably should) differ from user in db-uri
 db-anon-role = "POSTGRES_ROLE"
+
+# TODO, allow empty and not set
+jwt-secret = "JWT_SECRET"

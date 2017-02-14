@@ -25,6 +25,7 @@ file_env() {
 }
 
 # default, or file failback 
+file_env 'JWT_SECRET' '' # default should not exist
 file_env 'POSTGRES_HOST' 'postgres'
 file_env 'POSTGRES_DB' 'postgres'
 file_env 'POSTGRES_SCHEMA' 'public'
@@ -33,7 +34,8 @@ file_env 'POSTGRES_USER' 'postgres'
 file_env 'POSTGRES_PASS' 'thisisnotapassword'
 file_env 'POSTGRES_PORT' '5432'
 
-m4  -D POSTGRES_HOST=$POSTGRES_HOST \
+m4  -D JWT_SECRET=$JWT_SECRET \
+	-D POSTGRES_HOST=$POSTGRES_HOST \
     -D POSTGRES_DB=$POSTGRES_DB \
     -D POSTGRES_SCHEMA=$POSTGRES_SCHEMA \
     -D POSTGRES_ROLE=$POSTGRES_ROLE \
