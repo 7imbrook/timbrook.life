@@ -12,3 +12,8 @@ done
 for service in life_auth life_api; do
     docker service update --secret-add jwtkey $service;
 done
+
+# postgres needs to start with the password attached or the persisted data
+# will not let the password get set
+# TODO: handle password changes
+docker service scale life_postgres=1
