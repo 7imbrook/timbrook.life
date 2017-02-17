@@ -24,6 +24,7 @@ file_env() {
 	  unset "$fileVar"
 }
 
+file_env 'JWT_SECRET'
 file_env 'POSTGRES_PASSWORD'
 file_env 'POSTGRES_USER' 'postgres'
 file_env 'POSTGRES_DB' $POSTGRES_USER
