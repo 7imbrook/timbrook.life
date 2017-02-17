@@ -6,6 +6,7 @@ RUN npm install --warn
 
 COPY ./ /app
 
+ENV JWT_SECRET='testing secret'
 RUN npm test
 
 ENV NODE_ENV=production
