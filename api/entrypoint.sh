@@ -35,12 +35,14 @@ file_env 'POSTGRES_PASS' 'thisisnotapassword'
 file_env 'POSTGRES_PORT' '5432'
 
 m4  -D JWT_SECRET=$JWT_SECRET \
-	-D POSTGRES_HOST=$POSTGRES_HOST \
+	  -D POSTGRES_HOST=$POSTGRES_HOST \
     -D POSTGRES_DB=$POSTGRES_DB \
     -D POSTGRES_SCHEMA=$POSTGRES_SCHEMA \
     -D POSTGRES_ROLE=$POSTGRES_ROLE \
     -D POSTGRES_USER=$POSTGRES_USER \
     -D POSTGRES_PASS=$POSTGRES_PASS \
     -D POSTGRES_PORT=$POSTGRES_PORT < /tmp/postgrest.m4 > /etc/postgrest.conf
+
+env
 
 postgrest /etc/postgrest.conf

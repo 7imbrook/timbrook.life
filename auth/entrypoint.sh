@@ -29,5 +29,4 @@ file_env 'POSTGRES_USER' 'postgres'
 file_env 'POSTGRES_DB' $POSTGRES_USER
 file_env 'POSTGRES_HOST' 'postgres'
 
-env
 node server.js
