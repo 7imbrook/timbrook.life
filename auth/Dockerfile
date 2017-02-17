@@ -11,4 +11,6 @@ RUN npm test
 ENV NODE_ENV=production
 EXPOSE 8080
 
-CMD node server.js
+COPY ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT /entrypoint.sh

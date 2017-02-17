@@ -38,7 +38,7 @@ services:
     environment:
       - JWT_SECRET_FILE=/run/secrets/jwtkey
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
-    image: '7imbrook/auth:latest'
+    image: '7imbrook/auth:testing'
     depends_on:
       - postgres
     networks:

@@ -18,6 +18,7 @@ function destroyTestDB() {
 
 module.exports = {
     init: () => {
+        console.log(config.db);
         return knex(config.db);
     },
     setup,

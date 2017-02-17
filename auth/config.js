@@ -1,16 +1,16 @@
 const fs = require('fs');
 
-const PASS = fs.existsSync(process.env.POSTGREST_PASSWORD_FILE) 
-    ? fs.readFileSync(process.env.POSTGREST_PASSWORD_FILE) : undefined;
-const JWT_SECRET = fs.existsSync(process.env.JWT_SECRET_FILE) 
-    ? fs.readFileSync(process.env.JWT_SECRET_FILE): undefined;
-
 module.exports = {
-    jwt_secret: JWT_SECRET || 'shhhh',
+    jwt_secret: process.env.JWT_SECRET || 'shhhh',
     db: process.env.NODE_ENV == 'production' ?
     {
         client: 'pg',
-        connection: 'postgres://postgres:' + PASS + '@postgres:5432/postgres'
+        connection: {
+            host: process.env.POSTGRES_HOST,
+            user: process.env.POSTGRES_USER,
+            password: process.env.POSTGRES_PASSWORD,
+            database: process.env.POSTGRES_DB
+        }
     }:
     {
         client: 'sqlite3',
