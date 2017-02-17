@@ -24,8 +24,8 @@ file_env() {
 	unset "$fileVar"
 }
 
-# default, or file failback 
-file_env 'JWT_SECRET' '' # default should not exist
+# default, or file failback
+file_env 'JWT_SECRET'
 file_env 'POSTGRES_HOST' 'postgres'
 file_env 'POSTGRES_DB' 'postgres'
 file_env 'POSTGRES_SCHEMA' 'public'

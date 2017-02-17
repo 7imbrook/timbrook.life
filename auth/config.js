@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 module.exports = {
-    jwt_secret: process.env.JWT_SECRET || 'shhhh',
+    jwt_secret: process.env.JWT_SECRET,
     db: process.env.NODE_ENV == 'production' ?
     {
         client: 'pg',
