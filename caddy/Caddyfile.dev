@@ -1,7 +1,8 @@
 # Main Site
-localhost:8000 {
+*:80 {
+  gzip
   proxy /api {
-    upstream http://postgrest.postgrest.bbbad713.svc.dockerapp.io:9001
+    upstream api:3000
     without /api
     transparent
   }

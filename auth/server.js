@@ -31,6 +31,7 @@ app.post('/', (req, res, next) => {
 app.use((err, req, res, next) => {
     res.status(err.statusCode || 500);
     res.send(err.message);
+    console.log(err.message, req.body);
 });
 
 app.set('PORT', parseInt(process.env.PORT || 8080));
