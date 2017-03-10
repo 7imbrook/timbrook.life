@@ -1,4 +1,4 @@
-FROM debian
+FROM ubuntu
 
 ADD https://github.com/spf13/hugo/releases/download/v0.19/hugo_0.19_Linux-64bit.tar.gz /tmp
 RUN tar -xvf /tmp/hugo_0.19_Linux-64bit.tar.gz -C /usr/bin

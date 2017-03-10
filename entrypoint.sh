@@ -1,3 +1,3 @@
 #!/bin/bash
 
-caddy -conf /app/caddy/Caddyfile
+caddy -email tech@timbrook.im -agree -conf /app/caddy/Caddyfile

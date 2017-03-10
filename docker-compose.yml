@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  web:
+    image: '7imbrook/life:fallback'
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - 'SITE_ROOT=0.0.0.0:80'
+    volumes:
+      - caddycache:/root/.caddy
+
+volumes:
+  caddycache:
