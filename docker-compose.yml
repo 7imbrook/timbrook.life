@@ -10,6 +10,10 @@ services:
       - 'SITE_ROOT=0.0.0.0:80'
     volumes:
       - caddycache:/root/.caddy
+    deploy:
+      placement:
+        constraints:
+          - node.labels.edge==true
 
 volumes:
   caddycache:

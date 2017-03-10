@@ -1,5 +1,6 @@
 # Main Site
 {$SITE_ROOT} {
   gzip
+  log stdout
   root ./dist
 }
