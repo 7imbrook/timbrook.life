@@ -8,7 +8,7 @@ theme = "hugo-goa"
 author = "Michael Timbrook"
 intro = "The look of terror when I told them I found another distributed message broker."
 description = "Software Engineer"
-authorimage = "https://s.gravatar.com/avatar/86fd22cac0b6714252b9246cd5e03e0a?s=400"
+authorimage = "https://s.gravatar.com/avatar/5f1003090a461b976d47d10c35a5934b?s=400"
 dateformat = "Jan 2, 2006"
 ## Site Meta Settings
 [params.meta]
