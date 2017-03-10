@@ -1,22 +1,5 @@
 # Main Site
-https://timbrook.life {
+{$SITE_ROOT} {
   gzip
-  proxy /api {
-    upstream api:3000
-    without /api
-    transparent
-  }
   root ./dist
-  rewrite {
-    if {path} not_match \/api/.*
-    if {file} not_match (.*\.js|.*\.html|.*\.css)
-    to /index.html
-  }
-}
-
-# Auth backend
-https://auth.timbrook.life {
-  cors / https://timbrook.life http://localhost:8000
-  gzip
-  proxy / auth:8080
 }

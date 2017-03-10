@@ -1,0 +1,37 @@
+baseurl = "/"
+languageCode = "en-us"
+title = "Timbrook.Life"
+theme = "hugo-goa"
+
+## Site Settings
+[params]
+author = "Michael Timbrook"
+intro = "The look of terror when I told them I found another distributed message broker."
+description = "Software Engineer"
+authorimage = "https://s.gravatar.com/avatar/86fd22cac0b6714252b9246cd5e03e0a?s=400"
+dateformat = "Jan 2, 2006"
+## Site Meta Settings
+[params.meta]
+description = "A simple static page for Timbrook.life when running a 'more complex' solution is more annoying"
+keywords = "blog,developer,engineer"
+
+## Social Accounts
+[params.social]
+github = "7imbrook"
+linkedin = "michaeltimbrook"
+twitter = "7imbrook"
+facebook = "timbrookm"
+email = "contact@timbrook.im"
+
+## Extras
+[params.extra]
+copyright = "© 2017. Michael Timbrook. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/)."
+poweredby = true
+hightlightjs = true
+
+## Main Menu
+# [[menu.main]]
+#     name = "blog"
+#     weight = 100
+#     identifier = "blog"
+#     url = "/blog/"
