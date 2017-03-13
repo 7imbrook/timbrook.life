@@ -1,0 +1,54 @@
+==================================================================
+https://keybase.io/7imbrook
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://timbrook.life
+  * I am 7imbrook (https://keybase.io/7imbrook) on keybase.
+  * I have a public key ASC-QwKoXA3vkYgFXtSRAYwrWqPvXCUwaR7mZQPybJ7wtQo
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0101017be8d37c25c2ceb184fe15869615324fb59aa68aca754e8e4bb21f2dfaa94b0a",
+            "host": "keybase.io",
+            "kid": "0120be4302a85c0def9188055ed491018c2b5aa3ef5c2530691ee66503f26c9ef0b50a",
+            "uid": "72cb8dcea1b421444e74ceb28a617200",
+            "username": "7imbrook"
+        },
+        "service": {
+            "hostname": "timbrook.life",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.20"
+    },
+    "ctime": 1489434073,
+    "expire_in": 504576000,
+    "merkle_root": {
+        "ctime": 1489434063,
+        "hash": "61302e26142555c5197297cb5f8e492cc82931fa4700d719070dfaa2e7c264465d2ac8c689a4cdab92d7ebfb8cdc6440a7e3772b5ca09493451716dd19df7d4e",
+        "seqno": 956363
+    },
+    "prev": "566e9d1f846e06f2f37304b86d29b7fbac73588a3e26b6e3697de5c1dcd0278d",
+    "seqno": 35,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgvkMCqFwN75GIBV7UkQGMK1qj71wlMGke5mUD8mye8LUKp3BheWxvYWTFAvZ7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTAxMDE3YmU4ZDM3YzI1YzJjZWIxODRmZTE1ODY5NjE1MzI0ZmI1OWFhNjhhY2E3NTRlOGU0YmIyMWYyZGZhYTk0YjBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwYmU0MzAyYTg1YzBkZWY5MTg4MDU1ZWQ0OTEwMThjMmI1YWEzZWY1YzI1MzA2OTFlZTY2NTAzZjI2YzllZjBiNTBhIiwidWlkIjoiNzJjYjhkY2VhMWI0MjE0NDRlNzRjZWIyOGE2MTcyMDAiLCJ1c2VybmFtZSI6IjdpbWJyb29rIn0sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJ0aW1icm9vay5saWZlIiwicHJvdG9jb2wiOiJodHRwczoifSwidHlwZSI6IndlYl9zZXJ2aWNlX2JpbmRpbmciLCJ2ZXJzaW9uIjoxfSwiY2xpZW50Ijp7Im5hbWUiOiJrZXliYXNlLmlvIGdvIGNsaWVudCIsInZlcnNpb24iOiIxLjAuMjAifSwiY3RpbWUiOjE0ODk0MzQwNzMsImV4cGlyZV9pbiI6NTA0NTc2MDAwLCJtZXJrbGVfcm9vdCI6eyJjdGltZSI6MTQ4OTQzNDA2MywiaGFzaCI6IjYxMzAyZTI2MTQyNTU1YzUxOTcyOTdjYjVmOGU0OTJjYzgyOTMxZmE0NzAwZDcxOTA3MGRmYWEyZTdjMjY0NDY1ZDJhYzhjNjg5YTRjZGFiOTJkN2ViZmI4Y2RjNjQ0MGE3ZTM3NzJiNWNhMDk0OTM0NTE3MTZkZDE5ZGY3ZDRlIiwic2Vxbm8iOjk1NjM2M30sInByZXYiOiI1NjZlOWQxZjg0NmUwNmYyZjM3MzA0Yjg2ZDI5YjdmYmFjNzM1ODhhM2UyNmI2ZTM2OTdkZTVjMWRjZDAyNzhkIiwic2Vxbm8iOjM1LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQCm0f6MkQ90i4bvqc9AC+99Ts+mfpMvfwjPCCCmAbc6dZGGDQBOgUcJcqRjESdX3fwQQX1tk5gDoRHtB4KmSRwWoc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCBa+roer+X0RavT+dMQm8yKLg/Sbh4+QNbWX8L1cQcbAKN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/7imbrook
+
+==================================================================
