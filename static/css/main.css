@@ -212,7 +212,7 @@ h6.meta
     color: #bbb;
 }
 section.meta {
-    margin-top: 
+    margin-top:
 }
 .powered
 {
@@ -254,4 +254,22 @@ header.title
 
         margin-top: 30px;
     }
+}
+
+.upper-title {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  display: inline;
+}
+
+.upper-title h5 {
+  padding-left: 5px;
+  display: inline;
+}
+
+.upper-title img {
+  width: 30px;
+  border-radius: 15px;
+  display: inline;
 }
