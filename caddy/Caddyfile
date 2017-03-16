@@ -3,4 +3,8 @@
   gzip
   log stdout
   root ./dist
+  # Caching
+  expires {
+    match .js$ 1y
+  }
 }

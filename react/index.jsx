@@ -1,11 +1,13 @@
-// Copyright 2014-2015 Twitter, Inc.
-// Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-    var msViewportStyle = document.createElement('style')
-    msViewportStyle.appendChild(
-        document.createTextNode(
-            '@-ms-viewport{width:auto!important}'
-        )
-    )
-    document.querySelector('head').appendChild(msViewportStyle)
-}
+import ReactDOM from 'react-dom';
+import Quote from './Quote';
+import React from 'react';
+
+window.addEventListener('DOMContentLoaded', () => {
+  const quote = document.getElementById('quote_component');
+  if (quote) {
+    ReactDOM.render(
+      <Quote />,
+      quote
+    );
+  }
+}, false);

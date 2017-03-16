@@ -273,3 +273,33 @@ header.title
   border-radius: 15px;
   display: inline;
 }
+
+/* ANIMATIONS? */
+.underquote {
+  margin-top: 80px;
+}
+
+.quote {
+  position: fixed;
+  left: 15%;
+  right: 15%;
+}
+
+.quote-enter {
+  opacity: 0;
+  display: inline;
+}
+
+.quote-enter.quote-enter-active {
+  opacity: 1;
+  transition: opacity 1500ms ease-in;
+}
+
+.quote-leave {
+  opacity: 1;
+}
+
+.quote-leave.quote-leave-active {
+  opacity: 0;
+  transition: opacity 1500ms ease-in;
+}
