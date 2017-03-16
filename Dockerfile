@@ -2,6 +2,9 @@ FROM debian
 
 # Update libs
 RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_7.x | bash -
+RUN apt-get install -y nodejs
 
 # Install Hugo
 ADD https://github.com/spf13/hugo/releases/download/v0.19/hugo_0.19_Linux-64bit.tar.gz /tmp
@@ -14,7 +17,9 @@ RUN tar -xvf /tmp/build -C /usr/bin
 
 WORKDIR /app
 COPY ./ /app
-RUN hugo -d ./dist || exit 0
+RUN npm install
+RUN npm start
+RUN hugo -d ./dist
 
 VOLUME /root/.caddy
 ENV SITE_ROOT=0.0.0.0:80
