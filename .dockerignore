@@ -2,3 +2,4 @@ node_modules/
 dist/
 auth/
 .vscode/public
+Dockerfile
