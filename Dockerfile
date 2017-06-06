@@ -17,4 +17,5 @@ CMD /bin/bash
 FROM nginx
 COPY --from=hugo /app/dist/ /usr/share/nginx/html/
 
+LABEL traefik.port=80
 EXPOSE 80
