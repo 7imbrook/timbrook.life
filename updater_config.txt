@@ -1,2 +1,0 @@
-services_updater,7imbrook/auto-service-updater
-life_web,7imbrook/life:fallback

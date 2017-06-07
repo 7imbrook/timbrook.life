@@ -2,26 +2,19 @@ version: '3.1'
 
 services:
   web:
-    image: '7imbrook/life:fallback'
-    environment:
-      - 'SITE_ROOT=0.0.0.0:80'
-    volumes:
-      - caddycache:/root/.caddy
+    image: '7imbrook/life'
     deploy:
-      replicas: 1
+      replicas: 8
       labels:
         - "traefik.backend=life"
         - "traefik.frontend.rule=Host:timbrook.life"
         - "traefik.port=80"
         - "traefik.enable=true"
         - "traefik.backend.loadbalancer.swarm=true"
-        - "traefik.docker.network=external"
+        - "traefik.docker.network=public"
     networks:
-      - external
-
-volumes:
-  caddycache:
+      - public
 
 networks:
-  external:
+  public:
     external: true
