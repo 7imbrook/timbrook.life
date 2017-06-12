@@ -1,7 +1,5 @@
-# Access to digital ocean, docker cloud password can be
-# your generated api token (and should be)
+# Access to digital ocean
 variable "do_token" {}
-variable "docker_cloud_password" {}
 
 # Set up the digital ocean provider
 provider "digitalocean" {
