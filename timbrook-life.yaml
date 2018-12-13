@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-page
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: static-page
+  template:
+    metadata:
+      labels:
+        app: static-page
+    spec:
+      containers:
+        - name: santa-app
+          image: 7imbrook/life@sha256:a363cd3d59597789f70a9248c3bc12e8a03c20ff4f4784f5527bb6b96b6e885c 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: personal-page
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: static-page
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: timbrook-home 
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: timbrook.tech
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: personal-page
+          servicePort: http
+  
