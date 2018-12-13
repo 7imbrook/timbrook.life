@@ -17,4 +17,4 @@ echo
 echo "Going to deploy" $NEW_DIGEST
 
 kubectl patch deployment static-page -p \
-  "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"personal-page\",\"image\":\"7imbrook/life@sha256:$NEW_DIGEST\"}]}}}}"
+  "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"static-page\",\"image\":\"7imbrook/life@sha256:$NEW_DIGEST\"}]}}}}"
