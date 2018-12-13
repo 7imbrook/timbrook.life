@@ -13,7 +13,7 @@ spec:
         app: static-page
     spec:
       containers:
-        - name: santa-app
+        - name: static-page
           image: 7imbrook/life@sha256:a363cd3d59597789f70a9248c3bc12e8a03c20ff4f4784f5527bb6b96b6e885c 
 ---
 apiVersion: v1
