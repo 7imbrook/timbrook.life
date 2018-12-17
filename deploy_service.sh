@@ -16,5 +16,4 @@ NEW_DIGEST=$(tail -n 1 push_logs | cut -d':' -f 4 | cut -d' ' -f 1)
 echo
 echo "Going to deploy" $NEW_DIGEST
 
-kubectl patch deployment static-page -p \
-  "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"static-page\",\"image\":\"7imbrook/life@sha256:$NEW_DIGEST\"}]}}}}"
+helm upgrade --set container.image='7imbrook/life@sha:'$NEW_DIGEST personal-page ./deploy
