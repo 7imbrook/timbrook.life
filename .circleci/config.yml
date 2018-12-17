@@ -44,7 +44,10 @@ jobs:
           paths:
             - /caches/app.tar
       - run:
-          command: tail -n 1 ./push_log.log
+          name: Get SHA
+          command: BUILD_SHA=$(tail -n 1 ./push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
+      - run:
+          command: echo '7imbrook/life@sha:'$NEW_DIGEST
 
       # - run:
       #     environment:
