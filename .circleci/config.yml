@@ -53,7 +53,7 @@ jobs:
           at: .
       - run:
           command: |
-            ls outputs/atrifacts
+            ls
             # helm upgrade --set container.image='7imbrook/life@sha:'$BUILD_SHA personal-page ./deploy;
 workflows:
   version: 2
