@@ -14,9 +14,13 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: |
+         docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
+          name: Build
           command: docker build -t local_build_only .
       - run:
+          name: Tag and Push
           command: |
             docker tag local_build_only 7imbrook/life;
             docker push 7imbrook/life | tee ./push_log.log
