@@ -14,8 +14,9 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-         docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Authenticate
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - restore_cache:
           keys:
             - v1-{{ .Branch }}
