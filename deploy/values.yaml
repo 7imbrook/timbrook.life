@@ -7,4 +7,4 @@ ingress:
 
 container:
   replicas: 2
-  image: 7imbrook/life@sha256:a363cd3d59597789f70a9248c3bc12e8a03c20ff4f4784f5527bb6b96b6e885c 
+  image: 7imbrook/life@sha:b66fe9fccd45167b22c9fd18aad5c27ada33d4788b8882f1672da0319ffa42a7
