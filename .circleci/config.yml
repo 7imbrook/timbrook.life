@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: docker:17.05.0-ce-git
 
-    working_directory: ~/personal-page
+    working_directory: /personal-page
 
     steps:
       - checkout
@@ -16,11 +16,12 @@ jobs:
           keys:
             - v1-{{ .Branch }}
           paths:
+            - $CIRCLE_WORKING_DIRECTORY/caches/app.tar
       - run:
           name: Load Docker image layer cache
           command: |
             set +o pipefail
-            docker load -i /caches/app.tar | true
+            docker load -i $CIRCLE_WORKING_DIRECTORY/caches/app.tar | true
       - run:
           name: Build
           command: docker build --cache-from=7imbrook/life -t local_build_only .
@@ -28,25 +29,25 @@ jobs:
           name: Tag and Push
           command: |
             docker tag local_build_only 7imbrook/life;
-            docker push 7imbrook/life | tee ./push_log.log
+            docker push 7imbrook/life | tee $CIRCLE_WORKING_DIRECTORY/push_log.log
       - run:
           name: Save Docker image layer cache
           command: |
-            mkdir -p /caches
-            docker save -o /caches/app.tar 7imbrook/life
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/caches
+            docker save -o $CIRCLE_WORKING_DIRECTORY/caches/app.tar 7imbrook/life
       - save_cache:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
-            - /caches/app.tar
+            - $CIRCLE_WORKING_DIRECTORY/caches/app.tar
 
   deploy-prod:
     docker:
       - image: ubuntu:14.04
-    working_directory: ~/personal-page
+    working_directory: /personal-page
     steps:
       - run:
           command: |
-            BUILD_SHA=$(tail -n 1 ./push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
             echo '7imbrook/life@sha:'$BUILD_SHA;
             helm upgrade --set container.image='7imbrook/life@sha:'$BUILD_SHA personal-page ./deploy;
 workflows:
