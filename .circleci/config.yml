@@ -36,10 +36,7 @@ jobs:
           command: |
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
             mkdir /tmp/artifacts; 
-            cat > /tmp/artifacts/overrides.yaml \<\< EOF
-            container:
-              image: 7imbrook/life@sha:$BUILD_SHA
-            EOF
+            echo $BUILD_SHA > /tmp/artifacts/BUILD_SHA 
       - store_artifacts:
           path: /tmp/artifacts
           destination: metadata
