@@ -47,7 +47,9 @@ jobs:
           name: Get SHA
           command: BUILD_SHA=$(tail -n 1 ./push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
       - run:
-          command: echo '7imbrook/life@sha:'$NEW_DIGEST
+          command: |
+            echo '7imbrook/life@sha:'$BUILD_SHA;
+            helm upgrade --set container.image='7imbrook/life@sha:'$BUILD_SHA personal-page ./deploy;
 
       # - run:
       #     environment:
