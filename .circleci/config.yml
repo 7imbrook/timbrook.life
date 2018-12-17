@@ -16,6 +16,13 @@ jobs:
       - setup_remote_docker
       - run:
           command: docker build -t local_build_only .
+      - run:
+          command: |
+            docker tag local_build_only 7imbrook/life;
+            docker push 7imbrook/life | tee ./push_log.log
+      - run:
+          command: tail -n 1 ./push_log.log
+      
 
       # - run:
       #     environment:
