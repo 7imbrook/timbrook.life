@@ -53,9 +53,6 @@ jobs:
           at: .
       - run:
           command: |
-            curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
-      - run:
-          command: |
             NEW_IMAGE=7imbrook/life@sha:$(cat atrifacts/BUILD_SHA)
             echo $NEW_IMAGE
 workflows:
