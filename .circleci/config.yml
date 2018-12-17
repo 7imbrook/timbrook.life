@@ -38,7 +38,7 @@ jobs:
             mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts; 
             echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts/BUILD_SHA 
       - store_artifacts:
-          path: $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts
+          path: outputs/atrifacts
           destination: metadata
       - persist_to_workspace:
           root: outputs
@@ -50,10 +50,10 @@ jobs:
     working_directory: /personal-page
     steps:
       - attach_workspace:
-          at: $CIRCLE_WORKING_DIRECTORY/outputs/artifcats
+          at: outputs/artifcats
       - run:
           command: |
-            ls $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts
+            ls outputs/atrifacts
             # helm upgrade --set container.image='7imbrook/life@sha:'$BUILD_SHA personal-page ./deploy;
 workflows:
   version: 2
