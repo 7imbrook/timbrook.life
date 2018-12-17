@@ -46,11 +46,11 @@ jobs:
             - atrifacts
   deploy-prod:
     docker:
-      - image: ubuntu:14.04
+      - image: docker:17.05.0-ce-git
     working_directory: /personal-page
     steps:
       - attach_workspace:
-          at: outputs/artifcats
+          at: .
       - run:
           command: |
             ls outputs/atrifacts
