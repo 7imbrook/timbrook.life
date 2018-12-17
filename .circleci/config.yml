@@ -16,9 +16,18 @@ jobs:
       - setup_remote_docker
       - run: |
          docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
       - run:
           name: Build
-          command: docker build -t local_build_only .
+          command: docker build --cache-from=app -t local_build_only .
       - run:
           name: Tag and Push
           command: |
@@ -26,7 +35,15 @@ jobs:
             docker push 7imbrook/life | tee ./push_log.log
       - run:
           command: tail -n 1 ./push_log.log
-      
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/app.tar app
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/app.tar
 
       # - run:
       #     environment:
