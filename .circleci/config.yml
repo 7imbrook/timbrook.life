@@ -4,10 +4,7 @@ jobs:
     docker:
       - image: ubuntu:14.04
 
-    environment:
-      TEST_REPORTS: /tmp/test-reports
-
-    working_directory: ~/my-project
+    working_directory: ~/personal-page
 
     # branches:
     #   ignore:
@@ -16,8 +13,9 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          command: echo "Hello World" 
+          command: docker build -t local_build_only .
 
       # - run:
       #     environment:
