@@ -27,23 +27,23 @@ jobs:
             docker load -i /caches/app.tar | true
       - run:
           name: Build
-          command: docker build --cache-from=app -t local_build_only .
+          command: docker build --cache-from=7imbrook/life -t local_build_only .
       - run:
           name: Tag and Push
           command: |
             docker tag local_build_only 7imbrook/life;
             docker push 7imbrook/life | tee ./push_log.log
       - run:
-          command: tail -n 1 ./push_log.log
-      - run:
           name: Save Docker image layer cache
           command: |
             mkdir -p /caches
-            docker save -o /caches/app.tar app
+            docker save -o /caches/app.tar 7imbrook/life
       - save_cache:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
+      - run:
+          command: tail -n 1 ./push_log.log
 
       # - run:
       #     environment:
