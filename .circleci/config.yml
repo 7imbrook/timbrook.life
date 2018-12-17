@@ -35,8 +35,8 @@ jobs:
           name: Save Build Metadata
           command: |
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            mkdir /build/artifacts; 
-            cat > /build/artifacts/overrides.yaml << EOF
+            mkdir /tmp/artifacts; 
+            cat > /tmp/artifacts/overrides.yaml << EOF
             container:
               image: 7imbrook/life@sha:$BUILD_SHA;
             EOF
@@ -51,7 +51,7 @@ jobs:
     steps:
       - run:
           command: |
-            cat /build/artifacts/overrides.yaml 
+            cat /tmp/artifacts/overrides.yaml 
             # helm upgrade --set container.image='7imbrook/life@sha:'$BUILD_SHA personal-page ./deploy;
 workflows:
   version: 2
