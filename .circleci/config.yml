@@ -35,25 +35,25 @@ jobs:
           name: Save Build Metadata
           command: |
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            mkdir /tmp/artifacts; 
-            echo $BUILD_SHA > /tmp/artifacts/BUILD_SHA 
+            mkdir $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts; 
+            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts/BUILD_SHA 
       - store_artifacts:
-          path: /tmp/artifacts
+          path: $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts
           destination: metadata
       - persist_to_workspace:
-          root: tmp
+          root: outputs
           paths:
-            - artifcats
+            - atrifacts
   deploy-prod:
     docker:
       - image: ubuntu:14.04
     working_directory: /personal-page
     steps:
       - attach_workspace:
-          at: /tmp/artifacts
+          at: $CIRCLE_WORKING_DIRECTORY/outputs/artifcats
       - run:
           command: |
-            ls /tmp/artifacts
+            ls $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts
             # helm upgrade --set container.image='7imbrook/life@sha:'$BUILD_SHA personal-page ./deploy;
 workflows:
   version: 2
