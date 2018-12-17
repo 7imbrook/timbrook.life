@@ -35,7 +35,7 @@ jobs:
           name: Save Build Metadata
           command: |
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            mkdir $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts; 
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts; 
             echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts/BUILD_SHA 
       - store_artifacts:
           path: $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts
