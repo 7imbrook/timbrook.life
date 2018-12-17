@@ -1,7 +1,80 @@
-version: 2.1
-orbs:
-    hello: circleci/hello-build@0.0.5
-workflows:
-    "Hello Workflow":
-        jobs:
-          - hello/hello-build
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:14.04
+
+    environment:
+      TEST_REPORTS: /tmp/test-reports
+
+    working_directory: ~/my-project
+
+    # branches:
+    #   ignore:
+    #     - develop
+    #     - /feature-.*/
+
+    steps:
+      - checkout
+      - run:
+          command: echo "Hello World" 
+
+      # - run:
+      #     environment:
+      #       SSH_TARGET: "localhost"
+      #       TEST_ENV: "linux"
+      #     command: |
+      #       set -xu
+      #       mkdir -p ${TEST_REPORTS}
+      #       run-tests.sh
+      #       cp out/tests/*.xml ${TEST_REPORTS}
+
+      # - save_cache:
+      #     key: v1-my-project-{{ checksum "project.clj" }}
+      #     paths:
+      #       - ~/.m2
+
+      # # Save artifacts
+      # - store_artifacts:
+      #     path: /tmp/artifacts
+      #     destination: build
+
+      # # Upload test results
+      # - store_test_results:
+      #     path: /tmp/test-reports
+          
+  # deploy-stage:
+  #   docker:
+  #     - image: ubuntu:14.04
+  #   working_directory: /tmp/my-project  
+  #   steps:
+  #     - run:
+  #         name: Deploy if tests pass and branch is Staging
+  #         command: ansible-playbook site.yml -i staging          
+          
+  # deploy-prod:
+  #   docker:
+  #     - image: ubuntu:14.04
+  #   working_directory: /tmp/my-project  
+  #   steps:
+  #     - run:
+  #         name: Deploy if tests pass and branch is Master
+  #         command: ansible-playbook site.yml -i production
+
+# workflows:
+#   version: 2
+#   build-deploy:
+#     jobs:
+#       - build
+#       - deploy-stage:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: staging
+#       - deploy-prod:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: master
