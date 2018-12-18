@@ -1,10 +1,8 @@
 
-appName: "static-page"
-
 ingress:
   class: traefik
   host: timbrook.tech
 
 container:
   replicas: 2
-  image: 7imbrook/life@sha:b66fe9fccd45167b22c9fd18aad5c27ada33d4788b8882f1672da0319ffa42a7
+  image: 7imbrook/life  # Deploy with sha pls

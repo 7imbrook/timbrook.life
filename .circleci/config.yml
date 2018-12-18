@@ -65,10 +65,31 @@ jobs:
           command: |
             cd /root
             export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy/
+            helm upgrade --install --set container.image=$NEW_IMAGE personal-page ./deploy/
+  deploy-staging:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/deploy
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate Cluster
+          command: |
+            doctl k c list -t $DO_TOKEN
+            doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
+            kubectl get all
+            helm init
+            helm list
+      - run:
+          name: Deploy Helm Release
+          command: |
+            cd /root
+            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
+            helm upgrade --install --set ingress.host=staging.timbrook.tech --set container.image=$NEW_IMAGE personal-page-staging ./deploy/
 workflows:
   version: 2
-  build-deploy:
+  deployment:
     jobs:
       - build
       - deploy-prod:
@@ -77,3 +98,9 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy-staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
