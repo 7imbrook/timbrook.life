@@ -37,7 +37,7 @@ jobs:
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
             mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts; 
             echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts/BUILD_SHA 
-            cp ./deploy ./outputs/deploy
+            cp ./deploy/ ./outputs/deploy/
       - store_artifacts:
           path: outputs/atrifacts
           destination: metadata
