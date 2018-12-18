@@ -45,7 +45,7 @@ jobs:
           root: deploy
           paths:
             - .
-  setup_common:
+  deploy-prod:
     docker:
       - image: 7imbrook/ci-deploy-tools
     working_directory: /root/deploy
@@ -60,17 +60,6 @@ jobs:
             kubectl get all
             helm init
             helm list
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - ~/
-  deploy-prod:
-    docker:
-      - image: 7imbrook/ci-deploy-tools
-    working_directory: /root/deploy
-    steps:
-      - attach_workspace:
-          at: .
       - run:
           name: Deploy Helm Release
           command: |
@@ -85,6 +74,14 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Authenticate Cluster
+          command: |
+            doctl k c list -t $DO_TOKEN
+            doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
+            kubectl get all
+            helm init
+            helm list
+      - run:
           name: Deploy Helm Release
           command: |
             cd /root
@@ -95,18 +92,15 @@ workflows:
   deployment:
     jobs:
       - build
-      - setup_common:
-          requires:
-            - build
       - deploy-prod:
           requires:
-            - setup_common
+            - build
           filters:
             branches:
               only: master
       - deploy-staging:
           requires:
-            - setup_common
+            - build
           filters:
             branches:
               only: staging
