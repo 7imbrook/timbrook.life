@@ -64,7 +64,7 @@ jobs:
           name: Deploy Helm Release
           command: |
             NEW_IMAGE=7imbrook/life@sha256:$(cat atrifacts/BUILD_SHA)
-            echo $NEW_IMAGE
+            helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy
 workflows:
   version: 2
   build-deploy:
