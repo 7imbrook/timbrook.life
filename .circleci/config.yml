@@ -35,12 +35,12 @@ jobs:
           name: Save Build Metadata
           command: |
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts; 
-            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/atrifacts/BUILD_SHA 
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta; 
+            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA 
       - persist_to_workspace:
           root: outputs
           paths:
-            - atrifacts
+            - meta 
       - persist_to_workspace:
           root: deploy
           paths:
@@ -64,7 +64,7 @@ jobs:
           name: Deploy Helm Release
           command: |
             cd /root
-            export NEW_IMAGE=7imbrook/life@sha256:$(cat atrifacts/BUILD_SHA)
+            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
             helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy/
 workflows:
   version: 2
