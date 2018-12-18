@@ -211,9 +211,6 @@ h6.meta
 
     color: #bbb;
 }
-section.meta {
-    margin-top:
-}
 .powered
 {
     font-family: 'Roboto', sans-serif;
@@ -269,7 +266,6 @@ header.title
 }
 
 .upper-title img {
-  width: 30px;
   border-radius: 15px;
   display: inline;
 }
