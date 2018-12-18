@@ -96,6 +96,7 @@ workflows:
   version: 2
   build-deploy-prod:
     jobs:
+      - setup_common
       - build:
           requires:
             - setup_common
@@ -107,6 +108,7 @@ workflows:
               only: master
   build-deploy-staging:
     jobs:
+      - setup_common
       - build:
           requires:
             - setup_common
