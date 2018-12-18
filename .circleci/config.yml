@@ -55,7 +55,6 @@ jobs:
       - run:
           name: Authenticate Cluster
           command: |
-            cd
             doctl k c list -t $DO_TOKEN
             doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
             kubectl get all
@@ -64,7 +63,8 @@ jobs:
       - run:
           name: Deploy Helm Release
           command: |
-            NEW_IMAGE=7imbrook/life@sha256:$(cat atrifacts/BUILD_SHA)
+            cd /root
+            export NEW_IMAGE=7imbrook/life@sha256:$(cat atrifacts/BUILD_SHA)
             helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy/
 workflows:
   version: 2
