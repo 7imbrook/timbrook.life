@@ -54,7 +54,8 @@ jobs:
       - run:
           name: Authenticate Cluster
           command: |
-            doctl auth -t $DO_TOKEN
+            cd
+            doctl auth init -t $DO_TOKEN
             doctl k c list
             doctl k c kubeconfig show prod > ~/.kube/config.yaml
       - run:
