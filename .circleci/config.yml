@@ -47,7 +47,7 @@ jobs:
   deploy-prod:
     docker:
       - image: 7imbrook/ci-deploy-tools
-    working_directory: /personal-page
+    working_directory: /root
     steps:
       - attach_workspace:
           at: .
