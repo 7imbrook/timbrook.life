@@ -58,6 +58,8 @@ jobs:
             doctl k c list -t $DO_TOKEN
             doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
             kubectl get all
+            helm init
+            helm list
       - run:
           name: Deploy Helm Release
           command: |
