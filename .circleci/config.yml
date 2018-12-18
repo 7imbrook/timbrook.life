@@ -94,27 +94,21 @@ jobs:
             helm upgrade --set ingress.host=staging.timbrook.tech --set container.image=$NEW_IMAGE personal-page-staging ./deploy/
 workflows:
   version: 2
-  build-deploy-prod:
+  deployment:
     jobs:
-      - setup_common
-      - build:
-          requires:
-            - setup_common
-      - deploy-prod:
+      - build
+      - setup_common:
           requires:
             - build
+      - deploy-prod:
+          requires:
+            - setup_common
           filters:
             branches:
               only: master
-  build-deploy-staging:
-    jobs:
-      - setup_common
-      - build:
+      - deploy-staging:
           requires:
             - setup_common
-      - deploy-prod:
-          requires:
-            - build
           filters:
             branches:
               only: staging
