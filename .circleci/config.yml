@@ -46,7 +46,7 @@ jobs:
             - atrifacts
   deploy-prod:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: lachlanevenson/k8s-helm
     working_directory: /personal-page
     steps:
       - attach_workspace:
@@ -55,6 +55,7 @@ jobs:
           command: |
             NEW_IMAGE=7imbrook/life@sha256:$(cat atrifacts/BUILD_SHA)
             echo $NEW_IMAGE
+            helm version
 workflows:
   version: 2
   build-deploy:
