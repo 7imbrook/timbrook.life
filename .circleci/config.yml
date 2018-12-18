@@ -55,9 +55,11 @@ jobs:
           name: Authenticate Cluster
           command: |
             cd
+            mkdir -p .kube
             doctl auth init -t $DO_TOKEN
             doctl k c list
             doctl k c kubeconfig show prod > ~/.kube/config.yaml
+            kubectl get all
       - run:
           name: Deploy Helm Release
           command: |
