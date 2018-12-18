@@ -60,12 +60,10 @@ jobs:
             kubectl get all
             helm init
             helm list
-      - run:
-          name: Deploy Helm Release
-          command: |
-            cd /root
-            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy/
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ~/
   deploy-prod:
     docker:
       - image: 7imbrook/ci-deploy-tools
