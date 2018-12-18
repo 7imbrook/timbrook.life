@@ -45,7 +45,7 @@ jobs:
           root: deploy
           paths:
             - .
-  deploy-prod:
+  setup_common:
     docker:
       - image: 7imbrook/ci-deploy-tools
     working_directory: /root/deploy
@@ -66,14 +66,53 @@ jobs:
             cd /root
             export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
             helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy/
+  deploy-prod:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/deploy
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy Helm Release
+          command: |
+            cd /root
+            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
+            helm upgrade --set container.image=$NEW_IMAGE personal-page ./deploy/
+  deploy-staging:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/deploy
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy Helm Release
+          command: |
+            cd /root
+            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
+            helm upgrade --set ingress.host=staging.timbrook.tech --set container.image=$NEW_IMAGE personal-page-staging ./deploy/
 workflows:
   version: 2
-  build-deploy:
+  build-deploy-prod:
     jobs:
-      - build
+      - build:
+          requires:
+            - setup_common
       - deploy-prod:
           requires:
             - build
           filters:
             branches:
               only: master
+  build-deploy-staging:
+    jobs:
+      - build:
+          requires:
+            - setup_common
+      - deploy-prod:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
