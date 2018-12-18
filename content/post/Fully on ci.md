@@ -1,6 +1,6 @@
 +++
 draft = false
-date = "2018-12-17"
+date = "2018-12-17T00:00:00-00:00"
 showpagemeta = true
 tags = [ci, k8s]
 slug = ""
