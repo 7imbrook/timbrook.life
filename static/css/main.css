@@ -219,7 +219,7 @@ h6.meta
     font-weight: 300;
 }
 .social {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 20px;
 }
 .social,
@@ -269,4 +269,18 @@ header.title
 .upper-title img {
   border-radius: 15px;
   display: inline;
+}
+
+#main-page-quote {
+    content: 'Original Text';
+    animation-name: quotes;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes quotes {
+    0% {opacity:0;}
+    20% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
 }
