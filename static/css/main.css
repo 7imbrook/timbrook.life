@@ -130,6 +130,7 @@ div.content
 }
 .headshot
 {
+    object-fit: cover;
     width: 200px;
     height: 200px;
 }

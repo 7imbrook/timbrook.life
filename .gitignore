@@ -1,6 +1,7 @@
 ## HEADER is generated
 layouts/partials/header.html
 static/js
+venv
 
 # Created by https://www.gitignore.io/api/node,osx
 
