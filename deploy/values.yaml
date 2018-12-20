@@ -1,4 +1,7 @@
 
+environment:
+  namespace: production
+
 ingress:
   class: traefik
   host: timbrook.tech

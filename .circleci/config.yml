@@ -65,7 +65,7 @@ jobs:
           command: |
             cd /root
             export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --set container.image=$NEW_IMAGE personal-page ./deploy/
+            helm upgrade --install --set container.image=$NEW_IMAGE timbrook-tech ./deploy/
   deploy-staging:
     docker:
       - image: 7imbrook/ci-deploy-tools
@@ -86,7 +86,11 @@ jobs:
           command: |
             cd /root
             export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --set ingress.host=staging.timbrook.tech --set container.image=$NEW_IMAGE personal-page-staging ./deploy/
+            helm upgrade --install --namespace staging \
+                                    --set ingress.host=staging.timbrook.tech \
+                                    --set container.image=$NEW_IMAGE \
+                                    --set environment.namespace=staging \
+                  timbrook-tech-staging ./deploy/
 workflows:
   version: 2
   deployment:
