@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{.Release.Name}}-ingress
+  namespace: {{.Values.environment.namespace}}
   annotations:
     kubernetes.io/ingress.class: {{.Values.ingress.class}} 
 spec:
