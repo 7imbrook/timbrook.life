@@ -130,6 +130,7 @@ div.content
 }
 .headshot
 {
+    object-fit: cover;
     width: 200px;
     height: 200px;
 }
@@ -211,9 +212,6 @@ h6.meta
 
     color: #bbb;
 }
-section.meta {
-    margin-top:
-}
 .powered
 {
     font-family: 'Roboto', sans-serif;
@@ -269,37 +267,20 @@ header.title
 }
 
 .upper-title img {
-  width: 30px;
   border-radius: 15px;
   display: inline;
 }
 
-/* ANIMATIONS? */
-.underquote {
-  margin-top: 80px;
+#main-page-quote {
+    content: 'Original Text';
+    animation-name: quotes;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
 }
 
-.quote {
-  position: fixed;
-  left: 15%;
-  right: 15%;
-}
-
-.quote-enter {
-  opacity: 0;
-  display: inline;
-}
-
-.quote-enter.quote-enter-active {
-  opacity: 1;
-  transition: opacity 1500ms ease-in;
-}
-
-.quote-leave {
-  opacity: 1;
-}
-
-.quote-leave.quote-leave-active {
-  opacity: 0;
-  transition: opacity 1500ms ease-in;
+@keyframes quotes {
+    0% {opacity:0;}
+    20% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
 }
