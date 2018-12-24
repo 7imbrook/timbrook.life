@@ -302,7 +302,7 @@ header.title
 }
 
 .resume section.title {
-  margin: 10px 10%;
+  margin: 100px 10% 10px 10%;
   display: flex;
   flex-flow: row;
   justify-content: space-between
@@ -323,4 +323,13 @@ header.title
 
 .resume .content p {
   margin: 0px;
+}
+
+.resume h4 {
+  padding-top: 10px;
+  color: #31708f;
+}
+
+.resume h3 {
+  padding-bottom: 10px;
 }
