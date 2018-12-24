@@ -297,6 +297,12 @@ header.title
     }
 }
 
+/* Resume css (move to new file?) */
+
+.resume {
+  text-align: justify;
+}
+
 .resume section.experience {
   margin: 10px 10%;
 }
