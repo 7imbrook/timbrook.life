@@ -296,3 +296,31 @@ header.title
         transform: translate(0, 1em);
     }
 }
+
+.resume section.experience {
+  margin: 10px 10%;
+}
+
+.resume section.title {
+  margin: 10px 10%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between
+}
+
+.resume .name {
+  font-size: 1.9em;
+  width: auto;
+}
+
+.resume .content {
+  width: auto;
+}
+
+.resume p {
+  font-size: .8em;
+}
+
+.resume .content p {
+  margin: 0px;
+}
