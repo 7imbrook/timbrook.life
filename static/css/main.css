@@ -299,6 +299,12 @@ header.title
 
 /* Resume css (move to new file?) */
 
+.back-button {
+  position: fixed;
+  padding: 25px;
+  top: 0px;
+}
+
 .resume {
   text-align: justify;
 }
@@ -338,4 +344,14 @@ header.title
 
 .resume h3 {
   padding-bottom: 10px;
+}
+
+@media print {
+  .back-button {
+    display: none;
+  }
+
+  .resume section.title {
+    margin: 25px 10% 0px 10%;
+  }
 }
