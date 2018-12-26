@@ -94,12 +94,6 @@ jobs:
                                     --set environment.namespace=staging \
                                     --wait \
                   timbrook-tech-staging ./deploy/
-            RESULT=$?
-            if [ $RESULT -eq 0 ]; then
-              echo success
-            else
-              helm rollback timbrook-tech-staging
-            fi
 workflows:
   version: 2
   deployment:
