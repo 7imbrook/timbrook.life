@@ -76,13 +76,7 @@ jobs:
           at: .
       - run:
           name: Authenticate Cluster
-          command: |
-            doctl k c list -t $DO_TOKEN
-            doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
-            kubectl config set-context $(kubectl config current-context) --namespace=staging
-            kubectl get all
-            helm init --client-only
-            helm list
+          command: ./run_helm_release.sh auth
       - run:
           name: Deploy Helm Release
           command: |
@@ -105,11 +99,6 @@ jobs:
       - run:
           name: Run fortio
           command: docker run fortio/fortio load -t 45s https://staging.timbrook.tech/ | tee ./results.txt
-      - run:
-          name: Store Results
-          command: |
-            mkdir -p ./test-results
-            cat ./results.txt | grep -e "Code" | tee ./test-results/codes.txt
 
 workflows:
   version: 2
