@@ -59,7 +59,7 @@ jobs:
             doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
             kubectl config set-context $(kubectl config current-context) --namespace=production
             kubectl get all
-            helm init
+            helm init --client-only
             helm list
       - run:
           name: Deploy Helm Release
@@ -81,7 +81,7 @@ jobs:
             doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
             kubectl config set-context $(kubectl config current-context) --namespace=staging
             kubectl get all
-            helm init
+            helm init --client-only
             helm list
       - run:
           name: Deploy Helm Release
@@ -94,6 +94,12 @@ jobs:
                                     --set environment.namespace=staging \
                                     --wait \
                   timbrook-tech-staging ./deploy/
+            RESULT=$?
+            if [ $RESULT -eq 0 ]; then
+              echo success
+            else
+              helm rollback timbrook-tech-staging
+            fi
 workflows:
   version: 2
   deployment:

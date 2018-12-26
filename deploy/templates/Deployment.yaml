@@ -18,7 +18,7 @@ spec:
           image: {{.Values.container.image}}
           readinessProbe:
             httpGet:
-              path: /healthy.html
+              path: /
               port: 80
             periodSeconds: 1
             successThreshold: 1
