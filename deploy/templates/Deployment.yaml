@@ -15,4 +15,11 @@ spec:
     spec:
       containers:
         - name: {{.Release.Name}}-app
-          image: {{.Values.container.image}} 
+          image: {{.Values.container.image}}
+      readinessProbe:
+        httpGet:
+          path: /healthy.html
+          port: 80
+        periodSeconds: 1
+        successThreshold: 1
+        failureThreshold: 2
