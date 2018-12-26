@@ -94,6 +94,16 @@ jobs:
                                     --set environment.namespace=staging \
                                     --wait \
                   timbrook-tech-staging ./deploy/
+  run-load-test:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /personal-page
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Run fortio
+          command: docker run fortio/fortio load -t 5m -json result.json https://staging.timbrook.tech/
 workflows:
   version: 2
   deployment:
@@ -106,6 +116,12 @@ workflows:
             branches:
               only: master
       - deploy-staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
+      - run-load-test:
           requires:
             - build
           filters:
