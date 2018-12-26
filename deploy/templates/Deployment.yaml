@@ -16,7 +16,7 @@ spec:
       containers:
         - name: {{.Release.Name}}-app
           image: {{.Values.container.image}}
-          livenessProbe:
+          readinessProbe:
             httpGet:
               path: /healthy.html
               port: 80

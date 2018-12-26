@@ -57,6 +57,7 @@ jobs:
           command: |
             doctl k c list -t $DO_TOKEN
             doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
+            kubectl config set-context $(kubectl config current-context) --namespace=production
             kubectl get all
             helm init
             helm list
@@ -65,7 +66,7 @@ jobs:
           command: |
             cd /root
             export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --set container.image=$NEW_IMAGE timbrook-tech ./deploy/
+            helm upgrade --install --wait --set container.image=$NEW_IMAGE timbrook-tech ./deploy/
   deploy-staging:
     docker:
       - image: 7imbrook/ci-deploy-tools
@@ -78,6 +79,7 @@ jobs:
           command: |
             doctl k c list -t $DO_TOKEN
             doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
+            kubectl config set-context $(kubectl config current-context) --namespace=staging
             kubectl get all
             helm init
             helm list
