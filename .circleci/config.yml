@@ -101,12 +101,14 @@ jobs:
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
+      - run: docker pull fortio/fortio
       - run:
           name: Run fortio
-          command: docker run fortio/fortio load -t 45s -json result.json https://staging.timbrook.tech/
+          command: docker run fortio/fortio load -t 45s https://staging.timbrook.tech/ | tee ./results.txt
       - run:
-          name: Parse Results
-          command: cat results.json | jq
+          name: Store Results
+          command: cat ./results.txt | grep -e "Code" | tee ./test-results/codes.txt
+
 workflows:
   version: 2
   deployment:
