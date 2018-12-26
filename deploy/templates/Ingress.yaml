@@ -4,10 +4,10 @@ metadata:
   name: {{.Release.Name}}-ingress
   namespace: {{.Values.environment.namespace}}
   annotations:
-    kubernetes.io/ingress.class: {{.Values.ingress.class}} 
+    kubernetes.io/ingress.class: {{.Values.ingress.class}}
 spec:
   rules:
-  - host: {{.Values.ingress.host}} 
+  - host: {{.Values.ingress.host}}
     http:
       paths:
       - path: /
