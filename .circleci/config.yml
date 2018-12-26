@@ -104,6 +104,9 @@ jobs:
       - run:
           name: Run fortio
           command: docker run fortio/fortio load -t 45s -json result.json https://staging.timbrook.tech/
+      - run:
+          name: Parse Results
+          command: cat results.json | jq
 workflows:
   version: 2
   deployment:
