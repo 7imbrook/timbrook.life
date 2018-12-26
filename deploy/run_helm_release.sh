@@ -21,7 +21,7 @@ function deploy_release () {
 }
 
 ###
-# Setup environment
+# Setup environment, maybe move some of this into .circle.yaml
 #
 NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
 

@@ -79,15 +79,7 @@ jobs:
           command: ./run_helm_release.sh auth
       - run:
           name: Deploy Helm Release
-          command: |
-            cd /root
-            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --namespace staging \
-                                    --set ingress.host=staging.timbrook.tech \
-                                    --set container.image=$NEW_IMAGE \
-                                    --set environment.namespace=staging \
-                                    --wait \
-                  timbrook-tech-staging ./deploy/
+          command: ./run_helm_release.sh deploy
   run-load-test:
     docker:
       - image: docker:17.05.0-ce-git
