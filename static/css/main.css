@@ -307,14 +307,15 @@ header.title
 
 .resume {
   text-align: justify;
+  margin: auto 20%;
 }
 
 .resume section.experience {
-  margin: 10px 10%;
+  margin-top: 10px;
 }
 
 .resume section.title {
-  margin: 100px 10% 10px 10%;
+  margin-top: 100px;
   display: flex;
   flex-flow: row;
   justify-content: space-between
@@ -346,12 +347,28 @@ header.title
   padding-bottom: 10px;
 }
 
+.tech-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between
+}
+
+ul.tech-lists li {
+  margin-left: -20px;
+  font-size: 0.7em;
+}
+
 @media print {
+
+  html {
+    color: inherit !important;
+  }
+
   .back-button {
     display: none;
   }
 
   .resume section.title {
-    margin: 25px 10% 0px 10%;
+    margin-top: 25px;
   }
 }
