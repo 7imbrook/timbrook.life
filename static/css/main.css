@@ -274,8 +274,13 @@ header.title
 #main-page-quote {
     content: 'Original Text';
     animation-name: quotes;
-    animation-duration: 5s;
+    animation-duration: 15s;
     animation-iteration-count: infinite;
+}
+
+.smooth-move {
+  height: auto;
+  transition: height 0.5s ease-in-out;
 }
 
 @keyframes quotes {
@@ -283,11 +288,11 @@ header.title
         opacity: 0;
         transform: translate(0, -1em);
     }
-    20% {
+    10% {
         opacity: 1;
         transform: translate(0, 0);
     }
-    80% {
+    90% {
         opacity: 1;
         transform: translate(0, 0);
     }
@@ -411,7 +416,6 @@ ul.tech-lists li {
       transform: translate(0, 0);
   }
 }
-
 
 @media print {
 
