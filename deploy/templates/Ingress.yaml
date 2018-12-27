@@ -14,3 +14,22 @@ spec:
         backend:
           serviceName: {{.Release.Name}}-service
           servicePort: http
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{.Release.Name}}-paywall-ingress
+  namespace: {{.Values.environment.namespace}}
+  annotations:
+    kubernetes.io/ingress.class: {{.Values.ingress.class}}
+    ingress.kubernetes.io/auth-type: basic
+    traefik.ingress.kubernetes.io/auth-secret: resume-auth
+spec:
+  rules:
+  - host: {{.Values.ingress.host}}
+    http:
+      paths:
+      - path: /resume
+        backend:
+          serviceName: {{.Release.Name}}-service
+          servicePort: http
