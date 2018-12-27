@@ -54,19 +54,10 @@ jobs:
           at: .
       - run:
           name: Authenticate Cluster
-          command: |
-            doctl k c list -t $DO_TOKEN
-            doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
-            kubectl config set-context $(kubectl config current-context) --namespace=production
-            kubectl get all
-            helm init --client-only
-            helm list
+          command: ./run_helm_release.sh auth
       - run:
           name: Deploy Helm Release
-          command: |
-            cd /root
-            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --wait --set container.image=$NEW_IMAGE timbrook-tech ./deploy/
+          command: ./run_helm_release.sh deploy
   deploy-staging:
     docker:
       - image: 7imbrook/ci-deploy-tools
