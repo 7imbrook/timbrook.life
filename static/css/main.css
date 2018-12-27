@@ -358,6 +358,61 @@ ul.tech-lists li {
   font-size: 0.7em;
 }
 
+.not-found {
+  margin-left: 35%;
+  margin-top: 500px;
+}
+
+.sub-not-found {
+  margin: 1px;
+  color: grey;
+}
+
+.request i {
+  margin: 50px 47%;
+  font-size: 6em;
+  animation-name: request;
+  animation-duration: 0.5s;
+}
+
+.request h4 {
+  text-align: center;
+  animation-name: sub-request;
+  animation-duration: 1s;
+}
+
+.fad-hide {
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom,
+    from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+}
+
+@keyframes request {
+  0% {
+      opacity: 0;
+      transform: translate(0, -15px);
+  }
+  100% {
+      opacity: 1;
+      transform: translate(0, 0);
+  }
+}
+
+@keyframes sub-request {
+  0% {
+      opacity: 0;
+      transform: translate(0, -1em);
+  }
+  10% {
+      opacity: 0;
+      transform: translate(0, -1em);
+  }
+  100% {
+      opacity: 1;
+      transform: translate(0, 0);
+  }
+}
+
+
 @media print {
 
   html {
