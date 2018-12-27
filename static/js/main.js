@@ -1,17 +1,18 @@
-
-const quotes = [
-    "The look of terror when I told them I found another distributed message broker.",
-    "My Mac is definitely warmer than my sandwich right now, there's no doubt about that.",
-    "Your opinion would be flagged as Timbrook",
-]
+const { fromEvent, from, zip } = rxjs;
+const { map, flatMap, repeat, throttleTime } = rxjs.operators;
 
 window.onload = () => {
-    let iter = 0;
-    const total = quotes.length;
-    quote_elm = document.getElementById("main-page-quote");
-    quote_elm.innerHTML = quotes[iter];
-    quote_elm.addEventListener("animationiteration", () => {
-        iter = (iter + 1) % total;
-        quote_elm.innerHTML = quotes[iter];
-    });
+    const quote_elm = document.getElementById("main-page-quote")
+    const animation_loop = fromEvent(quote_elm, "animationiteration")
+    const quote_source = from(
+            fetch("/api/quotes.json").then(res => res.json())
+        )
+        .pipe(flatMap(data => from(data.quotes)));
+
+    const data = zip(animation_loop, quote_source)
+        .pipe(map(([_, quote]) => quote))
+        .pipe(repeat());
+
+    data.subscribe(x => quote_elm.innerHTML = x)
+
 }

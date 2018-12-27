@@ -15,4 +15,15 @@ spec:
     spec:
       containers:
         - name: {{.Release.Name}}-app
-          image: {{.Values.container.image}} 
+          image: {{.Values.container.image}}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 1
+            successThreshold: 1
+            failureThreshold: 2
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/bash", "-c", "sleep 5"]

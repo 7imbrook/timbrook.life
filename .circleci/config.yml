@@ -35,12 +35,12 @@ jobs:
           name: Save Build Metadata
           command: |
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta; 
-            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA 
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta;
+            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA
       - persist_to_workspace:
           root: outputs
           paths:
-            - meta 
+            - meta
       - persist_to_workspace:
           root: deploy
           paths:
@@ -54,18 +54,10 @@ jobs:
           at: .
       - run:
           name: Authenticate Cluster
-          command: |
-            doctl k c list -t $DO_TOKEN
-            doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
-            kubectl get all
-            helm init
-            helm list
+          command: ./run_helm_release.sh auth
       - run:
           name: Deploy Helm Release
-          command: |
-            cd /root
-            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --set container.image=$NEW_IMAGE timbrook-tech ./deploy/
+          command: ./run_helm_release.sh deploy
   deploy-staging:
     docker:
       - image: 7imbrook/ci-deploy-tools
@@ -75,22 +67,22 @@ jobs:
           at: .
       - run:
           name: Authenticate Cluster
-          command: |
-            doctl k c list -t $DO_TOKEN
-            doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
-            kubectl get all
-            helm init
-            helm list
+          command: ./run_helm_release.sh auth
       - run:
           name: Deploy Helm Release
-          command: |
-            cd /root
-            export NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
-            helm upgrade --install --namespace staging \
-                                    --set ingress.host=staging.timbrook.tech \
-                                    --set container.image=$NEW_IMAGE \
-                                    --set environment.namespace=staging \
-                  timbrook-tech-staging ./deploy/
+          command: ./run_helm_release.sh deploy
+  run-load-test:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /personal-page
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: docker pull fortio/fortio
+      - run:
+          name: Run fortio
+          command: docker run fortio/fortio load -t 45s https://staging.timbrook.tech/ | tee ./results.txt
+
 workflows:
   version: 2
   deployment:
@@ -103,6 +95,12 @@ workflows:
             branches:
               only: master
       - deploy-staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
+      - run-load-test:
           requires:
             - build
           filters:

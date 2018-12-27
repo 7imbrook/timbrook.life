@@ -7,5 +7,5 @@ ingress:
   host: timbrook.tech
 
 container:
-  replicas: 2
+  replicas: 3
   image: 7imbrook/life  # Deploy with sha pls
