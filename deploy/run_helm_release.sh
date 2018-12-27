@@ -11,19 +11,18 @@ function authenticate_cluster () {
 }
 
 function deploy_release () {
-  cd /root
   helm upgrade --install --namespace staging \
                           --set ingress.host=${HOST_PREFIX}timbrook.tech \
                           --set container.image=$NEW_IMAGE \
                           --set environment.namespace=$NAMESPACE \
                           --wait \
-        $APP ./deploy/
+        $APP ./
 }
 
 ###
 # Setup environment, maybe move some of this into .circle.yaml
 #
-NEW_IMAGE=7imbrook/life@sha256:$(cat deploy/meta/BUILD_SHA)
+NEW_IMAGE=7imbrook/life@sha256:$(cat meta/BUILD_SHA)
 
 if [ "$CIRCLE_BRANCH" = "master" ]; then
   APP="timbrook-tech"
