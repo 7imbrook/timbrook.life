@@ -11,7 +11,7 @@ function authenticate_cluster () {
 }
 
 function deploy_release () {
-  helm upgrade --install --namespace staging \
+  helm upgrade --install --namespace $NAMESPACE \
                           --set ingress.host=${HOST_PREFIX}timbrook.tech \
                           --set container.image=$NEW_IMAGE \
                           --set environment.namespace=$NAMESPACE \
