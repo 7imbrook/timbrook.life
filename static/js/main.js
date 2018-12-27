@@ -18,6 +18,9 @@ function getSocialObserver () {
   const social_links = document.getElementById("social-pane").children;
   let social_link_hover_events = []
   for (linkelm of social_links) {
+    if (linkelm.tagName !== "A") {
+      continue;
+    }
     const link_observer = merge(
       fromEvent(linkelm, "mouseenter"),
       fromEvent(linkelm, "mouseleave"),
@@ -42,9 +45,13 @@ window.onload = () => {
     section.style.height = new_height;
   })
   getSocialObserver().subscribe(({full_name, direction}) => {
+    const out_elm = document.getElementById("hint-text");
     switch (direction) {
       case "mouseenter":
+        out_elm.innerHTML = full_name;
+        break;
       case "mouseleave":
+        out_elm.innerHTML = "";
         break;
     }
   })
