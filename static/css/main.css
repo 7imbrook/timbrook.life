@@ -288,11 +288,11 @@ header.title
         opacity: 0;
         transform: translate(0, -1em);
     }
-    20% {
+    10% {
         opacity: 1;
         transform: translate(0, 0);
     }
-    80% {
+    90% {
         opacity: 1;
         transform: translate(0, 0);
     }
@@ -373,10 +373,6 @@ ul.tech-lists li {
   color: grey;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Show paywall information
 .request i {
   margin: 50px 47%;
   font-size: 6em;
