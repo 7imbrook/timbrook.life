@@ -326,6 +326,22 @@ header.title
   justify-content: space-between
 }
 
+.resume section.tech {
+  display: flex;
+  flex-flow: row;
+  align-items: stretch;
+  justify-content: space-between
+}
+
+div.technologies {
+  width: 50%;
+}
+
+div.education {
+  width: 40%;
+}
+
+
 .resume .name {
   font-size: 1.9em;
   width: auto;
