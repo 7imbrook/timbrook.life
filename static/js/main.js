@@ -1,26 +1,58 @@
-const { fromEvent, from, zip } = rxjs;
+const { fromEvent, from, zip, merge } = rxjs;
 const { map, flatMap, repeat, throttleTime } = rxjs.operators;
 
-function loadQuoteApp() {
+function getQuoteObserver() {
   const quote_elm = document.getElementById("main-page-quote");
-  const section = document.getElementById("info-pane");
   const animation_loop = fromEvent(quote_elm, "animationiteration");
   const quote_source = from(
           fetch("/api/quotes.json").then(res => res.json())
       )
       .pipe(flatMap(data => from(data.quotes)));
 
-  const data = zip(animation_loop, quote_source)
+  return zip(animation_loop, quote_source)
       .pipe(map(([_, quote]) => quote))
       .pipe(repeat());
+}
 
-  data.subscribe(x => {
+function getSocialObserver () {
+  const social_links = document.getElementById("social-pane").children;
+  let social_link_hover_events = []
+  for (linkelm of social_links) {
+    if (linkelm.tagName !== "A") {
+      continue;
+    }
+    const link_observer = merge(
+      fromEvent(linkelm, "mouseenter"),
+      fromEvent(linkelm, "mouseleave"),
+    ).pipe(map(data => {
+      return {
+        full_name: data.srcElement.children[0].getAttribute("data-full-name"),
+        direction: data.type,
+      }
+    }))
+    social_link_hover_events.push(link_observer);
+  }
+  return social_link_hover_events.reduce((a, b) => merge(a, b))
+}
+
+
+window.onload = () => {
+  getQuoteObserver().subscribe(x => {
+    const quote_elm = document.getElementById("main-page-quote");
+    const section = document.getElementById("info-pane");
     quote_elm.innerHTML = x;
     const new_height = (quote_elm.offsetHeight + 10) + 'px';
     section.style.height = new_height;
   })
-}
-
-window.onload = () => {
-  loadQuoteApp()
+  getSocialObserver().subscribe(({full_name, direction}) => {
+    const out_elm = document.getElementById("hint-text");
+    switch (direction) {
+      case "mouseenter":
+        out_elm.innerHTML = full_name;
+        break;
+      case "mouseleave":
+        out_elm.innerHTML = "";
+        break;
+    }
+  })
 }
