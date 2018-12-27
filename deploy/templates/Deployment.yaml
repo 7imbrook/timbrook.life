@@ -16,6 +16,10 @@ spec:
       containers:
         - name: {{.Release.Name}}-app
           image: {{.Values.container.image}}
+          volumeMounts:
+          - name: htpasswd
+            mountPath: "/etc/apache2/"
+            readOnly: true
           readinessProbe:
             httpGet:
               path: /
@@ -27,3 +31,7 @@ spec:
             preStop:
               exec:
                 command: ["/bin/bash", "-c", "sleep 5"]
+      volumes:
+        - name: htpasswd
+          secret:
+            secretName: resume-auth
