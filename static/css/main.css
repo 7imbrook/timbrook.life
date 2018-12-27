@@ -358,6 +358,16 @@ ul.tech-lists li {
   font-size: 0.7em;
 }
 
+.not-found {
+  margin-left: 35%;
+  margin-top: 500px;
+}
+
+.sub-not-found {
+  margin: 1px;
+  color: grey;
+}
+
 @media print {
 
   html {
