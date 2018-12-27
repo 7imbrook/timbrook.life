@@ -368,6 +368,7 @@ ul.tech-lists li {
   color: grey;
 }
 
+<<<<<<< HEAD
 .request i {
   margin: 50px 47%;
   font-size: 6em;
@@ -411,7 +412,6 @@ ul.tech-lists li {
       transform: translate(0, 0);
   }
 }
-
 
 @media print {
 
