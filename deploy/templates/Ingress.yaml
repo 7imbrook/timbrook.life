@@ -5,6 +5,7 @@ metadata:
   namespace: {{.Values.environment.namespace}}
   annotations:
     kubernetes.io/ingress.class: {{.Values.ingress.class}}
+    traefik.frontend.priority: "2"
 spec:
   rules:
   - host: {{.Values.ingress.host}}
@@ -24,6 +25,7 @@ metadata:
     kubernetes.io/ingress.class: {{.Values.ingress.class}}
     ingress.kubernetes.io/auth-type: basic
     traefik.ingress.kubernetes.io/auth-secret: resume-auth
+    traefik.frontend.priority: "1"
 spec:
   rules:
   - host: {{.Values.ingress.host}}
