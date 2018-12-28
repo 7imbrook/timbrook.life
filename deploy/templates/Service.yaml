@@ -23,3 +23,16 @@ spec:
     name: http
   selector:
     app: {{.Release.Name}}-auth-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailer-service
+  namespace: {{.Values.environment.namespace}}
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    name: http
+  selector:
+    app: {{.Release.Name}}-mailer-service
