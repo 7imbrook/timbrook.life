@@ -1,0 +1,10 @@
+
+environment:
+  namespace: default
+
+ingress:
+  host: timbrook.local
+
+container:
+  replicas: 1
+  image: 7imbrook/life  # Deploy with sha pls

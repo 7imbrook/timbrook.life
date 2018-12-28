@@ -9,3 +9,6 @@ ingress:
 container:
   replicas: 3
   image: 7imbrook/life  # Deploy with sha pls
+
+auth_service:
+  image: 7imbrook/auth  # Deploy with sha pls

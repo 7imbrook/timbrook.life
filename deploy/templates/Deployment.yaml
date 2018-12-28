@@ -22,7 +22,7 @@ spec:
             readOnly: true
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 80
             periodSeconds: 1
             successThreshold: 1
@@ -35,3 +35,22 @@ spec:
         - name: htpasswd
           secret:
             secretName: resume-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-auth-service
+  namespace: {{.Values.environment.namespace}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-auth-service
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}-auth-service
+    spec:
+      containers:
+        - name: {{.Release.Name}}-auth-service
+          image: {{.Values.auth_service.image}}

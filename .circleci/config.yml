@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build:
+  build_static:
     docker:
       - image: docker:17.05.0-ce-git
 
@@ -37,6 +37,50 @@ jobs:
             BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
             mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta;
             echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA
+      - persist_to_workspace:
+          root: outputs
+          paths:
+            - meta
+      - persist_to_workspace:
+          root: deploy
+          paths:
+            - .
+  build_auth_app:
+    docker:
+      - image: docker:17.05.0-ce-git
+
+    working_directory: /personal-page
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Authenticate
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i $CIRCLE_WORKING_DIRECTORY/caches/app.tar | true
+      - run:
+          name: Build
+          command: docker build --cache-from=7imbrook/auth -t local_build_only .
+      - run:
+          name: Tag and Push
+          command: |
+            docker tag local_build_only 7imbrook/auth;
+            docker push 7imbrook/auth | tee $CIRCLE_WORKING_DIRECTORY/push_log.log
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/caches
+            docker save -o $CIRCLE_WORKING_DIRECTORY/caches/app.tar 7imbrook/auth
+      - run:
+          name: Save Build Metadata
+          command: |
+            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta;
+            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA_AUTH_APP
       - persist_to_workspace:
           root: outputs
           paths:
@@ -87,22 +131,26 @@ workflows:
   version: 2
   deployment:
     jobs:
-      - build
+      - build_static
+      - build_auth_app
       - deploy-prod:
           requires:
-            - build
+            - build_static
+            - build_auth_app
           filters:
             branches:
               only: master
       - deploy-staging:
           requires:
-            - build
+            - build_static
+            - build_auth_app
           filters:
             branches:
               only: staging
       - run-load-test:
           requires:
-            - build
+            - build_static
+            - build_auth_app
           filters:
             branches:
               only: staging
