@@ -15,7 +15,8 @@ app = Flask(__name__)
 
 app.logger.setLevel(logging.INFO)
 
-@app.route('/', methods=["POST"])
+# TODO: update deploy to strip this.
+@app.route('/mailer', methods=["POST"])
 def auth():
     # Content-Type
     # Date
