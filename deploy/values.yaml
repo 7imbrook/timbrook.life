@@ -7,5 +7,14 @@ ingress:
   host: timbrook.tech
 
 container:
-  replicas: 3
+  replicas: 1
   image: 7imbrook/life  # Deploy with sha pls
+
+auth_service:
+  image: 7imbrook/auth  # Deploy with sha pls
+
+redis:
+  existingSecret: redis-password
+  master:
+    persistence:
+      enabled: false

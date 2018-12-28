@@ -16,22 +16,41 @@ spec:
       containers:
         - name: {{.Release.Name}}-app
           image: {{.Values.container.image}}
-          volumeMounts:
-          - name: htpasswd
-            mountPath: "/etc/apache2/"
-            readOnly: true
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 80
-            periodSeconds: 1
+            periodSeconds: 15
             successThreshold: 1
             failureThreshold: 2
           lifecycle:
             preStop:
               exec:
                 command: ["/bin/bash", "-c", "sleep 5"]
-      volumes:
-        - name: htpasswd
-          secret:
-            secretName: resume-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-auth-service
+  namespace: {{.Values.environment.namespace}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-auth-service
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}-auth-service
+    spec:
+      containers:
+        - name: {{.Release.Name}}-auth-service
+          image: {{.Values.auth_service.image}}
+          env:
+            - name: REDIS_HOST
+              value: {{.Release.Name}}-redis-slave
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis-password
+                  key: redis-password
