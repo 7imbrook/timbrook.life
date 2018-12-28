@@ -12,10 +12,13 @@ function authenticate_cluster () {
 
 function deploy_release () {
   set -e
-  NEW_IMAGE=7imbrook/life@sha256:$(cat meta/BUILD_SHA)
+  helm dep build
+  NEW_IMAGE=7imbrook/life@sha256:$(cat meta/BUILD_SHA_STATIC)
+  NEW_IMAGE_AUTH=7imbrook/auth@sha256:$(cat meta/BUILD_SHA_AUTH_APP)
   helm upgrade --install --namespace $NAMESPACE \
                           --set ingress.host=${HOST_PREFIX}timbrook.tech \
                           --set container.image=$NEW_IMAGE \
+                          --set auth_service.image=$NEW_IMAGE_AUTH \
                           --set environment.namespace=$NAMESPACE \
                           --wait \
         $APP ./

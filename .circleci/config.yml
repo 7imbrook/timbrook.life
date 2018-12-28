@@ -1,11 +1,19 @@
 version: 2.1
 jobs:
+  save_deploy_configs:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /personal-page
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: deploy
+          paths:
+            - .
   build_static:
     docker:
       - image: docker:17.05.0-ce-git
-
     working_directory: /personal-page
-
     steps:
       - checkout
       - setup_remote_docker:
@@ -14,37 +22,23 @@ jobs:
           name: Authenticate
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i $CIRCLE_WORKING_DIRECTORY/caches/app.tar | true
-      - run:
           name: Build
-          command: docker build --cache-from=7imbrook/life -t local_build_only .
+          command: docker build -t local_build_only_static .
       - run:
           name: Tag and Push
           command: |
-            docker tag local_build_only 7imbrook/life;
-            docker push 7imbrook/life | tee $CIRCLE_WORKING_DIRECTORY/push_log.log
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p $CIRCLE_WORKING_DIRECTORY/caches
-            docker save -o $CIRCLE_WORKING_DIRECTORY/caches/app.tar 7imbrook/life
+            docker tag local_build_only_static 7imbrook/life;
+            docker push 7imbrook/life | tee $CIRCLE_WORKING_DIRECTORY/push_log_static.log
       - run:
           name: Save Build Metadata
           command: |
-            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log_static.log | cut -d':' -f 4 | cut -d' ' -f 1)
             mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta;
-            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA
+            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA_STATIC
       - persist_to_workspace:
           root: outputs
           paths:
             - meta
-      - persist_to_workspace:
-          root: deploy
-          paths:
-            - .
   build_auth_app:
     docker:
       - image: docker:17.05.0-ce-git
@@ -58,38 +52,24 @@ jobs:
           name: Authenticate
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i $CIRCLE_WORKING_DIRECTORY/caches/app.tar | true
-      - run:
           name: Build
-          command: docker build --cache-from=7imbrook/auth -t local_build_only .
+          command: docker build -t local_build_only_auth ./auth
       - run:
           name: Tag and Push
           command: |
-            docker tag local_build_only 7imbrook/auth;
-            docker push 7imbrook/auth | tee $CIRCLE_WORKING_DIRECTORY/push_log.log
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p $CIRCLE_WORKING_DIRECTORY/caches
-            docker save -o $CIRCLE_WORKING_DIRECTORY/caches/app.tar 7imbrook/auth
+            docker tag local_build_only_auth 7imbrook/auth;
+            docker push 7imbrook/auth | tee $CIRCLE_WORKING_DIRECTORY/push_log_auth.log
       - run:
           name: Save Build Metadata
           command: |
-            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log_auth.log | cut -d':' -f 4 | cut -d' ' -f 1)
             mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta;
             echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA_AUTH_APP
       - persist_to_workspace:
           root: outputs
           paths:
             - meta
-      - persist_to_workspace:
-          root: deploy
-          paths:
-            - .
-  deploy-prod:
+  deploy:
     docker:
       - image: 7imbrook/ci-deploy-tools
     working_directory: /root/deploy
@@ -102,30 +82,6 @@ jobs:
       - run:
           name: Deploy Helm Release
           command: ./run_helm_release.sh deploy
-  deploy-staging:
-    docker:
-      - image: 7imbrook/ci-deploy-tools
-    working_directory: /root/deploy
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Authenticate Cluster
-          command: ./run_helm_release.sh auth
-      - run:
-          name: Deploy Helm Release
-          command: ./run_helm_release.sh deploy
-  run-load-test:
-    docker:
-      - image: docker:17.05.0-ce-git
-    working_directory: /personal-page
-    steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: docker pull fortio/fortio
-      - run:
-          name: Run fortio
-          command: docker run fortio/fortio load -t 45s https://staging.timbrook.tech/ | tee ./results.txt
 
 workflows:
   version: 2
@@ -133,24 +89,14 @@ workflows:
     jobs:
       - build_static
       - build_auth_app
-      - deploy-prod:
+      - save_deploy_configs
+      - deploy:
           requires:
             - build_static
             - build_auth_app
+            - save_deploy_configs
           filters:
             branches:
-              only: master
-      - deploy-staging:
-          requires:
-            - build_static
-            - build_auth_app
-          filters:
-            branches:
-              only: staging
-      - run-load-test:
-          requires:
-            - build_static
-            - build_auth_app
-          filters:
-            branches:
-              only: staging
+              only:
+                - master
+                - staging
