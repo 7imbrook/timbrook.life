@@ -13,6 +13,9 @@ container:
 auth_service:
   image: 7imbrook/auth  # Deploy with sha pls
 
+mailer_service:
+  image: 7imbrook/mailer  # Deploy with sha pls
+
 redis:
   existingSecret: redis-password
   master:
