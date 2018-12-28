@@ -54,3 +54,30 @@ spec:
                 secretKeyRef:
                   name: redis-password
                   key: redis-password
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}-mailer-service
+  namespace: {{.Values.environment.namespace}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{.Release.Name}}-mailer-service
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}-mailer-service
+    spec:
+      containers:
+        - name: {{.Release.Name}}-mailer-service
+          image: {{.Values.mailer_service.image}}
+          env:
+            - name: REDIS_HOST
+              value: {{.Release.Name}}-redis-master
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis-password
+                  key: redis-password

@@ -14,3 +14,20 @@ spec:
         backend:
           serviceName: {{.Release.Name}}-service
           servicePort: http
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{.Release.Name}}-ingress-mailer
+  namespace: {{.Values.environment.namespace}}
+  annotations:
+    kubernetes.io/ingress.class: {{.Values.ingress.class}}
+spec:
+  rules:
+  - host: {{.Values.ingress.host}}
+    http:
+      paths:
+      - path: /mailer
+        backend:
+          serviceName: mailer-service
+          servicePort: http

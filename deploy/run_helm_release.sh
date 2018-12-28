@@ -26,7 +26,11 @@ function deploy_release () {
 }
 
 function local_dev() {
-  helm upgrade -i -f values.yaml -f local.yaml --set container.image=$NEW_IMAGE --set auth_service.image=$NEW_IMAGE_AUTH ad-hoc .
+  helm upgrade -i -f values.yaml -f local.yaml \
+    --set container.image=$NEW_IMAGE \
+    --set auth_service.image=$NEW_IMAGE_AUTH \
+    --set mailer_service.image=$NEW_IMAGE_MAILER \
+    ad-hoc .
 }
 
 function build_push() {
@@ -37,6 +41,10 @@ function build_push() {
   docker build -t 7imbrook/auth $(git rev-parse --show-toplevel)/auth
   docker push 7imbrook/auth | tee /tmp/push.log
   NEW_IMAGE_AUTH=7imbrook/auth@sha256:$(tail -n 1 /tmp/push.log | cut -d':' -f 4 | cut -d' ' -f 1)
+
+  docker build -t 7imbrook/mailer $(git rev-parse --show-toplevel)/auto-mailer
+  docker push 7imbrook/mailer | tee /tmp/push.log
+  NEW_IMAGE_MAILER=7imbrook/mailer@sha256:$(tail -n 1 /tmp/push.log | cut -d':' -f 4 | cut -d' ' -f 1)
 }
 
 ###
