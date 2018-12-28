@@ -20,7 +20,7 @@ function deploy_release () {
                           --set container.image=$NEW_IMAGE \
                           --set auth_service.image=$NEW_IMAGE_AUTH \
                           --set environment.namespace=$NAMESPACE \
-                          --description "Deployed by build ${CIRCLE_WORKFLOW_ID}" \
+                          --description "Deployed by workflow https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}" \
                           --wait \
         $APP ./
 }
