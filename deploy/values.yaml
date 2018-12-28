@@ -18,6 +18,3 @@ redis:
   master:
     persistence:
       enabled: false
-  slave:
-    persistence:
-      enabled: false
