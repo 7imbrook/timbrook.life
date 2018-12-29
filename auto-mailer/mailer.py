@@ -10,8 +10,6 @@ ACTIVE = b"1"
 
 redis = Redis(host=os.environ.get("REDIS_HOST"), password=os.environ.get("REDIS_PASS"))
 
-mailer = Mailer()
-
 app = Flask(__name__)
 
 app.logger.setLevel(logging.INFO)
@@ -48,11 +46,14 @@ def auth():
     # timestamp
     # token
 
-    app.logger.info(f"Email from {request.form.get('from')}")
+    email = request.form.get('sender')
+    app.logger.info(f"Email from {email}")
+
     token = str(uuid.uuid4())
     app.logger.info(f"created 60s token {token}")
+
     redis.setex(token, 60, ACTIVE)
 
-    mailer.send_resume_link(token)
+    Mailer(email).send_resume_link(token)
 
     return "ok"

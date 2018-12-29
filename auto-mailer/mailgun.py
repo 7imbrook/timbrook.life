@@ -9,8 +9,8 @@ auth = HTTPBasicAuth("api", os.environ.get("MAILGUN_KEY"))
 
 
 class Mailer:
-    def __init__(self):
-        pass
+    def __init__(self, recipient):
+        self.email = recipient
 
     def send_resume_link(self, token):
         return requests.post(
@@ -18,7 +18,7 @@ class Mailer:
             auth=auth,
             data={
                 "from": "Robo Bob <no-reply@timbrook.tech>",
-                "to": ["timbrook480@gmail.com"],
+                "to": [self.email],
                 "subject": "Hello",
                 "html": f"Here's your access link <a href='https://staging.timbrook.tech/resume?t={token}'>Here</a>",
             },
