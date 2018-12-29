@@ -25,7 +25,7 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Build
-          command: docker build -t local_build_only_auth ./auth
+          command: docker build -t local_build_only_auth_app ./auth
       - run:
           name: Tag and Push
           command: |
@@ -54,7 +54,7 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Build
-          command: docker build -t local_build_only_auth ./auto-mailer
+          command: docker build -t local_build_only_mailer_app ./auto-mailer
       - run:
           name: Tag and Push
           command: |
@@ -83,7 +83,7 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Build
-          command: docker build -t local_build_only_auth .
+          command: docker build -t local_build_only_main .
       - run:
           name: Tag and Push
           command: |
