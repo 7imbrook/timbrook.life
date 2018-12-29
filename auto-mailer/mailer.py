@@ -49,7 +49,7 @@ def auth():
 
     app.logger.info(f"Email from {request.form.get('from')}")
     token = str(uuid.uuid4())
-    app.logger.info(token)
+    app.logger.info(f"created 60s token {token}")
     redis.setex(token, 60, ACTIVE)
 
     return "ok"
