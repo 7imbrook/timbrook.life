@@ -13,8 +13,6 @@ function authenticate_cluster () {
 function deploy_release () {
   set -e
   helm dep build
-  NEW_IMAGE=7imbrook/life@sha256:$(cat meta/BUILD_SHA_STATIC)
-  NEW_IMAGE_AUTH=7imbrook/auth@sha256:$(cat meta/BUILD_SHA_AUTH_APP)
   helm upgrade --install --namespace $NAMESPACE \
                           --set ingress.host=${HOST_PREFIX}timbrook.tech \
                           --set container.image=$NEW_IMAGE \
@@ -47,6 +45,12 @@ function build_push() {
   NEW_IMAGE_MAILER=7imbrook/mailer@sha256:$(tail -n 1 /tmp/push.log | cut -d':' -f 4 | cut -d' ' -f 1)
 }
 
+function set_image_refs() {
+  NEW_IMAGE=7imbrook/life@sha256:$(cat meta/BUILD_SHA_MAIN)
+  NEW_IMAGE_AUTH=7imbrook/auth@sha256:$(cat meta/BUILD_SHA_AUTH_APP)
+  NEW_IMAGE_MAILER=7imbrook/mailer@sha256:$(cat meta/BUILD_SHA_MAILER_APP)
+}
+
 ###
 # Setup environment, maybe move some of this into .circle.yaml
 #
@@ -68,10 +72,12 @@ case "$1" in
     authenticate_cluster
     ;;
   deploy)
+    set_image_refs
     deploy_release
     ;;
   dev)
     build_push
+    set_image_refs
     local_dev
     ;;
   *)

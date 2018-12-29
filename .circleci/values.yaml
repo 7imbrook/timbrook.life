@@ -1,0 +1,11 @@
+
+builds:
+  - name: Auth App
+    path: ./auth
+    image: 7imbrook/auth
+  - name: Mailer App
+    path: ./auto-mailer
+    image: 7imbrook/mailer
+  - name: Main
+    path: .
+    image: 7imbrook/life

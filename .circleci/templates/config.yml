@@ -1,0 +1,76 @@
+version: 2.1
+jobs:
+  save_deploy_configs:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /personal-page
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: deploy
+          paths:
+            - .
+  {{- range .Values.builds }}
+  {{ .name | lower | replace " " "_"}}:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /personal-page
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Authenticate
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Build
+          command: docker build -t local_build_only_auth {{ .path }}
+      - run:
+          name: Tag and Push
+          command: |
+            docker tag local_build_only_{{ .name | lower | replace " " "_"}} {{ .image }};
+            docker push {{ .image }} | tee $CIRCLE_WORKING_DIRECTORY/push_log_{{ .name | lower | replace " " "_"}}.log
+      - run:
+          name: Save Build Metadata
+          command: |
+            BUILD_SHA=$(tail -n 1 $CIRCLE_WORKING_DIRECTORY/push_log_{{ .name | lower | replace " " "_"}}.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            mkdir -p $CIRCLE_WORKING_DIRECTORY/outputs/meta;
+            echo $BUILD_SHA > $CIRCLE_WORKING_DIRECTORY/outputs/meta/BUILD_SHA_{{ .name | upper | replace " " "_"}}
+      - persist_to_workspace:
+          root: outputs
+          paths:
+            - meta
+  {{- end }}
+  deploy:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/deploy
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate Cluster
+          command: ./run_helm_release.sh auth
+      - run:
+          name: Deploy Helm Release
+          command: ./run_helm_release.sh deploy
+
+workflows:
+  version: 2
+  deployment:
+    jobs:
+      - save_deploy_configs
+      {{- range .Values.builds }}
+      - {{ .name | lower | replace " " "_"}}
+      {{- end }}
+      - deploy:
+          requires:
+            - save_deploy_configs
+            {{- range .Values.builds }}
+            - {{ .name | lower | replace " " "_"}}
+            {{- end }}
+          filters:
+            branches:
+              only:
+                - master
+                - staging
