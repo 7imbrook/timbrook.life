@@ -84,7 +84,17 @@ spec:
             - name: MAILGUN_KEY
               valueFrom:
                 secretKeyRef:
-                  name: mail-gun
+                  name: mailgun
                   key: key
+            - name: MAILGUN_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: mailgun
+                  key: domain
+            - name: BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: mailgun
+                  key: host
             - name: RESUME_LINK_TTL_SEC
               value: "259200"
