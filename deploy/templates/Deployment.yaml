@@ -81,3 +81,8 @@ spec:
                 secretKeyRef:
                   name: redis-password
                   key: redis-password
+            - name: MAILGUN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mail-gun
+                  key: key
