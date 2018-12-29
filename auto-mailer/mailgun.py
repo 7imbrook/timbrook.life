@@ -20,6 +20,6 @@ class Mailer:
                 "from": "Robo Bob <no-reply@timbrook.tech>",
                 "to": [self.email],
                 "subject": "Hello",
-                "html": f"Here's your access link <a href='https://staging.timbrook.tech/resume?t={token}'>Here</a>",
+                "html": f"Here's your access link <a href='https://staging.timbrook.tech/resume?t={token}'>Here</a>. It will remain active for 3 days.",
             },
         )

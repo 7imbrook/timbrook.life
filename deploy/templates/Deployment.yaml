@@ -86,3 +86,5 @@ spec:
                 secretKeyRef:
                   name: mail-gun
                   key: key
+            - name: RESUME_LINK_TTL_SEC
+              value: 259200

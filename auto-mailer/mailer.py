@@ -9,6 +9,7 @@ from mailgun import Mailer
 ACTIVE = b"1"
 
 redis = Redis(host=os.environ.get("REDIS_HOST"), password=os.environ.get("REDIS_PASS"))
+expiration = os.environ.get("RESUME_LINK_TTL_SEC", 60)
 
 app = Flask(__name__)
 
@@ -52,7 +53,7 @@ def auth():
     token = str(uuid.uuid4())
     app.logger.info(f"created 60s token {token}")
 
-    redis.setex(token, 60, ACTIVE)
+    redis.setex(token, expiration, ACTIVE)
 
     Mailer(email).send_resume_link(token)
 
