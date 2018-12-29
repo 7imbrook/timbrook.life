@@ -17,6 +17,7 @@ function deploy_release () {
                           --set ingress.host=${HOST_PREFIX}timbrook.tech \
                           --set container.image=$NEW_IMAGE \
                           --set auth_service.image=$NEW_IMAGE_AUTH \
+                          --set mailer_service.image=$NEW_IMAGE_MAILER \
                           --set environment.namespace=$NAMESPACE \
                           --description "Deployed by workflow https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}" \
                           --wait \
@@ -49,6 +50,9 @@ function set_image_refs() {
   NEW_IMAGE=7imbrook/life@sha256:$(cat meta/BUILD_SHA_MAIN)
   NEW_IMAGE_AUTH=7imbrook/auth@sha256:$(cat meta/BUILD_SHA_AUTH_APP)
   NEW_IMAGE_MAILER=7imbrook/mailer@sha256:$(cat meta/BUILD_SHA_MAILER_APP)
+  echo $NEW_IMAGE;
+  echo $NEW_IMAGE_AUTH;
+  echo $NEW_IMAGE_MAILER;
 }
 
 ###
