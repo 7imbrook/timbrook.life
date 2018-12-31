@@ -2,3 +2,4 @@ flask
 flask_api
 redis
 uwsgi
+prometheus_client

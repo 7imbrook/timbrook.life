@@ -5,8 +5,11 @@ from flask_api import status
 from contextlib import suppress
 from redis import Redis
 from urllib.parse import parse_qs, urlparse
+from prometheus_client import start_wsgi_server
 
 ACTIVE = b'1'
+
+start_wsgi_server(9102)
 
 # TODO: replace with sentinal
 redis = Redis(
