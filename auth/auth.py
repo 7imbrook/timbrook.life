@@ -5,13 +5,11 @@ from flask_api import status
 from contextlib import suppress
 from redis import Redis
 from urllib.parse import parse_qs, urlparse
-from prometheus_client import start_wsgi_server
+from werkzeug.wsgi import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
 
 ACTIVE = b'1'
 
-start_wsgi_server(9102)
-
-# TODO: replace with sentinal
 redis = Redis(
     host=os.environ.get("REDIS_HOST"),
     password=os.environ.get("REDIS_PASS"),
@@ -20,6 +18,9 @@ app = Flask(__name__)
 
 app.logger.setLevel(logging.INFO)
 
+app = DispatcherMiddleware(app, {
+    '/metrics': make_wsgi_app()
+})
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

@@ -44,7 +44,7 @@ spec:
         app: {{.Release.Name}}-auth-service
       annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '9102'
+        prometheus.io/port: '5000'
     spec:
       containers:
         - name: {{.Release.Name}}-auth-service
