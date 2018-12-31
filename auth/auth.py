@@ -6,7 +6,7 @@ from contextlib import suppress
 from redis import Redis
 from urllib.parse import parse_qs, urlparse
 from werkzeug.wsgi import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
+from prometheus_client import make_wsgi_app, Counter
 
 ACTIVE = b'1'
 
@@ -24,6 +24,7 @@ dispatcher_app = DispatcherMiddleware(app, {
 
 @app.route('/')
 def auth():
+    Counter('auth_check', 'Counter for look a side auth').incr()
     uri = request.headers.get("X-Check-Uri", None)
     if uri is None:
         return "", status.HTTP_401_UNAUTHORIZED
