@@ -22,9 +22,12 @@ dispatcher_app = DispatcherMiddleware(app, {
     '/metrics': make_wsgi_app()
 })
 
+# TODO: move to metrics mod
+auth_check = Counter('auth_check', 'Counter for look a side auth')
+
 @app.route('/')
 def auth():
-    Counter('auth_check', 'Counter for look a side auth').incr()
+    auth_check.inc()
     uri = request.headers.get("X-Check-Uri", None)
     if uri is None:
         return "", status.HTTP_401_UNAUTHORIZED
