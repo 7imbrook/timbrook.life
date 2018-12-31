@@ -20,4 +20,7 @@ redis:
   existingSecret: redis-password
   master:
     persistence:
-      enabled: false
+      enabled: false  
+  # Enable Prometheus metrics
+  metrics:
+    enabled: false 
