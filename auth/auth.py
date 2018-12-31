@@ -18,13 +18,12 @@ app = Flask(__name__)
 
 app.logger.setLevel(logging.INFO)
 
-app = DispatcherMiddleware(app, {
+dispatcher_app = DispatcherMiddleware(app, {
     '/metrics': make_wsgi_app()
 })
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def auth(path):
+@app.route('/')
+def auth():
     uri = request.headers.get("X-Check-Uri", None)
     if uri is None:
         return "", status.HTTP_401_UNAUTHORIZED
