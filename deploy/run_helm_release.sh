@@ -3,7 +3,7 @@
 
 function authenticate_cluster () {
   doctl k c list -t $DO_TOKEN
-  doctl k c kubeconfig show prod -t $DO_TOKEN > ~/.kube/config
+  doctl k c kubeconfig show $KUBE_CTX -t $DO_TOKEN > ~/.kube/config
   kubectl config set-context $(kubectl config current-context) --namespace=$NAMESPACE
   kubectl get all
   helm init --client-only
@@ -63,12 +63,14 @@ if [ "$CIRCLE_BRANCH" = "master" ]; then
   APP="timbrook-tech"
   NAMESPACE="production"
   HOST_PREFIX=""
+  KUBE_CTX="prod"
 fi;
 
 if [ "$CIRCLE_BRANCH" = "staging" ]; then
   APP="timbrook-tech-staging"
   NAMESPACE="staging"
-  HOST_PREFIX="staging."
+  HOST_PREFIX="staging.sfo."
+  KUBE_CTX="prod-sfo"
 fi;
 
 case "$1" in
