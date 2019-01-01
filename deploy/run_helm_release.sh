@@ -69,7 +69,7 @@ fi;
 if [ "$CIRCLE_BRANCH" = "staging" ]; then
   APP="timbrook-tech-staging"
   NAMESPACE="staging"
-  HOST_PREFIX="staging.sfo."
+  HOST_PREFIX="staging."
   KUBE_CTX="prod-sfo"
 fi;
 
