@@ -1,7 +1,10 @@
 node("infra-jenkins-slave") {
-    stage("Build Release")
     checkout scm
     container('infra') {
-       sh "helm package ./deploy" 
+        stage("Fetch Chart Dependacies")
+        sh "helm dep build ./deploy"
+    
+        stage("Build Release")
+        sh "helm package ./deploy" 
     }
 }
