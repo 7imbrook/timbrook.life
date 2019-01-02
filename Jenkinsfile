@@ -5,9 +5,13 @@ node("infra-jenkins-slave") {
             sh "helm init --client-only"
             sh "helm dep build ./deploy"
         }
+
+        sh '''
+        export BUILD_VERSION=0.1.$(($BUILD_NUMBER - 24))
+        '''
     
         stage("Build Release") {
-            sh 'helm package --version "1.0.${BUILD_ID}" ./deploy' 
+            sh 'helm package --version "${BUILD_VERSION}" ./deploy' 
         }
     }
     stage("Re-index remote repository") {
@@ -18,7 +22,7 @@ node("infra-jenkins-slave") {
             }
             s3Upload(
                 bucket: "helm-charts",
-                file: "deploy-1.0.${BUILD_ID}.tgz"
+                file: "deploy-${BUILD_VERSION}.tgz"
             )
             s3Upload(
                 bucket: "helm-charts",
