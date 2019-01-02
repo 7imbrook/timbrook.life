@@ -12,7 +12,7 @@ node("infra-jenkins-slave") {
     }
     stage("Re-index remote repository") {
         withAWS(credentials: "DOSpaces", endpointUrl:'https://sfo2.digitaloceanspaces.com/') {
-            s3Download(file: "index.yaml", bucket: "helm-charts", path: ".", force: true)
+            s3Download(file: "index.yaml", bucket: "helm-charts", path: "index.yaml", force: true)
             container('infra') {
                 sh "helm repo index --merge index.yaml ."
             }
