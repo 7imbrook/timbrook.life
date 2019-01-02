@@ -14,6 +14,9 @@ node("infra-jenkins-slave") {
             fileOperations {
                 fileDownloadOperation(
                     url="https://helm-charts.sfo2.digitaloceanspaces.com/index.yaml",
+                    userName="",
+                    password="",
+                    targetLocation=".",
                     targetFileName="index.yaml"
                 )
             }
