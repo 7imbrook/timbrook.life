@@ -16,7 +16,7 @@ node("infra-jenkins-slave") {
                     url="https://helm-charts.sfo2.digitaloceanspaces.com/index.yaml",
                     userName="",
                     password="",
-                    targetLocation=".",
+                    targetLocation="${WORKSPACE}",
                     targetFileName="index.yaml"
                 )
             ])
