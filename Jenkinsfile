@@ -1,6 +1,7 @@
 node("infra-jenkins-slave") {
-    stage("Test Infra Container")
+    stage("Build Release")
+    checkout scm
     container('infra') {
-        sh "helm ls"
+       sh "helm verify ./deploy" 
     }
 }
