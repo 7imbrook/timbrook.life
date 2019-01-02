@@ -18,6 +18,7 @@ node("infra-jenkins-slave") {
             targetLocation:".",
             targetFileName:"index.yaml"
         )
+        sh "cat index.yaml"
         container('infra') {
             sh "helm repo index --merge index.yaml ."
             sh "cat index.yaml"
