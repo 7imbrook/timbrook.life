@@ -7,7 +7,7 @@ node("infra-jenkins-slave") {
         }
     
         stage("Build Release") {
-            sh "helm package --version "1.0.${BUILD_ID}" ./deploy" 
+            sh 'helm package --version "1.0.${BUILD_ID}" ./deploy' 
         }
 
         stage("Re-index remote repository") {
