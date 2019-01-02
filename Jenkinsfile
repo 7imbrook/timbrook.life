@@ -11,7 +11,7 @@ node("infra-jenkins-slave") {
         }
     }
     stage("Re-index remote repository") {
-        sh "curl https://helm-charts.sfo2.digitaloceanspaces.com/index.yaml > index.yaml",
+        sh "curl https://helm-charts.sfo2.digitaloceanspaces.com/index.yaml > index.yaml"
         sh "cat index.yaml"
         container('infra') {
             sh "helm repo index --merge index.yaml ."
