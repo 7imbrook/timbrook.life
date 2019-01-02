@@ -11,7 +11,7 @@ node("infra-jenkins-slave") {
         }
 
         stage("Re-index remote repository") {
-            fileOperations {
+            fileOperations([
                 fileDownloadOperation(
                     url="https://helm-charts.sfo2.digitaloceanspaces.com/index.yaml",
                     userName="",
@@ -19,7 +19,7 @@ node("infra-jenkins-slave") {
                     targetLocation=".",
                     targetFileName="index.yaml"
                 )
-            }
+            ])
             sh "helm repo index --merge index.yaml ."
         }
 
