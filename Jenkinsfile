@@ -19,7 +19,7 @@ node("infra-jenkins-slave") {
             s3Upload(
                 bucket: "helm-charts",
                 path: ".",
-                includePathPattern: "*.tgz"
+                includePathPattern: ".*.tgz"
             )
             s3Upload(
                 bucket: "helm-charts",
