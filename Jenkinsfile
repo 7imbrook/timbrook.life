@@ -15,8 +15,12 @@ node("infra-jenkins-slave") {
         container('infra') {
             sh "helm repo index --merge index.yaml ."
         }
-        withAWS(credentials: "DOSpaces") {
-
+        withAWS(credentials: "DOSpaces", endpointUrl:'https://sfo2.digitaloceanspaces.com/') {
+            s3Upload(
+                bucket: "helm-charts",
+                path: ".",
+                includePathPattern: "(*.tgz|index.yaml)"
+            )
         }
     }
 }
