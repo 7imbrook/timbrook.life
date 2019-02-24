@@ -1,0 +1,23 @@
+
+# Created by https://www.gitignore.io/api/web,react,nodejs
+# Edit at https://www.gitignore.io/?templates=web,react,nodejs
+
+#!! ERROR: nodejs is undefined. Use list command to see defined gitignore types !!#
+
+#!! ERROR: react is undefined. Use list command to see defined gitignore types !!#
+
+### Web ###
+*.asp
+*.cer
+*.csr
+*.css
+*.htm
+*.html
+*.js
+*.jsp
+*.php
+*.rss
+*.xhtml
+
+# End of https://www.gitignore.io/api/web,react,nodejs
+node_modules

@@ -55,3 +55,4 @@ Temporary Items
 *.xhtml
 
 # End of https://www.gitignore.io/api/web,macos,visualstudiocode
+.vscode/
