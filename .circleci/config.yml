@@ -5,7 +5,8 @@ jobs:
       - image: circleci/node
     working_directory: /home/circleci/project/landing
     steps:
-      - checkout
+      - checkout:
+          path: /home/circleci/project/ 
       - setup_remote_docker
       - restore_cache:
           name: Restore Yarn Package Cache
