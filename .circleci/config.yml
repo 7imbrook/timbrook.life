@@ -25,9 +25,12 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run:
+          name: Build Nginx Image
           command: |
             cd ./conf
-            docker build -t test .
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t 7imbrook/life .
+            docker push 7imbrook/life
 
 workflows:
   version: 2
