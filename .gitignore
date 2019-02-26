@@ -41,18 +41,6 @@ Temporary Items
 # Ignore all local history of files
 .history
 
-### Web ###
-*.asp
-*.cer
-*.csr
-*.css
-*.htm
-*.html
-*.js
-*.jsp
-*.php
-*.rss
-*.xhtml
 
 # End of https://www.gitignore.io/api/web,macos,visualstudiocode
 .vscode/

@@ -1,0 +1,121 @@
+/* Global */
+
+html {
+  font-family: 'Roboto Slab', 'Roboto', 'Lato', sans-serif;
+}
+
+a,
+a:hover,
+a:visited,
+a:link
+{
+  text-decoration: none;
+  padding: 5px;
+  color: #526d7a;
+}
+
+/* Main grid responsive layout */
+
+.site {
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 0.2fr 1fr 0.2fr;
+  grid-template-rows: 1fr 100px 100px 50px 10px;
+  grid-template-areas: 
+    ". header ."
+    ". quote ."
+    ". social ."
+    ". footer ."
+    ". . ."
+  ;
+}
+
+@media only screen and (max-width: 600px) {
+  .site {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "header"
+      "quote"
+      "social"
+      "footer"
+    ;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .site {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 50px 1fr 1fr 50px;
+    grid-template-rows: 1fr 1fr 50px 10px;;
+    grid-template-areas: 
+      ". header quote ."
+      ". header social ."
+      ". . footer ."
+      ". . . ."
+    ;
+  }
+}
+
+/* Content alignment and layout */
+
+.header {
+  grid-area: header;
+  text-align: center;
+  align-self: center;
+}
+
+.quote {
+  grid-area: quote;
+  text-align: center;
+  align-self: end;
+}
+
+.social {
+  grid-area: social;
+  text-align: center;
+}
+
+.footer {
+  grid-area: footer; 
+  align-self: start;
+  color: #bbb;
+}
+
+/* Item styles */
+
+img.headshot {
+  max-width: 100%;
+  clip-path: circle(40% at center);
+}
+
+.title {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400;
+  color: #555;
+}
+
+.copyright {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 200;
+}
+
+.description {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 200;
+  color: #bbb;
+}
+
+.excerpt {
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+  font-weight: 200;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.social a {
+  color: #526d7a;
+}
