@@ -21,3 +21,4 @@
 
 # End of https://www.gitignore.io/api/web,react,nodejs
 node_modules
+dist/
