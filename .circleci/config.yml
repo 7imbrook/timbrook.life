@@ -3,11 +3,10 @@ jobs:
   landing:
     docker:
       - image: circleci/node
+    working_directory: /home/circleci/project/landing
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          command: cd landing
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
