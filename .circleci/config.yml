@@ -3,7 +3,6 @@ jobs:
   landing:
     docker:
       - image: circleci/node
-    working_directory: /personal-page
     steps:
       - checkout
       - setup_remote_docker
