@@ -37,4 +37,4 @@ workflows:
       - landing:
           filters:
             branches:
-              only: maste
+              only: master
