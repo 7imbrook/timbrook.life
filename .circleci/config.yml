@@ -7,7 +7,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: cd landing
+      - run:
+          command: cd landing
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
