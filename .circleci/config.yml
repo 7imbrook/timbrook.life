@@ -25,6 +25,11 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - run:
+          command: |
+            cd ./conf
+            docker build -t test .
+
 workflows:
   version: 2
   deployment:
