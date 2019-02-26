@@ -28,4 +28,4 @@ workflows:
   version: 2
   deployment:
     jobs:
-      landing
+      - landing
