@@ -27,10 +27,15 @@ jobs:
       - run:
           name: Build Nginx Image
           command: |
+            mkdir -p ../logs
             cd ./conf
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker build -t 7imbrook/life .
-            docker push 7imbrook/life
+            docker push 7imbrook/life | tee ../logs/landing_push.log
+      - persist_to_workspace:
+          root: logs
+          paths:
+            - .*(_push\.log)
   upgrade_deploy:
     docker:
       - image: 7imbrook/ci-deploy-tools
@@ -39,14 +44,16 @@ jobs:
       - run:
           name: Upgrade Helm Release
           command: |
+            # Auth cluster
             doctl kubernetes cluster list -t $DO_TOKEN
-            doctl kubernetes cluster kubeconfig show $KUBE_CTX -t $DO_TOKEN > ~/.kube/config
-            kubectl config set-context --current --namespace=$NAMESPACE
+            doctl kubernetes cluster kubeconfig show prod-sfo -t $DO_TOKEN > ~/.kube/config
+            kubectl config set-context --current --namespace=production
             kubectl get all
             helm init --client-only
             helm repo add personal https://helm-charts.sfo2.digitaloceanspaces.com/
             helm repo update
-            helm repo list
+
+            # Run upgrade
 
 workflows:
   version: 2
