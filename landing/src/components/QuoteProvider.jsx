@@ -8,8 +8,6 @@ class QuoteProvider extends React.Component {
                 quote: "Test (don't see this in prod?)",
             },
         ];
-        console.log(this.preload);
-        console.log(window.preload);
         this.quote = this.preload[0].quote;
     }
 
