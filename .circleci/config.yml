@@ -40,7 +40,8 @@ jobs:
     docker:
       - image: 7imbrook/ci-deploy-tools
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Upgrade Helm Release
           command: |
@@ -54,6 +55,7 @@ jobs:
             helm repo update
 
             # Run upgrade
+            cat ~/logs/*
 
 workflows:
   version: 2
