@@ -1,14 +1,15 @@
 import React from 'react';
 
 class QuoteProvider extends React.Component {
-    constructor() {
-        super();
-        this.preload = window.preload || [
+    componentWillMount() {
+        this.preload = window.preload !== undefined ? window.preload : [
             {
                 id: 1,
                 quote: "Test (don't see this in prod?)",
             },
         ];
+        console.log(this.preload);
+        console.log(window.preload);
         this.quote = this.preload[0].quote;
     }
 
