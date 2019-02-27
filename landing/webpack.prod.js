@@ -25,7 +25,6 @@ module.exports = merge(common, {
     new WebpackShellPlugin({
       onBuildEnd: [
         'pwd',
-        'cp ./dist/index.html ./conf/',
         'cp ./dist/index.html ./conf/preload.html',
       ]
     }),
