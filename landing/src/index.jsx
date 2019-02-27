@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import QuoteWiget from './components/QuoteWiget';
+import QuoteProvider from './components/QuoteProvider';
 
 const root = document.getElementById('root');
 
@@ -18,7 +19,9 @@ ReactDOM.render(
             </header>
 
             <section className="quote">
-                <QuoteWiget quote={'They had a look of terror on their face when I told them I found another distributed message broker.'}/>
+                <QuoteProvider>
+                    <QuoteWiget quote={'They had a look of terror on their face when I told them I found another distributed message broker.'}/>
+                </QuoteProvider>
             </section>
 
             <section className="social">
