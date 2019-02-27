@@ -48,7 +48,7 @@ a:link
   .site {
     display: grid;
     height: 100vh;
-    grid-template-columns: 50px 1fr 1fr 50px;
+    grid-template-columns: 100px 1fr 1fr 100px;
     grid-template-rows: 1fr 1fr 1fr 50px 10px;;
     grid-template-areas: 
       ". header . ."
@@ -74,6 +74,7 @@ a:link
   align-self: end;
   padding: 0px;
   margin-left: 1rem;
+  margin-bottom: 2rem;
 }
 
 .social {
