@@ -18,7 +18,7 @@ ReactDOM.render(
             </header>
 
             <section className="quote">
-                <QuoteWiget quote={'The look of terror when I told them I found another distributed message broker.'}/>
+                <QuoteWiget quote={'They had a look of terror on their face when I told them I found another distributed message broker.'}/>
             </section>
 
             <section className="social">
