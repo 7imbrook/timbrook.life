@@ -94,6 +94,7 @@ a:link
 img.headshot {
   max-width: 100%;
   clip-path: circle(40% at center);
+  -webkit-clip-path: circle(40% at center);
 }
 
 .title {
