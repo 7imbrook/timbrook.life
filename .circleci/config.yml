@@ -31,12 +31,31 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker build -t 7imbrook/life .
             docker push 7imbrook/life
+  upgrade_deploy:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    steps:
+      - checkout:
+      - run:
+          name: Upgrade Helm Release
+          command: |
+            doctl kubernetes cluster list -t $DO_TOKEN
+            doctl kubernetes cluster kubeconfig show $KUBE_CTX -t $DO_TOKEN > ~/.kube/config
+            kubectl config set-context --current --namespace=$NAMESPACE
+            kubectl get all
+            helm init --client-only
+            helm repo add personal https://helm-charts.sfo2.digitaloceanspaces.com/
+            helm repo update
+            helm repo list
 
 workflows:
   version: 2
   deployment:
     jobs:
-      - landing:
+      - landing
+      - upgrade_deploy:
+          requires:
+            - landing
           filters:
             branches:
               only: master
