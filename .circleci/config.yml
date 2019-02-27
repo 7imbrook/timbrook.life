@@ -57,7 +57,7 @@ jobs:
 
             # Run upgrade
             export IMAGE=7imbrook/life@sha256:$(tail -n 1 landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            helm upgrade timbrook-tech --reuse-values --set container.image=$IMAGE personal/deploy
+            helm upgrade timbrook-tech --atomic --reuse-values --set container.image=$IMAGE personal/deploy
 
 workflows:
   version: 2
