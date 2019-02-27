@@ -10,7 +10,6 @@ a:visited,
 a:link
 {
   text-decoration: none;
-  padding: 5px;
   color: #526d7a;
 }
 
@@ -118,4 +117,6 @@ img.headshot {
 
 .social a {
   color: #526d7a;
+  padding: 10px;
+  font-size: 1.3em;
 }
