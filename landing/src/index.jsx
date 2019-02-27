@@ -1,9 +1,10 @@
-import './css/main.css';
+import './css/main.scss';
 import headshot from './images/headshot.jpg';
 
 import React from 'react';
-
 import ReactDOM from 'react-dom';
+
+import QuoteWiget from './components/QuoteWiget';
 
 const root = document.getElementById('root');
 
@@ -17,9 +18,7 @@ ReactDOM.render(
             </header>
 
             <section className="quote">
-                <span>
-                    <h3 className="excerpt">The look of terror when I told them I found another distributed message broker.</h3>
-                </span>
+                <QuoteWiget quote={'The look of terror when I told them I found another distributed message broker.'}/>
             </section>
 
             <section className="social">
