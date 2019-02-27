@@ -56,8 +56,13 @@ jobs:
             helm repo update
 
             # Run upgrade
-            export IMAGE=7imbrook/life@sha256:$(tail -n 1 landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            helm upgrade timbrook-tech --atomic --reuse-values --set container.image=$IMAGE personal/deploy
+            export SHA=$(tail -n 1 landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            helm upgrade \
+              --atomic \
+              -f ./landing/conf/values.yaml \
+              -i --reuse-values \
+              --set image.sha=$SHA \
+              personal-site-landing personal/appshell
 
 workflows:
   version: 2

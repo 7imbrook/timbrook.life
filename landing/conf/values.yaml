@@ -1,0 +1,11 @@
+replicaCount: 2
+
+image:
+    repository: 7imbrook/life
+
+ingress:
+    enabled: true
+    hosts:
+        - timbrook.tech 
+    paths:
+        - /
