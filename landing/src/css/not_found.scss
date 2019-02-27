@@ -1,0 +1,8 @@
+.not_found {
+    display: grid;
+    height: 100vh;
+
+    .not_found_body {
+        grid-area: body; 
+    }
+}
