@@ -35,7 +35,7 @@ jobs:
       - persist_to_workspace:
           root: ~/logs
           paths:
-            - .*(_push\.log)
+            - landing_push.log
   upgrade_deploy:
     docker:
       - image: 7imbrook/ci-deploy-tools
