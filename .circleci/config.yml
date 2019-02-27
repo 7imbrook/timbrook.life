@@ -31,9 +31,9 @@ jobs:
             cd ./conf
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker build -t 7imbrook/life .
-            docker push 7imbrook/life | tee ../logs/landing_push.log
+            docker push 7imbrook/life | tee ../../logs/landing_push.log
       - persist_to_workspace:
-          root: logs
+          root: ~/logs
           paths:
             - .*(_push\.log)
   upgrade_deploy:
