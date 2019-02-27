@@ -41,6 +41,7 @@ jobs:
       - image: 7imbrook/ci-deploy-tools
     working_directory: /root/project
     steps:
+      - checkout
       - attach_workspace:
           at: .
       - run:
@@ -58,7 +59,7 @@ jobs:
             # Run upgrade
             export SHA=$(tail -n 1 landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
             helm upgrade \
-              --atomic \
+              --wait \
               -f ./landing/conf/values.yaml \
               -i --reuse-values \
               --set image.sha=$SHA \
