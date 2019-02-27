@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgrest-api
+  namespace: api
+spec:
+  selector:
+    matchLabels:
+      app: postgrest-api
+  template:
+    metadata:
+      labels:
+        app: postgrest-api
+    spec:
+      volumes:
+        - name: postgrest-config-mount
+          configMap:
+            name: postgrest-config
+        - name: secrets
+          secret:
+            secretName: postgrest-secrets
+      containers:
+      - name: postgrest
+        image: 7imbrook/postgrest
+        volumeMounts:
+          - name: postgrest-config-mount
+            mountPath: /etc/postgrest/
+          - name: secrets 
+            mountPath: /var/run/secrets/
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "35m"
+        ports:
+        - containerPort: 3000 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgrest-config
+  namespace: api
+data:
+  postgrest.conf: |
+    # The standard connection URI format, documented at
+    # https://www.postgresql.org/docs/current/static/libpq-connect.html#AEN45347
+    db-uri  = "@/var/run/secrets/db_string"
+    # The name of which database schema to expose to REST clients
+    db-schema = "public"
+    # The database role to use when no client authentication is provided.
+    # Can (and probably should) differ from user in db-uri
+    # TODO: change this
+    db-anon-role = "anonymous"
+    server-host	= "0.0.0.0"
+    jwt-secret = "@/var/run/secrets/jwt_secret"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgrest-api 
+  namespace: api
+spec:
+  selector:
+    app: postgrest-api 
+  ports:
+  - port: 80 
+    targetPort: 3000
