@@ -26,6 +26,7 @@ module.exports = merge(common, {
       onBuildEnd: [
         'pwd',
         'cp ./dist/index.html ./conf/',
+        'cp ./dist/index.html ./conf/preload.html',
       ]
     }),
   ]
