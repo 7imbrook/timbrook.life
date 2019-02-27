@@ -28,8 +28,8 @@ ReactDOM.render(
                 <a href="https://github.com/7imbrook"><i className="fab fa-github" data-full-name="GitHub" aria-hidden="true"></i></a>
                 <a href="https://linkedin.com/in/michaeltimbrook"><i className="fab fa-linkedin" data-full-name="Linkedin" aria-hidden="true"></i></a>
                 <a href="mailto:contact@timbrook.tech"><i className="far fa-envelope" data-full-name="Email" aria-hidden="true"></i></a>
-                <a href="/resume"><i className="fas fa-file-alt" data-full-name="Resume"></i></a>
-                <h4 id="hint-text"></h4>
+                {/* Will comeback to this, not looking for job right now */}
+                {/* <a href="/resume"><i className="fas fa-file-alt" data-full-name="Resume"></i></a> */}
             </section>
 
             <footer className="footer">
