@@ -1,0 +1,24 @@
+.login-form {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+        ". . ."
+        ". login ."
+        ". . .";
+}
+
+.login-box {
+    grid-area: login;
+}
+
+input[type=text].login-token {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

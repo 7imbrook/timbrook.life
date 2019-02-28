@@ -8,7 +8,7 @@ module.exports = merge(common, {
   mode: 'production',
   output: {
     filename: '[hash].bundle.js',
-    chunkFilename: '[hash].chunk.bundle.js',
+    chunkFilename: '[hash].chunk-[id].bundle.js',
     publicPath: 'https://timbrook.sfo2.cdn.digitaloceanspaces.com/' 
   },
   plugins: [
