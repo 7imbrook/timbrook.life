@@ -2,12 +2,17 @@ replicaCount: 1
 
 image:
     repository: 7imbrook/podcast
-    sha: 15d6ec4b31f85fc39097402377fc0d77dccaf7f132e25e3bf48326a9e0350a22 
+    sha: 8c073c85a8c452b8d6d21c0f8560789f34d96fb435ae7901ecdb60c8290f6845 
 
-healthEndpoint: "/pod.xml"
+healthEndpoint: "/"
+
+container:
+    port: 5000
 
 ingress:
     enabled: true
+    annotations:
+        traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
     hosts:
         - timbrook.tech 
     paths:
