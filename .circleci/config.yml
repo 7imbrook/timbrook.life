@@ -68,14 +68,9 @@ jobs:
       - run:
           name: Upgrade Helm Release
           command: |
-            export SHA=$(tail -n 1 ../landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
-            helm upgrade \
-              --wait \
-              -f ./landing/conf/values.yaml \
-              -i \
-              --set image.sha=$SHA \
-              --description="$(git log -1 --pretty=%B)" \
-              personal-site-landing personal/appshell
+            export SHA=$(tail -n 1 ../landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
+            cd landing;
+            ../scripts/deploy_helm_app.sh personal-site-landing $SHA;
   podcast:
     docker:
       - image: docker:17.05.0-ce-git
