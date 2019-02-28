@@ -3,8 +3,8 @@ import './css/main.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import asyncComponent from './util/asyncComponent';
 import Home from './entrypoints/Home';
-import NotFound from './entrypoints/404';
 
 import {
     BrowserRouter as Router,
@@ -14,12 +14,16 @@ import {
 
 const root = document.getElementById('root');
 
+const AsyncNotFound = asyncComponent(() => {
+    return import('./entrypoints/404')
+});
+
 ReactDOM.render(
     (
         <Router>
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route component={NotFound} />
+                <Route component={AsyncNotFound} />
             </Switch>
         </Router>
     ),
