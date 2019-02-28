@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+    repository: 7imbrook/podcast
+    sha: 15d6ec4b31f85fc39097402377fc0d77dccaf7f132e25e3bf48326a9e0350a22 
+
+healthEndpoint: "/pod.xml"
+
+ingress:
+    enabled: true
+    hosts:
+        - timbrook.tech 
+    paths:
+        - /pod.xml

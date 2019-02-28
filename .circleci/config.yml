@@ -36,16 +36,13 @@ jobs:
           root: ~/logs
           paths:
             - landing_push.log
-  upgrade_deploy:
+  authenticate:
     docker:
       - image: 7imbrook/ci-deploy-tools
-    working_directory: /root/project
+    working_directory: /root/ 
     steps:
-      - checkout
-      - attach_workspace:
-          at: .
       - run:
-          name: Upgrade Helm Release
+          name: Authenticate Cluster
           command: |
             # Auth cluster
             doctl kubernetes cluster list -t $DO_TOKEN
@@ -55,9 +52,23 @@ jobs:
             helm init --client-only
             helm repo add personal https://helm-charts.sfo2.digitaloceanspaces.com/
             helm repo update
-
-            # Run upgrade
-            export SHA=$(tail -n 1 landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - .helm/*
+            - .kube/*
+  upgrade_deploy:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/project
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /root/
+      - run:
+          name: Upgrade Helm Release
+          command: |
+            export SHA=$(tail -n 1 ../landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
             helm upgrade \
               --wait \
               -f ./landing/conf/values.yaml \
@@ -70,9 +81,11 @@ workflows:
   version: 2
   deployment:
     jobs:
+      - authenticate
       - landing
       - upgrade_deploy:
           requires:
+            - authenticate
             - landing
           filters:
             branches:
