@@ -1,15 +1,19 @@
+# TODO: wrap in appshell somehow
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgrest-api
   namespace: api
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: postgrest-api
   template:
     metadata:
       labels:
+        force_roll: "1"
         app: postgrest-api
     spec:
       volumes:

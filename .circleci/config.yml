@@ -76,6 +76,20 @@ jobs:
               --set image.sha=$SHA \
               --description="$(git log -1 --pretty=%B)" \
               personal-site-landing personal/appshell
+  podcasts:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /root/project/podcast
+    steps:
+      - checkout:
+          path: /root/project/ 
+      - setup_remote_docker
+      - run:
+          name: Build and Push
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t 7imbrook/podcast .
+            docker push 7imbrook/podcast 
 
 workflows:
   version: 2
@@ -83,6 +97,10 @@ workflows:
     jobs:
       - authenticate
       - landing
+      - podcasts:
+          filters:
+            branches:
+              only: master
       - upgrade_deploy:
           requires:
             - authenticate

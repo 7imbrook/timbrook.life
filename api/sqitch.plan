@@ -5,3 +5,4 @@ mainapp 2019-02-20T05:47:11Z Michael Timbrook <timbrook480@gmail.com> # inital c
 notifications 2019-02-20T06:06:38Z Michael Timbrook <timbrook480@gmail.com> # Adds notification table for storing prefs
 roles 2019-02-21T01:25:44Z Michael Timbrook <timbrook480@gmail.com> # Role based reads
 quotes 2019-02-27T06:29:43Z Michael Timbrook <timbrook480@gmail.com> # Add quotes table publicly available
+podcasts 2019-02-28T01:11:35Z Michael Timbrook <timbrook480@gmail.com> # Add podcast api
