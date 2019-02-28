@@ -1,9 +1,9 @@
-import headshot from '../images/headshot.jpg';
+import headshot from 'images/headshot.jpg';
 
 import React from 'react';
 
-import QuoteWiget from '../components/QuoteWiget';
-import QuoteProvider from '../components/QuoteProvider';
+import QuoteWiget from 'components/QuoteWiget';
+import QuoteProvider from 'components/QuoteProvider';
 
 
 const Home = () => {

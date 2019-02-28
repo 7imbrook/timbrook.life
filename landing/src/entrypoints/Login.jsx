@@ -1,5 +1,5 @@
-import '../css/not_found.scss';
-import '../css/login.scss';
+import 'css/not_found.scss';
+import 'css/login.scss';
 
 import React, { Component } from 'react';
 

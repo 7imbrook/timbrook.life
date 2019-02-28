@@ -1,4 +1,4 @@
-import '../css/quote.scss';
+import 'css/quote.scss';
 
 import React from 'react';
 

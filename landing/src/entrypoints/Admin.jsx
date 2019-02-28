@@ -1,4 +1,4 @@
-import '../css/admin.scss';
+import 'css/admin.scss';
 
 import React from 'react';
 import {
@@ -7,9 +7,9 @@ import {
     Route
 } from 'react-router-dom'
 
-import Sidebar from '../components/admin/Sidebar';
-import Main from '../components/admin/Main';
-import NotFound from '../entrypoints/404';
+import Sidebar from 'components/admin/Sidebar';
+import Main from 'components/admin/Main';
+import NotFound from 'entrypoints/404';
 
 const Admin = ({ match }) => {
     return (

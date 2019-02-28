@@ -33,6 +33,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.css'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
   output: {
     filename: '[name].bundle.js',
