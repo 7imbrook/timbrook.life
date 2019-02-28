@@ -72,7 +72,7 @@ jobs:
             helm upgrade \
               --wait \
               -f ./landing/conf/values.yaml \
-              -i --reuse-values \
+              -i \
               --set image.sha=$SHA \
               --description="$(git log -1 --pretty=%B)" \
               personal-site-landing personal/appshell
