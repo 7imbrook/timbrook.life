@@ -8,4 +8,7 @@ if [[ -z "${APP_SHA}" ]]; then
     exit 0;
 fi
 
-helm upgrade -i -f ./values.yaml --set image.sha=$APP_SHA $RELEASE_NAME personal/appshell;
+helm upgrade -i -f ./values.yaml \
+    --set image.sha=$APP_SHA $RELEASE_NAME \
+    --description="$(git rev-parse --short HEAD): $(git log -1 --pretty=%B)"\
+    personal/appshell;
