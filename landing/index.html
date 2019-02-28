@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <script>
         try {
+            // This get's filled in via nginx lua extention that fetches an api and fills this in.
             window.preload = JSON.parse('{*preload*}');
         } catch (error) {
             // No op, can be undefined            

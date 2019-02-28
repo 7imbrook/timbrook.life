@@ -5,7 +5,7 @@ class QuoteProvider extends React.Component {
         this.preload = window.preload !== undefined ? window.preload : [
             {
                 id: 1,
-                quote: "Test (don't see this in prod?)",
+                quote: "They had a look of terror on their face when I told them I found another distributed message broker.",
             },
         ];
         this.quote = this.preload[0].quote;
