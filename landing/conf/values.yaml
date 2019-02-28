@@ -3,6 +3,8 @@ replicaCount: 4
 image:
     repository: 7imbrook/life
 
+healthEndpoint: "/health"
+
 ingress:
     enabled: true
     hosts:
