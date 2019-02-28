@@ -2,7 +2,6 @@ replicaCount: 1
 
 image:
     repository: 7imbrook/podcast
-    sha: 8c073c85a8c452b8d6d21c0f8560789f34d96fb435ae7901ecdb60c8290f6845 
 
 healthEndpoint: "/"
 

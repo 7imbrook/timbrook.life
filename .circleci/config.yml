@@ -57,7 +57,7 @@ jobs:
           paths:
             - .helm/*
             - .kube/*
-  upgrade_deploy:
+  deploy_personal_site:
     docker:
       - image: 7imbrook/ci-deploy-tools
     working_directory: /root/project
@@ -76,7 +76,7 @@ jobs:
               --set image.sha=$SHA \
               --description="$(git log -1 --pretty=%B)" \
               personal-site-landing personal/appshell
-  podcasts:
+  podcast:
     docker:
       - image: docker:17.05.0-ce-git
     working_directory: /root/project/podcast
@@ -89,19 +89,46 @@ jobs:
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker build -t 7imbrook/podcast .
-            docker push 7imbrook/podcast 
-
+            mkdir -p ~/logs
+            docker push 7imbrook/podcast | tee ~/logs/podcast_push.log 
+      - persist_to_workspace:
+          root: ~/logs
+          paths:
+            - podcast_push.log
+  deploy_podcast_app:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/project
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /root/
+      - run:
+          name: Upgrade Helm Release
+          command: |
+            export SHA=$(tail -n 1 ../podcast_push.log | cut -d':' -f 4 | cut -d' ' -f 1)
+            helm upgrade \
+              --wait \
+              -f ./podcast/values.yaml \
+              -i \
+              --set image.sha=$SHA \
+              --description="$(git log -1 --pretty=%B)" \
+              podcast personal/appshell
 workflows:
   version: 2
   deployment:
     jobs:
       - authenticate
       - landing
-      - podcasts:
+      - podcast
+      - deploy_podcast_app:
+          requires:
+            - authenticate
+            - podcast 
           filters:
             branches:
               only: master
-      - upgrade_deploy:
+      - deploy_personal_site:
           requires:
             - authenticate
             - landing
