@@ -43,6 +43,7 @@
     "extract-css-chunks-webpack-plugin": "^3.3.2",
     "fetch-action-creator": "^2.0.3",
     "file-loader": "^3.0.1",
+    "formik": "^1.5.1",
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "react": "^16.7.0",

@@ -2,7 +2,8 @@ import 'css/not_found.scss';
 import 'css/login.scss';
 
 import React, { Component } from 'react';
-
+import { Formik, Form, Field } from 'formik';
+import { Redirect } from 'react-router-dom';
 const KEY = "login";
 
 
@@ -13,17 +14,19 @@ class Login extends Component {
         this.state = {
             key_buf: [],
             waiting: true,
+            redirect: false,
         }
         this.keyPress = this.keyPress.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
-        window.addEventListener('keypress', this.keyPress);
+        window.addEventListener('keyup', this.keyPress);
     }
 
     keyPress(event) {
         if (!this.state.waiting) {
-            window.removeEventListener('keypress', this.keyPress, false);
+            window.removeEventListener('keyup', this.keyPress, false);
             return;
         }
         const buf = this.state.key_buf;
@@ -51,18 +54,43 @@ class Login extends Component {
         );
     }
 
+    handleSubmit({ token }, {}) {
+        fetch('/api/auth/generate_session', {
+            method: "POST",
+            json: {
+                token
+            }
+        })
+        .then(res => res.json())
+        .then(res => {
+            // TODO: trigger token lifecycle
+            this.setState({
+                redirect: true
+            });
+        })
+    }
+
     renderLoginForm() {
         return (
             <div className="login-form">
                 <div className="login-box">
                     <h4>Token Please</h4>
-                    <input className="login-token" type="text"/>
+                    <Formik 
+                        initialValues={{token: ''}}
+                        onSubmit={this.handleSubmit}>
+                        <Form>
+                            <Field autoFocus={!this.state.waiting} type="text" name="token" className="login-token"/>
+                        </Form>
+                    </Formik>
                 </div>
             </div>
         );
     }
 
     render() {
+        if (this.state.redirect){
+            return <Redirect to={this.props.location.state.from} push />;
+        }
         return this.state.waiting ? this.renderHide() : this.renderLoginForm();
     }
 }

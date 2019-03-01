@@ -7,7 +7,15 @@ import {
 
 export function AdminRoute({ component: Component, ...rest }) {
     // Check auth
-    const isAuthenticated = false;
+    let isAuthenticated = false;
+
+    // TODO: check cookie better
+    const res = document.cookie.match("sessionid=([A-Za-z]+)")
+    isAuthenticated = (
+        res !== null && 
+        res.length > 1 && 
+        res[1] === "test"
+    );
 
     return (
         <Route
@@ -18,8 +26,8 @@ export function AdminRoute({ component: Component, ...rest }) {
             ) : (
             <Redirect
                 to={{
-                pathname: "/login",
-                state: { from: props.location }
+                    pathname: "/login",
+                    state: { from: props.location }
                 }}
             />
             )
