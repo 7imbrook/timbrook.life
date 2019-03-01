@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "webpack --config webpack.prod.js",
-    "start": "webpack-dev-server --config webpack.dev.js"
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "container": "yarn install; npm start -- --host 0.0.0.0"
   },
   "author": "Michael Timbrook",
   "license": "MIT",
