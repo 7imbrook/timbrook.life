@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 
-
 const Sidebar = ({ className }) => {
     return (
         <div className={className}>
@@ -11,12 +10,6 @@ const Sidebar = ({ className }) => {
                     Timbrook.tech
                 </Link>
             </h1>
-            <ul>
-                <li>Test</li>
-                <li>sidebar</li>
-                <li>list</li>
-                <li>items</li>
-            </ul>
         </div>
     );
 };

@@ -5,16 +5,35 @@ body {
 .admin-layout {
     height: 100vh;
     display: grid;
-    grid-template-columns: minmax(100px, 400px) minmax(80%, 1fr);
+    grid-template-columns: minmax(280px, 400px) minmax(80%, 1fr);
     grid-template-areas: "sidebar content";
 }
 
 .admin-sidebar {
     grid-area: sidebar;
-    background-color: gainsboro;
+    background-color: darken(white, 2);
     padding: 10px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+
+    h1 {
+        text-align: center;
+    }
 }
 
 .admin-main {
     grid-area: content;
+}
+
+.admin-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+
+    .admin-block {
+        grid-area: auto;
+        height: 250px;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        border-radius: 5px;
+    }
 }

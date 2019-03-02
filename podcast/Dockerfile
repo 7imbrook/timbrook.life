@@ -3,9 +3,10 @@ FROM python:3.7
 COPY ./src/requirements.txt ./
 RUN pip install -r requirements.txt
 
-COPY ./src/ ./
+COPY ./src/ ./src
+COPY ./conf/ ./conf
+COPY ./entrypoint.sh ./entrypoint.sh
 
-ENV FLASK_APP=main
-ENV FLASK_ENV=production
+EXPOSE 5000
 
-ENTRYPOINT [ "flask", "run", "--host", "0.0.0.0" ]
+ENTRYPOINT [ "./entrypoint.sh" ]

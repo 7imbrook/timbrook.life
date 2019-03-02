@@ -14,7 +14,10 @@ module.exports = merge(common, {
       });
     },
     proxy: {
-      '/api': 'http://nginx/',
+      '/api/p': {
+        target: 'http://10.245.228.207/',
+        pathRewrite: {'^/api/p' : ''},
+      }
     }
   },
 });

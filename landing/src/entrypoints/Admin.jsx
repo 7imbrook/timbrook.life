@@ -10,6 +10,7 @@ import {
 import Sidebar from 'components/admin/Sidebar';
 import Main from 'components/admin/Main';
 import NotFound from 'entrypoints/404';
+import PodcastProvider from '../components/admin/PodcastProvider';
 
 const Admin = ({ match }) => {
     return (
@@ -19,6 +20,7 @@ const Admin = ({ match }) => {
                 <Router>
                     <Switch>
                         <Route exact path={`${match.path}/`} component={Main} />
+                        <Route exact path={`${match.path}/pod/:podId`} component={PodcastProvider} />
                         <Route component={NotFound} />
                     </Switch>
                 </Router>

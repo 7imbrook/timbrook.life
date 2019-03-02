@@ -2,3 +2,5 @@ flask
 beautifulsoup4
 lxml
 requests
+boto3
+uwsgi
