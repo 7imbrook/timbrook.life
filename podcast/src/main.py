@@ -86,7 +86,7 @@ def get_podcasts(id):
     return res.json()
 
 
-@app.route("/")
+@app.route("/pod.xml")
 def podcasts():
     doc = BeautifulSoup(features="xml")
 

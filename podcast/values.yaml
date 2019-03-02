@@ -10,9 +10,8 @@ container:
 
 ingress:
     enabled: true
-    annotations:
-        traefik.ingress.kubernetes.io/rule-type: PathPrefixStrip
     hosts:
         - timbrook.tech 
     paths:
         - /pod.xml
+        - /upload
