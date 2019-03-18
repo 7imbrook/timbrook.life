@@ -78,7 +78,7 @@ def populate_podcast(doc, channel, podcast):
 
 def get_podcasts(id):
     res = requests.get(
-        "http://10.245.228.207/podcasts",
+        "http://postgrest-api/podcasts",
         headers={"Accept": "application/vnd.pgrst.object+json"},
         params={"select": "*,episodes(*)", "id": f"eq.{id}"},
     )
