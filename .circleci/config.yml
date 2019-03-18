@@ -110,6 +110,20 @@ jobs:
           root: ~/logs
           paths:
             - auth_push.log
+  deploy_auth_service:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/project
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /root/
+      - run:
+          name: Upgrade Helm Release
+          command: |
+            export SHA=$(tail -n 1 ../auth_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
+            cd auth_server;
+            ../scripts/deploy_helm_app.sh auth-server $SHA;
 workflows:
   version: 2
   deployment:
@@ -129,6 +143,13 @@ workflows:
           requires:
             - authenticate
             - landing
+          filters:
+            branches:
+              only: master
+      - deploy_auth_service:
+          requires:
+            - authenticate
+            - auth_service
           filters:
             branches:
               only: master
