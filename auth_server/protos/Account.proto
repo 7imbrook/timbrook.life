@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package twirp;
+
+message Account {
+    int64 id = 1;
+    string username = 2;
+}
+
+message LoginRequest {
+    int64 id = 1;
+}
+
+service Auth {
+    rpc Login(LoginRequest) returns (Account);
+}

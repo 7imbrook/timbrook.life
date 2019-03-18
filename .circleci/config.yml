@@ -95,6 +95,21 @@ jobs:
             export SHA=$(tail -n 1 ../podcast_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
             cd podcast;
             ../scripts/deploy_helm_app.sh podcast $SHA;
+  auth_service:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /root/project/auth_server
+    steps:
+      - checkout:
+          path: /root/project/ 
+      - setup_remote_docker
+      - run:
+          name: Build and Push
+          command: ../scripts/build_release.sh 7imbrook/auth . auth
+      - persist_to_workspace:
+          root: ~/logs
+          paths:
+            - auth_push.log
 workflows:
   version: 2
   deployment:
@@ -102,6 +117,7 @@ workflows:
       - authenticate
       - landing
       - podcast
+      - auth_service
       - deploy_podcast_app:
           requires:
             - authenticate

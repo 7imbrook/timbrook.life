@@ -1,0 +1,4 @@
+uwsgi
+protobuf
+blinker
+werkzeug
