@@ -2,6 +2,8 @@ version: '3.7'
 services: 
   nginx:
     build: ./conf
+    ports:
+      - "80:8081"
   webpack-dev:
     image: node:11.3.0
     command: npm run container
@@ -11,4 +13,4 @@ services:
     ports:
       - "8080:8080"
     extra_hosts: 
-      - "postgrest:10.245.228.207"
+      - "postgrest-api:10.245.43.43"
