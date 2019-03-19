@@ -2,3 +2,4 @@ uwsgi
 protobuf
 blinker
 werkzeug
+python-jose[cryptography]
