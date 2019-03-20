@@ -11,3 +11,6 @@ container:
 
 ingress:
     enabled: false 
+
+secrets:
+    - jwt-keys

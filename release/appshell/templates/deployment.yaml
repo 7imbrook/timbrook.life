@@ -19,6 +19,12 @@ spec:
         app.kubernetes.io/name: {{ include "..name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      volumes:
+      {{- range .Values.secrets }}
+        - name: {{ . }}-secret
+          secret:
+            secretName: {{ . }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}@sha256:{{ .Values.image.sha }}"
@@ -37,6 +43,11 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          {{- range .Values.secrets }}
+            - name: {{ . }}-secret
+              mountPath: /var/run/secrets/
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

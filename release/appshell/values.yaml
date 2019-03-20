@@ -9,7 +9,7 @@ image:
   sha: dd2d0ac3fff2f007d99e033b64854be0941e19a2ad51f174d9240dda20d9f534
   pullPolicy: IfNotPresent
 
-healthEndpoint: "/health"
+healthEndpoint: "/"
 
 nameOverride: ""
 fullnameOverride: ""
@@ -29,6 +29,8 @@ ingress:
     - "/"
   hosts:
     - test.timbrook.tech 
+
+secrets: []
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
