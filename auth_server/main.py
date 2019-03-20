@@ -10,7 +10,7 @@ from twirp.Account_twirp_srv import AuthImpl, AuthServer
 class AuthServiceHandler(AuthImpl):
     @property
     def jwk(self):
-        with open("./rsa.jwk") as key:
+        with open("/var/run/secrets/rsa.jwk") as key:
             return json.loads(key.read())
                 
 
@@ -20,7 +20,8 @@ class AuthServiceHandler(AuthImpl):
         Internal service but should still have some kinda verification
         """
         payload = {
-            "role": "notif_reader",
+            # Only release tokens that do nothing until this is a real service
+            # "role": "notif_reader",
             "exp": time.time() + 300
         }
         try:

@@ -2,7 +2,6 @@ replicaCount: 1
 
 image:
     repository: 7imbrook/auth
-    sha: 6395ffeddb1f97451207a0148f0f4dfc91e1f19987a30e5371c88d99ad208d09
 
 healthEndpoint: "/health"
 
