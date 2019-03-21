@@ -55,11 +55,15 @@ class Login extends Component {
     }
 
     handleSubmit({ token }, {}) {
-        fetch('/api/auth/generate_session', {
+        fetch('/api/auth/gen', {
             method: "POST",
-            json: {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }, 
+            body: JSON.stringify({
                 token
-            }
+            })
         })
         .then(res => res.json())
         .then(res => {

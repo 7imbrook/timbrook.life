@@ -3,3 +3,5 @@ protobuf
 blinker
 werkzeug
 python-jose[cryptography]
+flask
+Flask-API

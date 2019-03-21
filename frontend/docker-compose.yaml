@@ -3,7 +3,9 @@ services:
   nginx:
     build: ./conf
     ports:
-      - "80:8081"
+      - "8081:80"
+    extra_hosts:
+      - "postgrest-api.production.svc.cluster.local:10.245.43.43"
   webpack-dev:
     image: node:11.3.0
     command: npm run container
@@ -12,5 +14,3 @@ services:
       - "./:/root/project"
     ports:
       - "8080:8080"
-    extra_hosts: 
-      - "postgrest-api:10.245.43.43"
