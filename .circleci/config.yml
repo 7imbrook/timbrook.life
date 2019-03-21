@@ -21,10 +21,10 @@ jobs:
           paths:
             - .helm/*
             - .kube/*
-  landing:
+  frontend:
     docker:
       - image: circleci/node
-    working_directory: /home/circleci/project/landing
+    working_directory: /home/circleci/project/frontend
     steps:
       - checkout:
           path: /home/circleci/project/ 
@@ -47,11 +47,11 @@ jobs:
             - ~/.cache/yarn
       - run:
           name: Build Nginx Image
-          command: ../scripts/build_release.sh 7imbrook/life ./conf landing
+          command: ../scripts/build_release.sh 7imbrook/life ./conf frontend
       - persist_to_workspace:
           root: ~/logs
           paths:
-            - landing_push.log
+            - frontend_push.log
   deploy_personal_site:
     docker:
       - image: 7imbrook/ci-deploy-tools
@@ -63,9 +63,9 @@ jobs:
       - run:
           name: Upgrade Helm Release
           command: |
-            export SHA=$(tail -n 1 ../landing_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
-            cd landing;
-            ../scripts/deploy_helm_app.sh personal-site-landing $SHA;
+            export SHA=$(tail -n 1 ../frontend_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
+            cd frontend;
+            ../scripts/deploy_helm_app.sh personal-site-frontend $SHA;
   podcast:
     docker:
       - image: docker:17.05.0-ce-git
@@ -129,7 +129,7 @@ workflows:
   deployment:
     jobs:
       - authenticate
-      - landing
+      - frontend
       - podcast
       - auth_service
       - deploy_podcast_app:
@@ -142,7 +142,7 @@ workflows:
       - deploy_personal_site:
           requires:
             - authenticate
-            - landing
+            - frontend
           filters:
             branches:
               only: master
