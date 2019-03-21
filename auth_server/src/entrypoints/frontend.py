@@ -20,7 +20,7 @@ def generate():
         return 'Missing token', HTTP_403_FORBIDDEN
 
     try:
-        res = jwt.decode(token)
+        res = jwt.decode(token, config.jwk)
         print(res)
     except JOSEError:
         return 'Invalid Token', HTTP_403_FORBIDDEN
