@@ -1,4 +1,6 @@
 import time
+
+from datetime import datetime, timedelta
 import json
 from jose import jwt
 from util import log_request
@@ -8,17 +10,16 @@ from src.verification.constents import config
 
 
 class AuthServiceHandler(AuthImpl):
-
     @log_request
     def Login(self, login_request, ctx={}):
         """
         Internal service but should still have some kinda verification
         """
+        exp = datetime.now() + timedelta(minutes=5)
         payload = {
             # Only release tokens that do nothing until this is a real service
-            # "role": "notif_reader",
-            "exp": time.time()
-            + 300
+            "access": "admin",
+            "exp": exp.timestamp(),
         }
         try:
             token = jwt.encode(payload, config.jwk, algorithm="RS512")

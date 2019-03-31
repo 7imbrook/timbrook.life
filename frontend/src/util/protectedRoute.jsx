@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  Route,
-  Redirect,
+    Route,
+    Redirect,
 } from "react-router-dom";
 
 
@@ -10,28 +10,27 @@ export function AdminRoute({ component: Component, ...rest }) {
     let isAuthenticated = false;
 
     // TODO: check cookie better
-    const res = document.cookie.match("sessionid=([A-Za-z]+)")
+    var match = document.cookie.match(new RegExp('(^| )sessionid=([^;]+)'));
     isAuthenticated = (
-        res !== null && 
-        res.length > 1 && 
-        res[1] === "test"
+        match !== null &&
+        match[2] !== undefined
     );
 
     return (
         <Route
-        {...rest}
-        render={props =>
-            isAuthenticated ? (
-            <Component {...props} />
-            ) : (
-            <Redirect
-                to={{
-                    pathname: "/login",
-                    state: { from: props.location }
-                }}
-            />
-            )
-        }
+            {...rest}
+            render={props =>
+                isAuthenticated ? (
+                    <Component {...props} />
+                ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/login",
+                                state: { from: props.location }
+                            }}
+                        />
+                    )
+            }
         />
     );
 }
