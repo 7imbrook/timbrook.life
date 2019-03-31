@@ -11,6 +11,7 @@ import Sidebar from 'components/admin/Sidebar';
 import Main from 'components/admin/Main';
 import NotFound from 'entrypoints/404';
 import PodcastProvider from '../components/admin/PodcastProvider';
+import Amazon from '../components/admin/Amazon';
 
 const Admin = ({ match }) => {
     return (
@@ -21,6 +22,7 @@ const Admin = ({ match }) => {
                     <Switch>
                         <Route exact path={`${match.path}/`} component={Main} />
                         <Route exact path={`${match.path}/pod/:podId`} component={PodcastProvider} />
+                        <Route exact path={`${match.path}/amazon/`} component={Amazon} />
                         <Route component={NotFound} />
                     </Switch>
                 </Router>

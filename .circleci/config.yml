@@ -124,6 +124,35 @@ jobs:
             export SHA=$(tail -n 1 ../auth_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
             cd auth_server;
             ../scripts/deploy_helm_app.sh auth-server $SHA;
+  door_service:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: /root/project/door
+    steps:
+      - checkout:
+          path: /root/project/ 
+      - setup_remote_docker
+      - run:
+          name: Build and Push
+          command: ../scripts/build_release.sh 7imbrook/door . door 
+      - persist_to_workspace:
+          root: ~/logs
+          paths:
+            - door_push.log
+  deploy_door_service:
+    docker:
+      - image: 7imbrook/ci-deploy-tools
+    working_directory: /root/project
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /root/
+      - run:
+          name: Upgrade Helm Release
+          command: |
+            export SHA=$(tail -n 1 ../door_push.log | cut -d':' -f 4 | cut -d' ' -f 1);
+            cd door;
+            ../scripts/deploy_helm_app.sh door-server $SHA;
 workflows:
   version: 2
   deployment:
@@ -132,6 +161,7 @@ workflows:
       - frontend
       - podcast
       - auth_service
+      - door_service
       - deploy_podcast_app:
           requires:
             - authenticate
@@ -150,6 +180,13 @@ workflows:
           requires:
             - authenticate
             - auth_service
+          filters:
+            branches:
+              only: master
+      - deploy_door_service:
+          requires:
+            - authenticate
+            - door_service
           filters:
             branches:
               only: master

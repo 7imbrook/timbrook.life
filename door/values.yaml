@@ -1,0 +1,16 @@
+replicaCount: 1
+
+image:
+    repository: 7imbrook/door
+
+healthEndpoint: "/health"
+
+container:
+    port: 5000 
+
+ingress:
+    enabled: true
+    hosts:
+        - door.timbrook.dev
+    paths:
+        - /
