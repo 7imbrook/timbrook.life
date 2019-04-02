@@ -2,15 +2,17 @@ from flask import Flask, request
 from twilio.twiml.voice_response import VoiceResponse
 from particle import Client, ParticleAPI, require_signature, Nonce
 import logging
+from util import verify_twilio
 
-logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
-p_client = Client()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @app.route("/voice", methods=["POST"])
+@verify_twilio("https://door.timbrook.dev/voice")
 def voice():
     resp = VoiceResponse()
 
@@ -34,7 +36,7 @@ def delivery():
     if int(apartment_number) == 308:
         resp.say("Thank you, the door is open", voice="woman")
         # BUZZ THAT DOOR
-        ParticleAPI.triggerFunction(p_client, "triggerDoor")
+        ParticleAPI.triggerFunction(Client(), "triggerDoor")
     else:
         resp.say("Wrong apartment", voice="man")
     return str(resp)
