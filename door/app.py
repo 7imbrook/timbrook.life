@@ -1,17 +1,24 @@
 from flask import Flask, request
 from twilio.twiml.voice_response import VoiceResponse
+from particle import Client, ParticleAPI, require_signature, Nonce
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
+
+p_client = Client()
 
 
 @app.route("/voice", methods=["POST"])
 def voice():
-    """Respond to incoming phone calls with a 'Hello world' message"""
-    # Start our TwiML response
     resp = VoiceResponse()
 
     # TODO: pass single use token to delivery endpoint to prevent replay
-    gather = resp.gather(input="speech", action="/delivery", hints="308", timeout=3)
+    nonce = Nonce().generateNonce()
+    gather = resp.gather(
+        input="speech", action=f"/delivery?n={nonce}", hints="308", timeout=3
+    )
     gather.say(
         "Hi Amazon, please say the apartment number you're delivering to", voice="man"
     )
@@ -20,12 +27,14 @@ def voice():
 
 
 @app.route("/delivery", methods=["POST"])
+@require_signature
 def delivery():
     resp = VoiceResponse()
     apartment_number = request.form["SpeechResult"]
     if int(apartment_number) == 308:
         resp.say("Thank you, the door is open", voice="woman")
         # BUZZ THAT DOOR
+        ParticleAPI.triggerFunction(p_client, "triggerDoor")
     else:
         resp.say("Wrong apartment", voice="man")
     return str(resp)
