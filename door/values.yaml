@@ -17,12 +17,12 @@ ingress:
 
 environment:
     - name: PARTICLE_DEVICE
-        valueFrom:
-          secretKeyRef:
+      valueFrom:
+        secretKeyRef:
             name: particle-token
             key: token
     - name: PARTICLE_TOKEN
-        valueFrom:
-          secretKeyRef:
+      valueFrom:
+        secretKeyRef:
             name: particle-token
             key: token
