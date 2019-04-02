@@ -14,3 +14,15 @@ ingress:
         - door.timbrook.dev
     paths:
         - /
+
+environment:
+    - name: PARTICLE_DEVICE
+        valueFrom:
+          secretKeyRef:
+            name: particle-token
+            key: token
+    - name: PARTICLE_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: particle-token
+            key: token
