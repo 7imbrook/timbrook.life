@@ -90,7 +90,7 @@ class ParticleAPI:
                 "cache-control": "no-cache",
             }
             logger.info("Triggering Door - Start")
-            requests.request("POST", url, headers=headers)
-            logger.info("Triggering Door - End")
+            res = requests.request("POST", url, headers=headers)
+            logger.info(f"Triggering Door - End [{res.status_code}]")
 
         Thread(target=_inner).start()

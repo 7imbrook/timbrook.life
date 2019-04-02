@@ -20,7 +20,7 @@ environment:
       valueFrom:
         secretKeyRef:
             name: particle-token
-            key: token
+            key: device 
     - name: PARTICLE_TOKEN
       valueFrom:
         secretKeyRef:
