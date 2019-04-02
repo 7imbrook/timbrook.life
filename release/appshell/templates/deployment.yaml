@@ -48,6 +48,8 @@ spec:
             - name: {{ . }}-secret
               mountPath: /var/run/secrets/
           {{- end }}
+          env:
+            {{- toYaml .Values.environment | nindent 12 }} 
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
