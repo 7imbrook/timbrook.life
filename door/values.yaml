@@ -26,3 +26,8 @@ environment:
         secretKeyRef:
             name: particle-token
             key: token
+    - name: TWILIO_AUTH
+      valueFrom:
+        secretKeyRef:
+            name: twilio-token
+            key: key
