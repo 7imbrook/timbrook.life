@@ -2,3 +2,7 @@ flask
 twilio
 uwsgi
 requests
+
+# Dev
+autoflake
+isort

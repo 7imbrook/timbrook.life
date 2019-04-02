@@ -1,9 +1,10 @@
-from flask import Flask, request
-from twilio.twiml.voice_response import VoiceResponse
-from particle import Client, ParticleAPI, require_signature, Nonce
 import logging
-from util import verify_twilio
 
+from flask import Flask, request, abort
+from twilio.twiml.voice_response import VoiceResponse
+
+from particle import Client, ParticleAPI
+from util import Nonce, require_signature, verify_twilio
 
 app = Flask(__name__)
 
@@ -18,17 +19,16 @@ logger = logging.getLogger(__name__)
 @app.route("/voice", methods=["POST"])
 @verify_twilio("https://door.timbrook.dev/voice")
 def voice():
-    resp = VoiceResponse()
+    if not Client().connected:
+        # Raise and let twilio use fallback method which forwards the call to me (or Sam)
+        return abort(503)
 
-    # TODO: pass single use token to delivery endpoint to prevent replay
+    resp = VoiceResponse()
     nonce = Nonce().generateNonce()
     gather = resp.gather(
         input="speech", action=f"/delivery?n={nonce}", hints="308", timeout=3
     )
-    gather.say(
-        "Hi Amazon, please say the apartment number you're delivering to", voice="man"
-    )
-
+    gather.say("Hi , please say the apartment number you're delivering to", voice="man")
     return str(resp)
 
 
