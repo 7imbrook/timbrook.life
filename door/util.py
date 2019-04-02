@@ -12,7 +12,7 @@ def verify_twilio(url):
         @wraps(func)
         def inner(*args, **vargs):
             sig = request.headers.get("X-Twilio-Signature", None)
-            if not validator.validate(url, request.form, sig):
+            if sig is None or not validator.validate(url, request.form, sig):
                 return abort(404)
             return func(*args, **vargs)
 
