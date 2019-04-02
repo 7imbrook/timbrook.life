@@ -84,7 +84,7 @@ class ParticleAPI:
     @classmethod
     def triggerFunction(cls, client, function):
         def _inner():
-            url = f"https://api.particle.io/v1/devices/{client.device}/triggerDoor"
+            url = f"https://api.particle.io/v1/devices/{client.device}/{function}"
             headers = {
                 "Authorization": f"Bearer {client.token}",
                 "cache-control": "no-cache",
