@@ -7,7 +7,7 @@ message Account {
 }
 
 message LoginRequest {
-    int64 id = 1;
+    string email = 1;
 }
 
 service Auth {

@@ -1,12 +1,28 @@
-from flask import request, make_response
+import time
+import logging
+import redis
+import requests
+from google.oauth2 import id_token
+from google.auth.transport import requests as gr
+from flask import request, make_response, session
+from flask_session.sessions import RedisSessionInterface
 from flask_api import FlaskAPI
 from flask_api.status import HTTP_403_FORBIDDEN
-from src.verification.constents import config
-from src.verification.session import SessionGenerator
-from jose import jwt
-from jose.exceptions import JOSEError
+from twirp.Account_pb2 import LoginRequest
+from twirp.Account_pb2_twirp import AuthClient
+
+
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
 
 client_auth = FlaskAPI("client_auth")
+
+r = redis.Redis(host="localhost", port=6379, db=0)
+
+client_auth.session_interface = RedisSessionInterface(r, "sk:")
+
+
+CLIENT_ID = "457036339842-blejc39bdlrkfv9gftth6arssmjbnsqq.apps.googleusercontent.com"
 
 
 @client_auth.route("/gen", methods=["POST"])
@@ -14,14 +30,23 @@ def generate():
     token = request.data.get("token", None)
     if token is None:
         return "Missing token", HTTP_403_FORBIDDEN
+
     try:
-        res = jwt.decode(token, config.jwk_pub)
-    except JOSEError as e:
-        return "Invalid Token", HTTP_403_FORBIDDEN
+        info = id_token.verify_oauth2_token(token, gr.Request(), CLIENT_ID)
+        session["email"] = info["email"]
+    except ValueError as e:
+        return "Failed", HTTP_403_FORBIDDEN
 
-    resp = make_response({"status": "ok"})
+    return {"status": "ok"}
 
-    sg = SessionGenerator(res)
-    sg.gen_session_cookie(resp)
 
-    return resp
+@client_auth.route("/proxied/<path:path>")
+def proxied(path):
+    client = AuthClient("http://localhost:5000")
+    res = client.login(LoginRequest(email=session["email"]))
+    headers = {"Authorization": f"Bearer {res.token}"}
+    response = requests.request(
+        request.method, f"https://timbrook.tech/api/p/{path}", headers=headers
+    ).json()
+    return response
+

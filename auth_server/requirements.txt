@@ -5,4 +5,8 @@ werkzeug
 python-jose[cryptography]
 flask
 Flask-API
+Flask-Session
+redis
+google-auth
+requests
 uuid

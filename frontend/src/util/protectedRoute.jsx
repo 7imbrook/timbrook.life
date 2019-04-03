@@ -10,11 +10,7 @@ export function AdminRoute({ component: Component, ...rest }) {
     let isAuthenticated = false;
 
     // TODO: check cookie better
-    var match = document.cookie.match(new RegExp('(^| )sessionid=([^;]+)'));
-    isAuthenticated = (
-        match !== null &&
-        match[2] !== undefined
-    );
+    isAuthenticated = localStorage.getItem("logged_in")
 
     return (
         <Route

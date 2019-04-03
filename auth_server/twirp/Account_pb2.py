@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='twirp',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rAccount.proto\x12\x05twirp\"\x18\n\x07\x41\x63\x63ount\x12\r\n\x05token\x18\x01 \x01(\t\"\x1a\n\x0cLoginRequest\x12\n\n\x02id\x18\x01 \x01(\x03\x32\x34\n\x04\x41uth\x12,\n\x05Login\x12\x13.twirp.LoginRequest\x1a\x0e.twirp.Accountb\x06proto3')
+  serialized_pb=_b('\n\rAccount.proto\x12\x05twirp\"\x18\n\x07\x41\x63\x63ount\x12\r\n\x05token\x18\x01 \x01(\t\"\x1d\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t24\n\x04\x41uth\x12,\n\x05Login\x12\x13.twirp.LoginRequest\x1a\x0e.twirp.Accountb\x06proto3')
 )
 
 
@@ -65,9 +65,9 @@ _LOGINREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='twirp.LoginRequest.id', index=0,
-      number=1, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
+      name='email', full_name='twirp.LoginRequest.email', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -84,7 +84,7 @@ _LOGINREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=50,
-  serialized_end=76,
+  serialized_end=79,
 )
 
 DESCRIPTOR.message_types_by_name['Account'] = _ACCOUNT
@@ -113,8 +113,8 @@ _AUTH = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=78,
-  serialized_end=130,
+  serialized_start=81,
+  serialized_end=133,
   methods=[
   _descriptor.MethodDescriptor(
     name='Login',

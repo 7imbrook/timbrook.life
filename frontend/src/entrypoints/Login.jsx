@@ -2,8 +2,9 @@ import 'css/not_found.scss';
 import 'css/login.scss';
 
 import React, { Component } from 'react';
-import { Formik, Form, Field } from 'formik';
 import { Redirect } from 'react-router-dom';
+import { GoogleLogin } from 'react-google-login';
+
 const KEY = "login";
 
 
@@ -18,6 +19,7 @@ class Login extends Component {
         }
         this.keyPress = this.keyPress.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.loginCallback = this.loginCallback.bind(this);
     }
 
     componentWillMount() {
@@ -34,7 +36,7 @@ class Login extends Component {
         if (buf.length > KEY.length) {
             buf.shift();
         }
-        if(buf.join("") === KEY) {
+        if (buf.join("") === KEY) {
             this.setState({
                 waiting: false
             })
@@ -54,48 +56,54 @@ class Login extends Component {
         );
     }
 
-    handleSubmit({ token }, {}) {
+    handleSubmit(token) {
         fetch('/api/auth/gen', {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }, 
+            },
             body: JSON.stringify({
                 token
             })
         })
-        .then(res => res.json())
-        .then(res => {
-            // TODO: trigger token lifecycle
-            this.setState({
-                redirect: true
-            });
-        })
+            .then(res => res.json())
+            .then(res => {
+                localStorage.setItem("logged_in", "true")
+                this.setState({
+                    redirect: true
+                });
+            })
+    }
+
+    loginCallback({ tokenId, profileObj }) {
+        console.log(profileObj);
+        this.handleSubmit(tokenId);
     }
 
     renderLoginForm() {
         return (
             <div className="login-form">
                 <div className="login-box">
-                    <h4>Token Please</h4>
-                    <Formik 
-                        initialValues={{token: ''}}
-                        onSubmit={this.handleSubmit}>
-                        <Form>
-                            <Field autoFocus={!this.state.waiting} type="text" name="token" className="login-token"/>
-                        </Form>
-                    </Formik>
+                    <GoogleLogin
+                        clientId="457036339842-blejc39bdlrkfv9gftth6arssmjbnsqq.apps.googleusercontent.com"
+                        buttonText="Enter with Google"
+                        onSuccess={this.loginCallback}
+                        onFailure={this.loginCallback}
+                        cookiePolicy={'single_host_origin'}
+                    />
                 </div>
             </div>
         );
     }
 
     render() {
-        if (this.state.redirect){
+        if (this.state.redirect) {
             return <Redirect to={this.props.location.state.from} push />;
         }
-        return this.state.waiting ? this.renderHide() : this.renderLoginForm();
+        return (<div>
+            {this.state.waiting ? this.renderHide() : this.renderLoginForm()}
+        </div>);
     }
 }
 
