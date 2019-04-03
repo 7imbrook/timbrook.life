@@ -13,22 +13,23 @@ log = logging.getLogger(__name__)
 
 class Session(SessionInterface):
 
+    socket_timeout = 100.0
     session_class = Box
 
     def __init__(self):
         self.sentinel = Sentinel(
             [("redis-prod-redis-ha.production.svc.cluster.local", 26379)],
-            socket_timeout=1.0,
+            socket_timeout=self.socket_timeout,
         )
         self.key_prefix = "sk:"
 
     @property
     def write_master(self):
-        return self.sentinel.master_for("sessions", socket_timeout=1.0)
+        return self.sentinel.master_for("sessions", socket_timeout=self.socket_timeout)
 
     @property
     def read_slave(self):
-        return self.sentinel.slave_for("sessions", socket_timeout=1.0)
+        return self.sentinel.slave_for("sessions", socket_timeout=self.socket_timeout)
 
     def _generate_sid(self):
         return str(uuid4())

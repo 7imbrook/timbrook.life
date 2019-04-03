@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 client_auth = FlaskAPI("client_auth")
 client_auth.session_interface = Session()
 
-CLIENT_ID = "457036339842-sl9de0uo0ai90h8sds8s8p82383kb4bp.apps.googleusercontent.com"
+CLIENT_ID = "457036339842-blejc39bdlrkfv9gftth6arssmjbnsqq.apps.googleusercontent.com"
 
 
 @client_auth.route("/gen", methods=["POST"])
@@ -51,6 +51,6 @@ def proxied(path):
         request.method,
         f"https://timbrook.tech/api/p/{path}",
         headers=headers,
-    ).json()
-    return response
+    )
+    return response.json(), response.status_code
 

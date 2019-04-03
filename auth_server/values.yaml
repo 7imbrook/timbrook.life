@@ -13,4 +13,3 @@ ingress:
 
 secrets:
     - jwt-keys
-    - google
