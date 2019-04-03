@@ -24,11 +24,11 @@ class Session(SessionInterface):
 
     @property
     def write_master(self):
-        return self.sentinel.master_for("mymaster", socket_timeout=1.0)
+        return self.sentinel.master_for("sessions", socket_timeout=1.0)
 
     @property
     def read_slave(self):
-        return self.sentinel.slave_for("mymaster", socket_timeout=1.0)
+        return self.sentinel.slave_for("sessions", socket_timeout=1.0)
 
     def _generate_sid(self):
         return str(uuid4())
