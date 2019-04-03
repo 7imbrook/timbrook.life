@@ -17,7 +17,10 @@ log = logging.getLogger(__name__)
 
 client_auth = FlaskAPI("client_auth")
 
-r = redis.Redis(host="localhost", port=6379, db=0)
+# THIS IS ALL A MESS
+r = redis.Redis(
+    host="redis-prod-redis-ha.production.svc.cluster.local", port=6379, db=0
+)
 
 client_auth.session_interface = RedisSessionInterface(r, "sk:")
 
