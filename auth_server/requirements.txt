@@ -9,4 +9,6 @@ Flask-Session
 redis
 google-auth
 requests
+itsdangerous
 uuid
+python-box

@@ -86,7 +86,7 @@ class Login extends Component {
             <div className="login-form">
                 <div className="login-box">
                     <GoogleLogin
-                        clientId="457036339842-blejc39bdlrkfv9gftth6arssmjbnsqq.apps.googleusercontent.com"
+                        clientId={CLIENT_ID}
                         buttonText="Enter with Google"
                         onSuccess={this.loginCallback}
                         onFailure={this.loginCallback}

@@ -2,6 +2,7 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractCssChunks = require("extract-css-chunks-webpack-plugin")
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -18,9 +19,9 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader'
+          'style-loader',
+          'css-loader',
+          'sass-loader'
         ]
       },
       {
@@ -56,6 +57,9 @@ module.exports = {
     ),
     new HtmlWebpackPlugin({
       template: './index.html',
+    }),
+    new webpack.DefinePlugin({
+      'CLIENT_ID': JSON.stringify('457036339842-sl9de0uo0ai90h8sds8s8p82383kb4bp.apps.googleusercontent.com')
     }),
   ],
 };

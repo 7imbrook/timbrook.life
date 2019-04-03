@@ -6,7 +6,7 @@ class Amazon extends Component {
     componentWillMount() {
         fetch("/api/auth/proxied/audit")
             .then(res => res.json())
-            .then(console.log);
+            .then(console.log)
     }
 
     render() {
