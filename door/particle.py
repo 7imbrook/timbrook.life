@@ -32,11 +32,14 @@ class ParticleAPI:
     BASE_DEVICE_URL = "https://api.particle.io/v1/devices"
 
     @classmethod
-    def triggerFunction(cls, client, function):
+    def triggerFunction(cls, client, function) -> bool:
         url = f"{cls.BASE_DEVICE_URL}/{client.device}/{function}"
         logger.info("Triggering Door - Start")
-        res = requests.request("POST", url, headers=client.headers)
-        logger.info(f"Triggering Door - End [{res.status_code}]")
+        try:
+            res = requests.request("POST", url, headers=client.headers).json()
+        except Exception:
+            return False
+        return res["return_value"] < 1
 
     @classmethod
     def ping(cls, client) -> bool:

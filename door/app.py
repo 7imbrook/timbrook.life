@@ -28,7 +28,7 @@ def voice():
     gather = resp.gather(
         input="speech", action=f"/delivery?n={nonce}", hints="308", timeout=3
     )
-    gather.say("Hi , please say the apartment number you're delivering to", voice="man")
+    gather.say("Hi, please say the apartment number you're delivering to", voice="man")
     return str(resp)
 
 
@@ -37,12 +37,13 @@ def voice():
 def delivery():
     resp = VoiceResponse()
     apartment_number = request.form["SpeechResult"]
-    if int(apartment_number) == 308:
-        resp.say("Thank you, the door is open", voice="woman")
-        # BUZZ THAT DOOR
-        ParticleAPI.triggerFunction(Client(), "triggerDoor")
+    if "308" in apartment_number:
+        if ParticleAPI.triggerFunction(Client(), "triggerDoor"):
+            resp.say("Thank you, the door is open", voice="woman")
+            return str(resp)
     else:
-        resp.say("Wrong apartment", voice="man")
+        # Maybe be more cryptic here so people dont try a ton
+        resp.say("Goodbye", voice="man")
     return str(resp)
 
 

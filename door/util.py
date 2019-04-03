@@ -5,16 +5,22 @@ import json
 import os
 import time
 from functools import wraps
+import logging
 
 from flask import abort, request
 from twilio.request_validator import RequestValidator
 
+logger = logging.getLogger(__name__)
 auth_token = os.environ.get("TWILIO_AUTH")
-validator = RequestValidator(auth_token)
 
 
 def verify_twilio(url):
     def dectorator(func):
+        if os.environ.get("DEVELOPMENT", False):
+            logger.info("Twilio verification off")
+            return func
+        validator = RequestValidator(auth_token)
+
         @wraps(func)
         def inner(*args, **vargs):
             sig = request.headers.get("X-Twilio-Signature", None)
@@ -31,9 +37,9 @@ MAX_AGE = 15
 
 
 def require_signature(func):
-    """
-    :param max_age: time in seconds of max time a token is allowed 
-    """
+    if os.environ.get("DEVELOPMENT", False):
+        logger.info("nonce signature off")
+        return func
 
     @wraps(func)
     def inner(*a, **k):
