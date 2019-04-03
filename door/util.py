@@ -33,7 +33,7 @@ def verify_twilio(url):
     return dectorator
 
 
-MAX_AGE = 15
+MAX_AGE = 60
 
 
 def require_signature(func):
