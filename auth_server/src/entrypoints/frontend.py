@@ -1,14 +1,15 @@
 import logging
+
 import requests
-from google.oauth2 import id_token
-from google.auth.transport import requests as gr
 from flask import request, session
 from flask_api import FlaskAPI
 from flask_api.status import HTTP_403_FORBIDDEN
+from google.auth.transport import requests as gr
+from google.oauth2 import id_token
+
+from src.verification.session import Session
 from twirp.Account_pb2 import LoginRequest
 from twirp.Account_pb2_twirp import AuthClient
-from src.verification.session import Session
-
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -53,4 +54,3 @@ def proxied(path):
         headers=headers,
     )
     return response.json(), response.status_code
-

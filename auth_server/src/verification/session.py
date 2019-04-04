@@ -1,14 +1,17 @@
-from flask_session.sessions import SessionInterface
-from dataclasses import dataclass
-import redis
-from uuid import uuid4
 import json
-from box import Box
-from itsdangerous import Signer, BadSignature, want_bytes
 import logging
-from datetime import timedelta, datetime
-from src.verification.constents import config
+import os
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from uuid import uuid4
+
+import redis
+from box import Box
+from flask_session.sessions import SessionInterface
+from itsdangerous import BadSignature, Signer, want_bytes
 from redis import Redis
+
+from src.verification.constents import config
 
 log = logging.getLogger(__name__)
 
@@ -96,4 +99,3 @@ class Session(SessionInterface):
             path=path,
             secure=secure,
         )
-

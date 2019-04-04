@@ -1,12 +1,14 @@
-import time
-import logging
-from datetime import datetime, timedelta
 import json
+import logging
+import time
+from datetime import datetime, timedelta
+
 from jose import jwt
-from util import log_request
+
+from src.verification.constents import config
 from twirp.Account_pb2 import Account
 from twirp.Account_twirp_srv import AuthImpl
-from src.verification.constents import config
+from util import log_request
 
 log = logging.getLogger(__name__)
 

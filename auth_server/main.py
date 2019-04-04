@@ -1,7 +1,8 @@
 from werkzeug.wsgi import DispatcherMiddleware
-from twirp.Account_twirp_srv import AuthServer
-from src.entrypoints.internal import AuthServiceHandler
+
 from src.entrypoints.frontend import client_auth
+from src.entrypoints.internal import AuthServiceHandler
+from twirp.Account_twirp_srv import AuthServer
 
 
 # define the health check uWSGI app
