@@ -2,7 +2,7 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 const webpack = require('webpack');
 
-G_CLIENT_ID = "457036339842-sl9de0uo0ai90h8sds8s8p82383kb4bp.apps.googleusercontent.com";
+G_CLIENT_ID = "457036339842-blejc39bdlrkfv9gftth6arssmjbnsqq.apps.googleusercontent.com";
 
 module.exports = merge(common, {
   mode: 'development',
@@ -11,12 +11,9 @@ module.exports = merge(common, {
     contentBase: './dist',
     historyApiFallback: true,
     proxy: {
-      '/api/auth': {
-        target: 'http://localhost:5000',
-        pathRewrite: { '^/api': '' }
-      },
-      '/api': {
-        target: 'https://timbrook.dev/api',
+      '/api/**': {
+        target: 'https://timbrook.tech',
+        changeOrigin: true,
       },
     }
   },

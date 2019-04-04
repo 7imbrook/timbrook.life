@@ -69,7 +69,6 @@ class Login extends Component {
         })
             .then(res => res.json())
             .then(res => {
-                localStorage.setItem("logged_in", "true")
                 this.setState({
                     redirect: true
                 });
@@ -87,7 +86,7 @@ class Login extends Component {
                 <div className="login-box">
                     <GoogleLogin
                         clientId={CLIENT_ID}
-                        buttonText="Enter with Google"
+                        buttonText="Think before you type. This will be logged"
                         onSuccess={this.loginCallback}
                         onFailure={this.loginCallback}
                         cookiePolicy={'single_host_origin'}
