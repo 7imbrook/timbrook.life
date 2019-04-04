@@ -7,13 +7,20 @@ from box import Box
 from itsdangerous import Signer, BadSignature, want_bytes
 import logging
 from redis.sentinel import Sentinel
+from datetime import timedelta, datetime
+from src.verification.constents import config
 
 log = logging.getLogger(__name__)
 
 
 class Session(SessionInterface):
+    """
+    This is a time.....
+    """
 
-    socket_timeout = 100.0
+    socket_timeout = 0.1
+
+    # TODO: strict type session
     session_class = Box
 
     def __init__(self):
@@ -35,7 +42,7 @@ class Session(SessionInterface):
         return str(uuid4())
 
     def _get_signer(self, app):
-        return Signer("shhh", salt="flask-session", key_derivation="hmac")
+        return Signer(config.session_key, salt="flask-session", key_derivation="hmac")
 
     def open_session(self, app, request):
         sid = request.cookies.get(app.session_cookie_name)
@@ -68,16 +75,28 @@ class Session(SessionInterface):
 
         httponly = self.get_cookie_httponly(app)
         secure = self.get_cookie_secure(app)
-        expires = self.get_expiration_time(app, session)
+        duration = timedelta(minutes=5)
+        expires = datetime.now() + duration
+
         val = json.dumps(dict(session))
-        self.write_master.setex(name=self.key_prefix + session.sid, value=val, time=300)
+        self.write_master.setex(
+            name=self.key_prefix + session.sid, value=val, time=duration.seconds
+        )
         session_id = self._get_signer(app).sign(want_bytes(session.sid))
         response.set_cookie(
             app.session_cookie_name,
             session_id,
-            expires=expires,
+            expires=expires.timestamp(),
             httponly=httponly,
             domain=domain,
+            path=path,
+            secure=secure,
+        )
+        response.set_cookie(
+            "logged_as",
+            session.email,
+            expires=expires.timestamp(),
+            httponly=False,
             path=path,
             secure=secure,
         )

@@ -15,6 +15,10 @@ class Config:
         with open(self.root + "rsa.jwk.pub") as key:
             return json.loads(key.read())
 
+    @property
+    def session_key(self):
+        return self.jwk["n"]
+
 
 config = Config()
 
