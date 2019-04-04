@@ -11,5 +11,12 @@ container:
 ingress:
     enabled: false 
 
+environment:
+    - name: REDIS_PASSWORD 
+      valueFrom:
+        secretKeyRef:
+            name: redis
+            key: redis-password 
+
 secrets:
     - jwt-keys

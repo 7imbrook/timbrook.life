@@ -6,9 +6,9 @@ import json
 from box import Box
 from itsdangerous import Signer, BadSignature, want_bytes
 import logging
-from redis.sentinel import Sentinel
 from datetime import timedelta, datetime
 from src.verification.constents import config
+from redis import Redis
 
 log = logging.getLogger(__name__)
 
@@ -24,19 +24,15 @@ class Session(SessionInterface):
     session_class = Box
 
     def __init__(self):
-        self.sentinel = Sentinel(
-            [("redis-prod-redis-ha.production.svc.cluster.local", 26379)],
-            socket_timeout=self.socket_timeout,
-        )
         self.key_prefix = "sk:"
 
     @property
     def write_master(self):
-        return self.sentinel.master_for("sessions", socket_timeout=self.socket_timeout)
+        return Redis(host="redis-master", password=os.environ.get("REDIS_PASSWORD"))
 
     @property
     def read_slave(self):
-        return self.sentinel.slave_for("sessions", socket_timeout=self.socket_timeout)
+        return Redis(host="redis-slave", password=os.environ.get("REDIS_PASSWORD"))
 
     def _generate_sid(self):
         return str(uuid4())
