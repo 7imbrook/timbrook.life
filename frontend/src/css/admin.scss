@@ -6,14 +6,15 @@ body {
     height: 100vh;
     display: grid;
     grid-template-columns: minmax(280px, 400px) minmax(80%, 1fr);
-    grid-template-areas: "sidebar content";
+    grid-template-areas: ". content";
 }
 
 .admin-sidebar {
-    grid-area: sidebar;
     background-color: darken(white, 2);
-    padding: 10px;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    height: 100vh;
+    position: fixed;
+    width: 300px;
 
     h1 {
         text-align: center;
@@ -54,3 +55,19 @@ body {
         border-radius: 5px;
     }
 }
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
