@@ -32,25 +32,7 @@ def generate():
     except ValueError as e:
         return "Failed", HTTP_403_FORBIDDEN
 
-    return {"status": "ok"}
-
-
-@client_auth.route("/proxied/<path:path>")
-def proxied(path):
-
-    try:
-        email = session.email
-    except:
-        return "not_authenticated", HTTP_403_FORBIDDEN
-
     client = AuthClient("http://localhost:5000")
-    res = client.login(LoginRequest(email=email))
-    headers = {"Authorization": f"Bearer {res.token}"}
-    # Should set status code
-    response = requests.request(
-        # OMG THIS SHOULD PROXY INTERNALLY
-        request.method,
-        f"https://timbrook.tech/api/p/{path}",
-        headers=headers,
-    )
-    return response.json(), response.status_code
+    res = client.login(LoginRequest(email=info["email"]))
+
+    return {"status": "ok", "token": res.token}
