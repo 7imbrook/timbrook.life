@@ -20,8 +20,6 @@ class Session(SessionInterface):
     This is a time.....
     """
 
-    socket_timeout = 0.1
-
     # TODO: strict type session
     session_class = Box
 
@@ -49,9 +47,10 @@ class Session(SessionInterface):
     def save_session(self, app, session, response):
         domain = self.get_cookie_domain(app)
         path = self.get_cookie_path(app)
-        if not session:
+        if session.get("delete", False):
             response.delete_cookie(app.session_cookie_name, domain=domain, path=path)
             response.delete_cookie("logged_as", domain=domain, path=path)
+            return
 
         httponly = self.get_cookie_httponly(app)
         secure = self.get_cookie_secure(app)

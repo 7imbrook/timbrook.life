@@ -18,6 +18,23 @@ body {
     h1 {
         text-align: center;
     }
+
+    footer {
+        position: absolute;
+        bottom: 25px;
+        left: 25px;
+    }
+
+    button {
+        background-color: #526d7a;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+    }
 }
 
 .admin-main {

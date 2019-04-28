@@ -36,3 +36,9 @@ def generate():
     res = client.login(LoginRequest(email=info["email"]))
 
     return {"status": "ok", "token": res.token}
+
+
+@client_auth.route("/logout", methods=["POST"])
+def logout():
+    session.delete = True
+    return {"status": "ok"}
