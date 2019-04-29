@@ -15,7 +15,7 @@ const Sidebar = ({ className }) => {
     return (
         <div className={className}>
             <h1>
-                <Link to="/">
+                <Link to="/admin">
                     Timbrook.tech
                 </Link>
             </h1>

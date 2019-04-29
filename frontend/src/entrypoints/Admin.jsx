@@ -18,14 +18,12 @@ const Admin = ({ match }) => {
         <div className="admin-layout">
             <Sidebar className="admin-sidebar" />
             <div className="admin-main">
-                <Router>
-                    <Switch>
-                        <Route exact path={`${match.path}/`} component={Main} />
-                        <Route exact path={`${match.path}/pod/:podId`} component={PodcastProvider} />
-                        <Route exact path={`${match.path}/amazon/`} component={Amazon} />
-                        <Route component={NotFound} />
-                    </Switch>
-                </Router>
+                <Switch>
+                    <Route exact path={`${match.path}/`} component={Main} />
+                    <Route exact path={`${match.path}/pod/:podId`} component={PodcastProvider} />
+                    <Route exact path={`${match.path}/amazon/`} component={Amazon} />
+                    <Route component={NotFound} />
+                </Switch>
             </div>
         </div>
     );
