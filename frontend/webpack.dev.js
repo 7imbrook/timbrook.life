@@ -17,9 +17,15 @@ module.exports = merge(common, {
           '/api': '',
         },
       },
-      '/api/**': {
+      '/api/p/**': {
         target: 'https://timbrook.tech',
         changeOrigin: true,
+      },
+      '/api/**': {
+        target: 'http://localhost:4000/',
+        pathRewrite: {
+          '/api': '',
+        },
       },
     }
   },

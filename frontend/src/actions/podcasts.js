@@ -14,3 +14,54 @@ export function loadFullPodcasts(id) {
         ))
     }
 }
+
+export function fetchUploadURL() {
+    return (dispatch, getState) => {
+        const file = document.getElementById("podcast_file").files[0];
+        fetch(
+            '/api/upload',
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: localStorage.getItem("token")
+                })
+            }
+        )
+            .then(res => res.json())
+            .then(upload_params => {
+                return fetch(upload_params.endpoint,
+                    {
+                        method: "PUT",
+                        body: file
+                    }
+                ).then(res => {
+                    // TODO: move to configure w/ name and stuff?
+                    return fetch(
+                        '/api/configure',
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                id: upload_params.id,
+                                pod: 1,
+                                token: localStorage.getItem("token")
+                            })
+                        }
+                    )
+                })
+            })
+            .then(res => res.json())
+            .then(res => {
+                dispatch({
+                    type: "APPEND_EPISODES",
+                    pod: 1,
+                    body: res.updates
+                })
+            })
+    }
+}

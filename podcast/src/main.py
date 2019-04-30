@@ -1,10 +1,19 @@
-import requests
-from flask import Flask, Response
+import requests, os, boto3, uuid
+from flask import Response, request
 from bs4 import BeautifulSoup
 from datetime import datetime
+from flask_api import FlaskAPI
 
-
-app = Flask(__name__)
+key = os.environ.get("ACCESS_KEY_ID")
+secret = os.environ.get("SECRET_ACCESS_KEY")
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id=key,
+    aws_secret_access_key=secret,
+    region_name="sfo2",
+    endpoint_url="https://sfo2.digitaloceanspaces.com",
+)
+app = FlaskAPI(__name__)
 
 
 def populate_episode(doc, data):
@@ -78,7 +87,8 @@ def populate_podcast(doc, channel, podcast):
 
 def get_podcasts(id):
     res = requests.get(
-        "http://postgrest-api/podcasts",
+        "https://timbrook.tech/api/p/podcasts",
+        # "http://postgrest-api/podcasts",
         headers={"Accept": "application/vnd.pgrst.object+json"},
         params={
             "select": "*,episodes(*)",
@@ -113,6 +123,44 @@ def podcasts():
     return Response(str(doc), mimetype="text/xml")
 
 
-@app.route("/upload")
+@app.route("/upload", methods=["POST"])
 def upload():
-    return "Neat"
+    upload_id = str(uuid.uuid4())
+    file = f"{upload_id}.mp3"
+    signed_upload_url = s3.generate_presigned_url(
+        ClientMethod="put_object",
+        Params={"Bucket": "timbrook-podcast", "Key": file},
+        ExpiresIn="720",
+    )
+
+    # Pre creation episode and set file handle reference
+    episode = requests.post(
+        "https://timbrook.tech/api/p/episodes?select=id",
+        # "http://postgrest-api/episodes",
+        headers={
+            "Authorization": f"Bearer {request.data['token']}",
+            "Accept": "application/vnd.pgrst.object+json",
+            "Prefer": "return=representation",
+        },
+        data={"url": f"https://timbrook-podcast.sfo2.digitaloceanspaces.com/{file}"},
+    ).json()
+
+    return {"endpoint": signed_upload_url, "upload_id": upload_id, "id": episode["id"]}
+
+
+@app.route("/configure", methods=["POST"])
+def configure():
+    ep_id = request.data["id"]
+    pod_id = request.data["pod"]
+    token = request.data["token"]
+
+    res = requests.patch(
+        f"https://timbrook.tech/api/p/episodes?id=eq.{ep_id}",
+        headers={
+            "Authorization": f"Bearer {request.data['token']}",
+            "Prefer": "return=representation",
+        },
+        data={"podcast": pod_id},
+    )
+
+    return {"status": "ok", "updates": res.json()}

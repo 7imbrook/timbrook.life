@@ -1,4 +1,5 @@
 flask
+flask-api
 beautifulsoup4
 lxml
 requests

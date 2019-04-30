@@ -77,7 +77,6 @@ class Login extends Component {
     }
 
     loginCallback({ tokenId, profileObj }) {
-        console.log(profileObj);
         this.handleSubmit(tokenId);
     }
 

@@ -5,6 +5,17 @@ export default function podcasts(state = {}, action) {
                 [action.body.id]: action.body,
                 ...state,
             };
+        case "APPEND_EPISODES":
+            return {
+                ...state,
+                [action.pod]: {
+                    ...state[action.pod],
+                    episodes: [
+                        ...state[action.pod].episodes,
+                        ...action.body,
+                    ],
+                },
+            }
     }
     return state;
 }
