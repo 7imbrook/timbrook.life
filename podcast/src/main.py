@@ -46,7 +46,7 @@ def populate_podcast(doc, channel, podcast):
         channel.append(tag)
 
     # Links
-    link = podcast["url"] 
+    link = podcast["url"]
     lt = doc.new_tag("link")
     lt.string = link
     channel.append(lt)
@@ -70,7 +70,7 @@ def populate_podcast(doc, channel, podcast):
     channel.append(expl)
 
     # Episodes
-    for ep in podcast['episodes']:
+    for ep in podcast["episodes"]:
         channel.append(populate_episode(doc, ep))
 
     return channel
@@ -80,7 +80,11 @@ def get_podcasts(id):
     res = requests.get(
         "http://postgrest-api/podcasts",
         headers={"Accept": "application/vnd.pgrst.object+json"},
-        params={"select": "*,episodes(*)", "id": f"eq.{id}"},
+        params={
+            "select": "*,episodes(*)",
+            "id": f"eq.{id}",
+            "episodes.published": "eq.true",
+        },
     )
 
     return res.json()
@@ -107,3 +111,8 @@ def podcasts():
     doc.append(rss_feed)
 
     return Response(str(doc), mimetype="text/xml")
+
+
+@app.route("/upload")
+def upload():
+    return "Neat"
