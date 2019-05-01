@@ -20,8 +20,9 @@ build() {
     docker push $IMAGE | tee ~/logs/${LOG_KEY}_push.log
 }
 
-if [ "$ACTIVE_SHA" == "$DIRLAST_SHA" ]
+if [ "$ACTIVE_SHA" = "$DIRLAST_SHA" ]
 then
+    echo "dir changed, building"
     build;
     exit 0;
 fi;
@@ -32,7 +33,4 @@ then
     build;
     exit 0;
 fi;
-
-# failed in some way?
-exit 1;
 
