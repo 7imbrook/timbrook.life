@@ -75,3 +75,11 @@ class Session(SessionInterface):
             path=path,
             secure=secure,
         )
+        response.set_cookie(
+            "token",
+            session.token,
+            expires=expires.timestamp(),
+            httponly=True,
+            path=path,
+            secure=secure,
+        )

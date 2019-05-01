@@ -14,4 +14,3 @@ ingress:
         - timbrook.tech 
     paths:
         - /pod.xml
-        - /upload

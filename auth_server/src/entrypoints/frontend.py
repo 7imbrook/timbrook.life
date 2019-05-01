@@ -35,6 +35,9 @@ def generate():
     client = AuthClient("http://localhost:5000")
     res = client.login(LoginRequest(email=info["email"]))
 
+    # Allow other services to access this via the request
+    session.token = res.token
+
     return {"status": "ok", "token": res.token}
 
 
