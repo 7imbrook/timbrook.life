@@ -14,7 +14,7 @@ DEPLOY_ALL=$?
 mkdir -p ~/logs
 touch ~/logs/${LOG_KEY}_push.log 
 
-function build() {
+build() {
     docker login -u $DOCKER_USER -p $DOCKER_PASS
     docker build -t $IMAGE $CONTEXT
     docker push $IMAGE | tee ~/logs/${LOG_KEY}_push.log
@@ -29,7 +29,7 @@ fi;
 if [ $DEPLOY_ALL -eq 0 ]
 then
     echo "deploy all flag found"
-    build
+    build;
     exit 0;
 fi;
 

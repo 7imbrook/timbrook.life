@@ -14,3 +14,6 @@ ingress:
         - timbrook.tech 
     paths:
         - /pod.xml
+        # This isn't configured yet
+        # - /api/upload
+        # - /api/configure
