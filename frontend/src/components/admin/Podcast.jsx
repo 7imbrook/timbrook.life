@@ -1,6 +1,8 @@
+import 'css/podcast.scss';
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { loadFullPodcasts, fetchUploadURL } from 'actions/podcasts';
+import { loadFullPodcasts, fetchUploadURL, deleteEpisode } from 'actions/podcasts';
 
 
 class Podcast extends Component {
@@ -29,6 +31,14 @@ class Podcast extends Component {
                         {episodes.map(ep =>
                             <tr key={ep.id}>
                                 <td>
+                                    <button
+                                        className="delete"
+                                        disabled={ep.published}
+                                        onClick={() => this.props.deleteEpisode(ep.id, podcast.id)}>
+                                        Delete
+                                    </button>
+                                </td>
+                                <td>
                                     <a href={ep.url}>{ep.name}</a>
                                 </td>
                                 <td>{ep.description}</td>
@@ -50,7 +60,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
     loadPodcast: loadFullPodcasts,
-    startUpload: fetchUploadURL
+    startUpload: fetchUploadURL,
+    deleteEpisode,
 };
 
 export default connect(
