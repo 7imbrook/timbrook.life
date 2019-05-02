@@ -6,7 +6,8 @@ image:
 healthEndpoint: false 
 
 container:
-    port: 8000
+    # Doesn't matter just triggering deploy
+    port: 7000
 
 ingress:
     enabled: false
