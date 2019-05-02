@@ -22,7 +22,7 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
         self.log.info("Starting consumer")
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:
-                self.on_message(message)
+                await self.on_message(message)
 
     async def on_message(self, message):
         try:
