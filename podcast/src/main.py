@@ -127,7 +127,7 @@ def podcasts():
 # TODO: modulize
 
 
-@app.route("/upload", methods=["POST"])
+@app.route("/api/upload", methods=["POST"])
 @require_valid_token()
 def upload():
     upload_id = str(uuid.uuid4())
@@ -156,7 +156,7 @@ def upload():
     return {"endpoint": signed_upload_url, "upload_id": upload_id, "id": episode["id"]}
 
 
-@app.route("/configure", methods=["POST"])
+@app.route("/api/configure", methods=["POST"])
 @require_valid_token()
 def configure():
     ep_id = request.data["id"]
