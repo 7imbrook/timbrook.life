@@ -4,7 +4,11 @@ import aio_pika
 import logging
 from processors import QueueProccessorBase
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    format="[%(levelname)-8s][%(asctime)s] %(message)s",
+    level=logging.INFO,
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 log = logging.getLogger("consumer")
 
 # Util function
@@ -19,7 +23,7 @@ async def main(loop):
     log.info("Starting")
     password = os.environ.get("AMQT_PASSWORD")
     connection = await aio_pika.connect_robust(
-        host="10.245.91.188", login="user", password=password, loop=loop
+        host="rabbitmq", login="user", password=password, loop=loop
     )
 
     async with connection:
