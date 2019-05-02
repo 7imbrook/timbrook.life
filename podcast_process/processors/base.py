@@ -18,6 +18,12 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
     def routing_key(self) -> str:
         pass
 
+    async def async_consume(self, queue):
+        self.log.info("Starting consumer")
+        async with queue.iterator() as queue_iter:
+            async for message in queue_iter:
+                self.on_message(message)
+
     async def on_message(self, message):
         try:
             body = Box(json.loads(message.body))

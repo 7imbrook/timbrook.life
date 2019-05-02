@@ -5,7 +5,7 @@ import logging
 from processors import QueueProccessorBase
 
 logging.basicConfig(
-    format="[%(levelname)-8s][%(asctime)s] %(message)s",
+    format="[%(levelname)-8s][%(asctime)s] %(name)s:  %(message)s",
     level=logging.INFO,
     datefmt="%Y-%m-%d %H:%M:%S",
 )
@@ -23,7 +23,10 @@ async def main(loop):
     log.info("Starting")
     password = os.environ.get("AMQT_PASSWORD")
     connection = await aio_pika.connect_robust(
-        host="rabbitmq", login="user", password=password, loop=loop
+        host="rabbitmq.production.svc.cluster.local",
+        login="user",
+        password=password,
+        loop=loop,
     )
 
     async with connection:
@@ -47,14 +50,18 @@ async def main(loop):
 
         log.info("Bound to topics")
 
-        log.info("Started")
-        while True:
-            await asyncio.gather(
-                *[queue.consume(proc.on_message) for proc, queue in queue_map.items()]
-            )
+        await asyncio.gather(
+            *[proc.async_consume(queue) for proc, queue in queue_map.items()]
+        )
 
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main(loop))
-    loop.close()
+    asyncio.ensure_future(main(loop))
+    try:
+        loop.run_forever()
+    except KeyboardInterrupt:
+        log.info("Shutting down...")
+        # TODO: trigger clean shutdown
+        log.info("Done")
+
