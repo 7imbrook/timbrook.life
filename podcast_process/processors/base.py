@@ -1,4 +1,5 @@
 import abc
+import asyncio
 import json
 from box import Box
 
@@ -21,9 +22,12 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
             if await self.async_process(body):
                 message.ack()
             else:
+                await asyncio.sleep(10)
                 message.reject(requeue=True)
-        except Exception:
+        except Exception as e:
+            print(e)
             # May want to kill switch this
+            await asyncio.sleep(10)
             message.reject(requeue=True)
 
     @abc.abstractclassmethod

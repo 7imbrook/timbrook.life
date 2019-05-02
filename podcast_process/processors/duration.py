@@ -6,7 +6,6 @@ class DurationCalcProccessor(QueueProccessorBase):
     routing_key = "asset.update"
 
     async def async_process(self, message) -> bool:
-        print(message)
         return True
 
 
