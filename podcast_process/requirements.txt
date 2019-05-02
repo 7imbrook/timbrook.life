@@ -2,3 +2,4 @@ aio-pika
 requests
 boto3
 python-box
+click

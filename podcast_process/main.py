@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+import click
 import os
 import asyncio
 import aio_pika
@@ -19,8 +22,8 @@ async def dict_gather(dict_await):
     return dict(zip(keys, res))
 
 
-async def main(loop):
-    log.info("Starting")
+async def main(loop, production):
+    log.info("Starting in %s", "prod" if production else "shaddow")
     password = os.environ.get("AMQT_PASSWORD")
     connection = await aio_pika.connect_robust(
         host="rabbitmq.production.svc.cluster.local",
@@ -34,7 +37,10 @@ async def main(loop):
         channel = await connection.channel()
 
         create_map = {
-            proc(): channel.declare_queue(proc.queue_name, auto_delete=False)
+            proc(): channel.declare_queue(
+                f"{proc.queue_name}{'' if production else '_shaddow'}",
+                auto_delete=not production,
+            )
             for proc in QueueProccessorBase.__subclasses__()
         }
 
@@ -55,13 +61,19 @@ async def main(loop):
         )
 
 
-if __name__ == "__main__":
+@click.command()
+@click.option("--prod", is_flag=True)
+def post_processor(prod):
     loop = asyncio.get_event_loop()
-    asyncio.ensure_future(main(loop))
+    asyncio.ensure_future(main(loop, prod))
     try:
         loop.run_forever()
     except KeyboardInterrupt:
         log.info("Shutting down...")
         # TODO: trigger clean shutdown
         log.info("Done")
+
+
+if __name__ == "__main__":
+    post_processor()
 
