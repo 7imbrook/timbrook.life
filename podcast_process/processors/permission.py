@@ -43,7 +43,7 @@ class AssetPurgeProcessor(QueueProccessorBase):
     async def _delete_object(self, asset) -> bool:
         obj = s3.Object("timbrook-podcast", asset)
         obj.delete()
-        self.log.info("Deleted asset", asset)
+        self.log.info(f"Deleted asset {asset}")
         return True
 
     async def async_process(self, message) -> bool:
