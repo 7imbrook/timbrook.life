@@ -19,3 +19,15 @@ ingress:
 
 secrets:
     - jwt-keys
+
+environment:
+    - name: ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+            name: digital-ocean-spaces
+            key: key 
+    - name: SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+            name: digital-ocean-spaces
+            key: token 
