@@ -25,6 +25,7 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
                 await self.on_message(message)
 
     async def on_message(self, message):
+        should_requeue_if_failure = message.delivery_tag < 15 or True
         try:
             body = Box(json.loads(message.body))
         except Exception:
@@ -33,13 +34,11 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
             if await self.async_process(body):
                 message.ack()
             else:
-                await asyncio.sleep(10)
-                message.reject(requeue=True)
+                message.reject(requeue=should_requeue_if_failure)
         except Exception as e:
-            self.log.critical(e)
+            self.log.critical(e.__class__)
             # May want to kill switch this
-            await asyncio.sleep(10)
-            message.reject(requeue=True)
+            message.reject(requeue=should_requeue_if_failure)
 
     @abc.abstractclassmethod
     async def async_process(self, message) -> bool:

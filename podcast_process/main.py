@@ -23,7 +23,7 @@ async def dict_gather(dict_await):
 
 
 async def main(loop, production):
-    log.info("Starting in %s", "prod" if production else "shaddow")
+    log.info("Starting in %s", "prod" if production else "dev")
     password = os.environ.get("AMQT_PASSWORD")
     connection = await aio_pika.connect_robust(
         host="rabbitmq.production.svc.cluster.local",
@@ -38,8 +38,8 @@ async def main(loop, production):
 
         create_map = {
             proc(): channel.declare_queue(
-                f"{proc.queue_name}{'' if production else '_shaddow'}",
-                auto_delete=not production,
+                f"{proc.queue_name}{'' if production else '_development'}",
+                auto_delete=False,
             )
             for proc in QueueProccessorBase.__subclasses__()
         }
