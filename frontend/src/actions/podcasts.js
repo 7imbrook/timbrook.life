@@ -25,9 +25,6 @@ export function fetchUploadURL() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    token: localStorage.getItem("token")
-                })
             }
         )
             .then(res => res.json())
@@ -49,7 +46,6 @@ export function fetchUploadURL() {
                             body: JSON.stringify({
                                 id: upload_params.id,
                                 pod: 1,
-                                token: localStorage.getItem("token")
                             })
                         }
                     )

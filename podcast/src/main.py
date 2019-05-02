@@ -3,6 +3,7 @@ from flask import Response, request
 from bs4 import BeautifulSoup
 from datetime import datetime
 from flask_api import FlaskAPI
+from src.utils import require_valid_token
 
 key = os.environ.get("ACCESS_KEY_ID")
 secret = os.environ.get("SECRET_ACCESS_KEY")
@@ -123,7 +124,11 @@ def podcasts():
     return Response(str(doc), mimetype="text/xml")
 
 
+# TODO: modulize
+
+
 @app.route("/upload", methods=["POST"])
+@require_valid_token()
 def upload():
     upload_id = str(uuid.uuid4())
     file = f"{upload_id}.mp3"
@@ -133,15 +138,18 @@ def upload():
         ExpiresIn="720",
     )
 
+    token = request.cookies.get("token")
+
     # Pre creation episode and set file handle reference
     episode = requests.post(
         "https://timbrook.tech/api/p/episodes?select=id",
         # "http://postgrest-api/episodes",
         headers={
-            "Authorization": f"Bearer {request.data['token']}",
+            "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.pgrst.object+json",
             "Prefer": "return=representation",
         },
+        # TODO: migrate away from this url form
         data={"url": f"https://timbrook-podcast.sfo2.digitaloceanspaces.com/{file}"},
     ).json()
 
@@ -149,17 +157,15 @@ def upload():
 
 
 @app.route("/configure", methods=["POST"])
+@require_valid_token()
 def configure():
     ep_id = request.data["id"]
     pod_id = request.data["pod"]
-    token = request.data["token"]
+    token = request.cookies.get("token")
 
     res = requests.patch(
         f"https://timbrook.tech/api/p/episodes?id=eq.{ep_id}",
-        headers={
-            "Authorization": f"Bearer {request.data['token']}",
-            "Prefer": "return=representation",
-        },
+        headers={"Authorization": f"Bearer {token}", "Prefer": "return=representation"},
         data={"podcast": pod_id},
     )
 

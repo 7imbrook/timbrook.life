@@ -5,3 +5,4 @@ lxml
 requests
 boto3
 uwsgi
+python-jose[cryptography]
