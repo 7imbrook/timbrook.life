@@ -23,7 +23,7 @@ class PermissionProcessor(QueueProccessorBase):
         obj = s3.Object("timbrook-podcast", asset)
         acl = "public-read" if should_be_pubic else "private"
         obj.put(ACL=acl)
-        self.log.info("Updated permissions on", asset, "to:", acl)
+        self.log.info(f"Updated permissions on {asset} to: {acl}")
         return True
 
     async def async_process(self, message) -> bool:

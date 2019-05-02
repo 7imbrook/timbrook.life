@@ -8,7 +8,7 @@ import logging
 class QueueProccessorBase(metaclass=abc.ABCMeta):
     @property
     def log(self):
-        return logging.getLogger(self.__class__)
+        return logging.getLogger(str(self.__class__.__name__))
 
     @abc.abstractproperty
     def queue_name(self) -> str:
