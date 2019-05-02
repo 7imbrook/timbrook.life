@@ -81,8 +81,7 @@ def upload():
             "Accept": "application/vnd.pgrst.object+json",
             "Prefer": "return=representation",
         },
-        # TODO: migrate away from this url form
-        data={"url": f"https://timbrook-podcast.sfo2.digitaloceanspaces.com/{file}"},
+        data={"storage_key": file},
     ).json()
 
     return {"endpoint": signed_upload_url, "upload_id": upload_id, "id": episode["id"]}
