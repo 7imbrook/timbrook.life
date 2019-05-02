@@ -1,14 +1,12 @@
 replicaCount: 1
 
 image:
-    repository: 7imbrook/podcast
+    repository: 7imbrook/postprocessor
 
-# Need to be able to disable this?
-healthEndpoint: "/pod.xml"
+healthEndpoint: false 
 
 container:
-    # NA
-    port: 4000
+    port: 8000
 
 ingress:
     enabled: false
