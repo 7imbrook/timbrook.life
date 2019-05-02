@@ -20,8 +20,7 @@ app = FlaskAPI(__name__)
 
 def get_podcasts(id):
     res = requests.get(
-        "https://timbrook.tech/api/p/podcasts",
-        # "http://postgrest-api/podcasts",
+        "http://postgrest-api/podcasts",
         headers={"Accept": "application/vnd.pgrst.object+json"},
         params={
             "select": "*,episodes(*)",

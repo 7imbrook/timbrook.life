@@ -13,7 +13,6 @@ container:
 ingress:
     enabled: false
 
-
 environment:
     - name: ACCESS_KEY_ID
       valueFrom:
@@ -25,3 +24,8 @@ environment:
         secretKeyRef:
             name: digital-ocean-spaces
             key: token 
+    - name: AMQT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+            name: rabbitmq
+            key: rabbitmq-password 

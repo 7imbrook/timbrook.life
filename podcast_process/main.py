@@ -12,8 +12,9 @@ async def dict_gather(dict_await):
 
 
 async def main(loop):
+    password = os.environ.get("AMQT_PASSWORD")
     connection = await aio_pika.connect_robust(
-        os.environ.get("AMQT_CONNECTION"), loop=loop
+        host="rabbitmq", login="user", password=password, loop=loop
     )
 
     async with connection:
