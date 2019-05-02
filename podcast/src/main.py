@@ -74,8 +74,7 @@ def upload():
 
     # Pre creation episode and set file handle reference
     episode = requests.post(
-        "https://timbrook.tech/api/p/episodes?select=id",
-        # "http://postgrest-api/episodes",
+        "http://postgrest-api/episodes?select=id",
         headers={
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.pgrst.object+json",
@@ -95,7 +94,7 @@ def configure():
     token = request.cookies.get("token")
 
     res = requests.patch(
-        f"https://timbrook.tech/api/p/episodes?id=eq.{ep_id}",
+        f"http://postgrest-api/episodes?id=eq.{ep_id}",
         headers={"Authorization": f"Bearer {token}", "Prefer": "return=representation"},
         data={"podcast": pod_id},
     )
