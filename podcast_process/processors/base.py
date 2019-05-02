@@ -30,7 +30,7 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
                 await asyncio.sleep(10)
                 message.reject(requeue=True)
         except Exception as e:
-            print(e)
+            self.log.critical(e)
             # May want to kill switch this
             await asyncio.sleep(10)
             message.reject(requeue=True)
