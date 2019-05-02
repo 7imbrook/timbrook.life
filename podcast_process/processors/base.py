@@ -2,9 +2,14 @@ import abc
 import asyncio
 import json
 from box import Box
+import logging
 
 
 class QueueProccessorBase(metaclass=abc.ABCMeta):
+    @property
+    def log(self):
+        return logging.getLogger(self.__class__)
+
     @abc.abstractproperty
     def queue_name(self) -> str:
         pass

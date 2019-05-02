@@ -1,9 +1,13 @@
 import os
 import asyncio
 import aio_pika
+import logging
 from processors import QueueProccessorBase
 
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("consumer")
 
+# Util function
 async def dict_gather(dict_await):
     keys = dict_await.keys()
     awaitable = dict_await.values()
@@ -12,12 +16,14 @@ async def dict_gather(dict_await):
 
 
 async def main(loop):
+    log.info("Starting")
     password = os.environ.get("AMQT_PASSWORD")
     connection = await aio_pika.connect_robust(
-        host="rabbitmq", login="user", password=password, loop=loop
+        host="10.245.91.188", login="user", password=password, loop=loop
     )
 
     async with connection:
+        log.info("Connected to exchange")
         channel = await connection.channel()
 
         create_map = {
@@ -26,6 +32,7 @@ async def main(loop):
         }
 
         queue_map = await dict_gather(create_map)
+        log.info(f"Created {len(queue_map)} queues and processors")
 
         await dict_gather(
             {
@@ -34,6 +41,9 @@ async def main(loop):
             }
         )
 
+        log.info("Bound to topics")
+
+        log.info("Started")
         while True:
             await asyncio.gather(
                 *[queue.consume(proc.on_message) for proc, queue in queue_map.items()]
