@@ -1,5 +1,7 @@
 import json
 
+SESSION_TIMEOUT = 60
+
 
 class Config:
     def __init__(self, root="/var/run/secrets/"):

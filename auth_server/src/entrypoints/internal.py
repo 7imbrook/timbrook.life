@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 from jose import jwt
 
-from src.verification.constents import config
+from src.verification.constents import config, SESSION_TIMEOUT
 from twirp.Account_pb2 import Account
 from twirp.Account_twirp_srv import AuthImpl
 from util import log_request
@@ -23,12 +23,12 @@ class AuthServiceHandler(AuthImpl):
         if login_request.email != "timbrook480@gmail.com":
             return Account()
         log.info(f"Granted token to {login_request.email}")
-        exp = datetime.now() + timedelta(minutes=5)
+        exp = datetime.now() + timedelta(minutes=SESSION_TIMEOUT)
         payload = {"role": "doadmin", "access": "timbrook", "exp": exp.timestamp()}
         try:
             token = jwt.encode(payload, config.jwk, algorithm="RS512")
         except Exception as e:
-            print(e)
+            log.critical(e)
             raise
 
         return Account(token=token)

@@ -10,7 +10,7 @@ from flask_session.sessions import SessionInterface
 from itsdangerous import BadSignature, Signer, want_bytes
 from redis import Redis
 
-from src.verification.constents import config
+from src.verification.constents import config, SESSION_TIMEOUT
 
 log = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class Session(SessionInterface):
 
         httponly = self.get_cookie_httponly(app)
         secure = self.get_cookie_secure(app)
-        duration = timedelta(minutes=5)
+        duration = timedelta(minutes=SESSION_TIMEOUT)
         expires = datetime.now() + duration
 
         session_id = self._get_signer(app).sign(want_bytes(session.sid))
