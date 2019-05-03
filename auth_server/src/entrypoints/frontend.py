@@ -24,18 +24,24 @@ CLIENT_ID = "457036339842-blejc39bdlrkfv9gftth6arssmjbnsqq.apps.googleuserconten
 def generate():
     token = request.data.get("token", None)
     if token is None:
+        session.delete = True
         return "Missing token", HTTP_403_FORBIDDEN
 
     try:
         info = id_token.verify_oauth2_token(token, gr.Request(), CLIENT_ID)
         session.email = info["email"]
     except ValueError as e:
+        session.delete = True
         return "Failed", HTTP_403_FORBIDDEN
 
     client = AuthClient("http://localhost:5000")
-    res = client.login(LoginRequest(email=info["email"]))
+    try:
+        res = client.login(LoginRequest(email=info["email"]))
+    except Exception as e:
+        log.critical(e)
+        session.delete = True
+        return {}, HTTP_403_FORBIDDEN
 
-    # Allow other services to access this via the request
     session.token = res.token
 
     return {"status": "ok", "token": res.token}

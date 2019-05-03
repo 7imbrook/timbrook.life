@@ -14,17 +14,17 @@ log = logging.getLogger(__name__)
 
 
 class AuthServiceHandler(AuthImpl):
-    @log_request
-    def Login(self, login_request, ctx={}):
-        """
-        Internal service but should still have some kinda verification
-        """
-        log.info(f"Request from {login_request.email}")
-        if login_request.email != "timbrook480@gmail.com":
-            return Account()
-        log.info(f"Granted token to {login_request.email}")
+    def gen_account(self, access: str, via: str) -> Account:
         exp = datetime.now() + timedelta(minutes=SESSION_TIMEOUT)
-        payload = {"role": "doadmin", "access": "timbrook", "exp": exp.timestamp()}
+        payload = {
+            # TODO: lookup real db role mapping or none
+            "role": "doadmin",
+            # This is really a vc
+            "access": access,
+            # How was this token made
+            "via": via,
+            "exp": exp.timestamp(),
+        }
         try:
             token = jwt.encode(payload, config.jwk, algorithm="RS512")
         except Exception as e:
@@ -32,3 +32,23 @@ class AuthServiceHandler(AuthImpl):
             raise
 
         return Account(token=token)
+
+    @log_request
+    def Login(self, login_request, ctx={}) -> Account:
+        """
+        Internal service but should still have some kinda verification
+        """
+        log.info("Token request")
+        if login_request.email is None or login_request.service_name is None:
+            # null account
+            log.info("Blank login request")
+            return Account()
+
+        if login_request.email == "timbrook480@gmail.com":
+            return self.gen_account(access="timbrook", via="email")
+
+        if login_request.service_name == "postprocessor":
+            return self.gen_account(access="postprocessor", via="service")
+
+        # Blank account can't do anything
+        return Account()

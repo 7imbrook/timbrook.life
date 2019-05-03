@@ -43,7 +43,7 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
             else:
                 message.reject(requeue=should_requeue_if_failure)
         except Exception as e:
-            self.log.critical(e.__class__)
+            self.log.critical(f"{e.__class__.__name__}: {e}")
             # May want to kill switch this
             message.reject(requeue=should_requeue_if_failure)
 

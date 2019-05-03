@@ -8,6 +8,7 @@ message Account {
 
 message LoginRequest {
     string email = 1;
+    string service_name = 2;
 }
 
 service Auth {

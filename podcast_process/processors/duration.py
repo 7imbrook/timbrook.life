@@ -1,11 +1,14 @@
 from mutagen.mp3 import MP3
 
 import io
+import requests
 from datetime import timedelta
 from botocore.exceptions import ClientError
 
 from util import s3
 from processors.base import QueueProccessorBase
+from twirp.Account_pb2_twirp import AuthClient
+from twirp.Account_pb2 import LoginRequest
 
 
 class DurationCalcProccessor(QueueProccessorBase):
@@ -13,7 +16,7 @@ class DurationCalcProccessor(QueueProccessorBase):
     routing_key = "asset.update"
 
     async def async_process(self, message) -> bool:
-        if message.storage_key is None:
+        if message.storage_key is None or message.duration is not None:
             return True
         pod_file = io.BytesIO()
 
@@ -37,8 +40,14 @@ class DurationCalcProccessor(QueueProccessorBase):
         # close enough for podcast work
         timestring = str(duration).split(".")[0]
 
-        # Persist to store............
         self.log.info(f"{message.storage_key}: {timestring}")
+        ac = AuthClient("http://localhost:5000")
+        res = ac.login(LoginRequest(service_name="postprocessor"))
+
+        requests.patch(
+            f"http://postgrest-api.production.svc.cluster.local/episodes?id=eq.{message.id}",
+            headers={"Authorization": f"Bearer {res.token}"},
+            data={"duration": timestring},
+        ).raise_for_status()
 
         return True
-

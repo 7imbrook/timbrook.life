@@ -67,19 +67,21 @@ class Session(SessionInterface):
             path=path,
             secure=secure,
         )
-        response.set_cookie(
-            "logged_as",
-            session.email,
-            expires=expires.timestamp(),
-            httponly=False,
-            path=path,
-            secure=secure,
-        )
-        response.set_cookie(
-            "token",
-            session.token,
-            expires=expires.timestamp(),
-            httponly=True,
-            path=path,
-            secure=secure,
-        )
+        if session.get("email"):
+            response.set_cookie(
+                "logged_as",
+                session.email,
+                expires=expires.timestamp(),
+                httponly=False,
+                path=path,
+                secure=secure,
+            )
+        if session.get("token"):
+            response.set_cookie(
+                "token",
+                session.token,
+                expires=expires.timestamp(),
+                httponly=True,
+                path=path,
+                secure=secure,
+            )

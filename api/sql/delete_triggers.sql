@@ -6,6 +6,8 @@ BEGIN
         PERFORM
             pg_notify('purge_asset', row_to_json(OLD)::text);
         RETURN OLD;
+	ELSIF (NEW.storage_key = OLD.storage_key) THEN
+		RETURN NEW;
     ELSIF (TG_OP = 'UPDATE') THEN
         PERFORM
             pg_notify('update_permission', row_to_json(NEW)::text);

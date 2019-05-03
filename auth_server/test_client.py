@@ -3,8 +3,8 @@ from twirp.Account_pb2_twirp import AuthClient
 
 
 def main():
-    client = AuthClient("http://10.245.71.91")
-    res = client.login(LoginRequest(id=10000))
+    client = AuthClient("http://localhost:5000")
+    res = client.login(LoginRequest(service_name="postprocessor"))
     print(res.token)
 
 
