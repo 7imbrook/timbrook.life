@@ -11,6 +11,7 @@ from processors.base import QueueProccessorBase
 class DurationCalcProccessor(QueueProccessorBase):
     queue_name = "duration_calc_processor"
     routing_key = "asset.update"
+    disabled = True
 
     async def async_process(self, message) -> bool:
         if message.storage_key is None:
@@ -21,16 +22,17 @@ class DurationCalcProccessor(QueueProccessorBase):
             self.log.info("Downloading file to memory...")
             obj = s3.Object("timbrook-podcast", message.storage_key)
             obj.download_fileobj(pod_file)
-            self.log.info("Done")
+            audio = MP3(pod_file)
         except ClientError as e:
             # dequeue the message, drop it on the floor
             self.log.warning(e)
             return True
+        except Exception as e:
+            self.log.critical(f"{e.__class__.__name__}: {e}")
+            # DROP
+            return True
 
-        audio = MP3(pod_file)
-
-        self.log.info(audio.info)
-
+        self.log.info(audio.info.pprint())
         duration = timedelta(seconds=audio.info.length)
 
         # close enough for podcast work
