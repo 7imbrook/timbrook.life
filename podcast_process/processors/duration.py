@@ -11,7 +11,6 @@ from processors.base import QueueProccessorBase
 class DurationCalcProccessor(QueueProccessorBase):
     queue_name = "duration_calc_processor"
     routing_key = "asset.update"
-    disabled = True
 
     async def async_process(self, message) -> bool:
         if message.storage_key is None:
