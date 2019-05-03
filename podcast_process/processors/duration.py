@@ -41,7 +41,7 @@ class DurationCalcProccessor(QueueProccessorBase):
         timestring = str(duration).split(".")[0]
 
         self.log.info(f"{message.storage_key}: {timestring}")
-        ac = AuthClient("http://localhost:5000")
+        ac = AuthClient("http://auth-server-appshell.production.svc.cluster.local")
         res = ac.login(LoginRequest(service_name="postprocessor"))
 
         requests.patch(
