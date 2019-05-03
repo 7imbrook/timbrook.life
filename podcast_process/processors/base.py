@@ -10,6 +10,10 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
     def log(self):
         return logging.getLogger(str(self.__class__.__name__))
 
+    @property
+    def disabled(self) -> bool:
+        return False
+
     @abc.abstractproperty
     def queue_name(self) -> str:
         pass
@@ -19,6 +23,9 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
         pass
 
     async def async_consume(self, queue):
+        if self.disabled:
+            self.log.warn("Not starting consumer, disabled")
+            return
         self.log.info("Starting consumer")
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:

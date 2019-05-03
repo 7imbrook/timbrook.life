@@ -5,9 +5,11 @@ from processors.base import QueueProccessorBase
 class PermissionProcessor(QueueProccessorBase):
     queue_name = "permission_update"
     routing_key = "asset.update"
+    disabled = True
 
     async def _update_permission(self, asset, should_be_pubic) -> bool:
         obj = s3.Object("timbrook-podcast", asset)
+        obj.load()
         acl = "public-read" if should_be_pubic else "private"
         obj.put(ACL=acl)
         self.log.info(f"Updated permissions on {asset} to: {acl}")
@@ -26,10 +28,10 @@ class PermissionProcessor(QueueProccessorBase):
 class AssetPurgeProcessor(QueueProccessorBase):
     queue_name = "purge_asset"
     routing_key = "asset.purge"
+    disabled = True
 
     async def _delete_object(self, asset) -> bool:
-        obj = s3.Object("timbrook-podcast", asset)
-        obj.delete()
+        s3.Object("timbrook-podcast", asset).delete()
         self.log.info(f"Deleted asset {asset}")
         return True
 
