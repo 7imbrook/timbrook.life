@@ -34,7 +34,7 @@ class AsyncProccessor:
         self.sym = self.SYMBOL_MAP[key]
         self.serialize = _sym_db.GetSymbol(self.sym).SerializeToString
 
-    def dispatch(self, data: object) -> None:
+    def dispatch(self, data: object, token: str) -> None:
         credentials = pika.PlainCredentials("user", os.environ.get("AMQT_PASSWORD"))
         connection = pika.BlockingConnection(
             pika.ConnectionParameters(
@@ -47,6 +47,8 @@ class AsyncProccessor:
             exchange="amq.topic",
             routing_key=self.routing_key,
             body=body,
-            properties=pika.BasicProperties(headers={"X-Proto-Symbol": self.sym}),
+            properties=pika.BasicProperties(
+                headers={"X-Proto-Symbol": self.sym, "X-Auth-Token": token}
+            ),
         )
 

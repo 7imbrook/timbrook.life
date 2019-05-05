@@ -103,6 +103,7 @@ def configure():
     # Trigger Postprocessor for figuring our metadata
     AsyncProccessor("calulate_duration").dispatch(
         data=DurationPayload(handle=handle, episode=ep_id)
+        token=token,
     )
 
     return {"status": "ok", "updates": res}
