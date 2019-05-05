@@ -41,7 +41,7 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
         if symbol_lookup is not None:
             parser = _sym_db.GetSymbol(symbol_lookup).FromString
         else:
-            parser = json.loads
+            parser = lambda b: Box(json.loads(b))
 
         try:
             body = parser(message.body)
