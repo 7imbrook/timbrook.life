@@ -3,8 +3,9 @@ from flask import Response, request
 from bs4 import BeautifulSoup
 from datetime import datetime
 from flask_api import FlaskAPI
-from src.utils import require_valid_token
+from src.utils import require_valid_token, AsyncProccessor
 from src.podcast import populate_episode, populate_podcast
+from twirp.AsyncTypes_pb2 import DurationPayload
 
 key = os.environ.get("ACCESS_KEY_ID")
 secret = os.environ.get("SECRET_ACCESS_KEY")
@@ -97,5 +98,8 @@ def configure():
         headers={"Authorization": f"Bearer {token}", "Prefer": "return=representation"},
         data={"podcast": pod_id},
     )
+
+    # Trigger Postprocessor for figuring our metadata
+    AsyncProccessor("calulate_duration").dispatch(data=DurationPayload(handle="abc"))
 
     return {"status": "ok", "updates": res.json()}

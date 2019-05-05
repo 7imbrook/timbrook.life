@@ -13,7 +13,7 @@ from twirp.Account_pb2 import LoginRequest
 
 class DurationCalcProccessor(QueueProccessorBase):
     queue_name = "duration_calc_processor"
-    routing_key = "asset.update"
+    routing_key = "async.calulate_duration"
 
     async def async_process(self, message) -> bool:
         if message.storage_key is None or message.duration is not None:
@@ -41,6 +41,7 @@ class DurationCalcProccessor(QueueProccessorBase):
         timestring = str(duration).split(".")[0]
 
         self.log.info(f"{message.storage_key}: {timestring}")
+        # TODO! Get auth from rabbit headers :)
         ac = AuthClient("http://auth-server-appshell.production.svc.cluster.local")
         res = ac.login(LoginRequest(service_name="postprocessor"))
 
