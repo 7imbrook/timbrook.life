@@ -11,18 +11,9 @@ module.exports = merge(common, {
     contentBase: './dist',
     historyApiFallback: true,
     proxy: {
-      '/api/(p)/**': {
+      '/api/**': {
         target: 'https://timbrook.tech',
         changeOrigin: true,
-      },
-      '/api/(auth)/**': {
-        target: 'http://localhost:5000/',
-        pathRewrite: {
-          '/api': ''
-        }
-      },
-      '/api/**': {
-        target: 'http://localhost:4000/',
       },
     }
   },
