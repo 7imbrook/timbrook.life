@@ -43,7 +43,6 @@ class AsyncProccessor:
         )
         channel = connection.channel()
         body = self.serialize(data).decode("utf-8")
-        print(body)
         channel.basic_publish(
             exchange="amq.topic",
             routing_key=self.routing_key,

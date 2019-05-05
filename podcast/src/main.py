@@ -97,11 +97,12 @@ def configure():
         f"http://postgrest-api.production.svc.cluster.local/episodes?id=eq.{ep_id}",
         headers={"Authorization": f"Bearer {token}", "Prefer": "return=representation"},
         data={"podcast": pod_id},
-    )
+    ).json()
+    handle = res[0]["storage_key"]
 
     # Trigger Postprocessor for figuring our metadata
     AsyncProccessor("calulate_duration").dispatch(
-        data=DurationPayload(handle="abc", episode=ep_id)
+        data=DurationPayload(handle=handle, episode=ep_id)
     )
 
-    return {"status": "ok", "updates": res.json()}
+    return {"status": "ok", "updates": res}
