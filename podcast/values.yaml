@@ -31,3 +31,8 @@ environment:
         secretKeyRef:
             name: digital-ocean-spaces
             key: token 
+    - name: AMQT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+            name: rabbitmq
+            key: rabbitmq-password 
