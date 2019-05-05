@@ -100,6 +100,8 @@ def configure():
     )
 
     # Trigger Postprocessor for figuring our metadata
-    AsyncProccessor("calulate_duration").dispatch(data=DurationPayload(handle="abc"))
+    AsyncProccessor("calulate_duration").dispatch(
+        data=DurationPayload(handle="abc", episode=ep_id)
+    )
 
     return {"status": "ok", "updates": res.json()}

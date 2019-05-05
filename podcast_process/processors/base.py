@@ -3,6 +3,10 @@ import asyncio
 import json
 from box import Box
 import logging
+from json.decoder import JSONDecodeError
+from google.protobuf import symbol_database as _symbol_database
+
+_sym_db = _symbol_database.Default()
 
 
 class QueueProccessorBase(metaclass=abc.ABCMeta):
@@ -33,8 +37,17 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
 
     async def on_message(self, message):
         should_requeue_if_failure = message.delivery_tag < 15 or True
+        symbol_lookup = message.headers.get("X-Proto-Symbol")
+        if symbol_lookup is not None:
+            parser = _sym_db.GetSymbol(symbol_lookup).FromString
+        else:
+            parser = json.loads
+
         try:
-            body = Box(json.loads(message.body))
+            body = parser(message.body)
+            print(body)
+        except JSONDecodeError as e:
+            message.reject()
         except Exception:
             message.reject()
         try:

@@ -4,4 +4,5 @@ package async;
 
 message DurationPayload {
     string handle = 1;
+    int32 episode = 2;
 }

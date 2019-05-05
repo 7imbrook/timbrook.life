@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='async',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x10\x41syncTypes.proto\x12\x05\x61sync\"!\n\x0f\x44urationPayload\x12\x0e\n\x06handle\x18\x01 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x10\x41syncTypes.proto\x12\x05\x61sync\"2\n\x0f\x44urationPayload\x12\x0e\n\x06handle\x18\x01 \x01(\t\x12\x0f\n\x07\x65pisode\x18\x02 \x01(\x05\x62\x06proto3')
 )
 
 
@@ -40,6 +40,13 @@ _DURATIONPAYLOAD = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='episode', full_name='async.DurationPayload.episode', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -53,7 +60,7 @@ _DURATIONPAYLOAD = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=27,
-  serialized_end=60,
+  serialized_end=77,
 )
 
 DESCRIPTOR.message_types_by_name['DurationPayload'] = _DURATIONPAYLOAD

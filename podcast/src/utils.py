@@ -1,4 +1,6 @@
 import json
+import os
+import pika
 from functools import wraps
 from flask import request
 from jose import jwt
@@ -29,7 +31,23 @@ class AsyncProccessor:
 
     def __init__(self, key: str) -> None:
         self.routing_key = f"async.{key}"
-        self.serialize = _sym_db.GetSymbol(self.SYMBOL_MAP[key]).SerializeToString
+        self.sym = self.SYMBOL_MAP[key]
+        self.serialize = _sym_db.GetSymbol(self.sym).SerializeToString
 
     def dispatch(self, data: object) -> None:
-        print(self.serialize(data))
+        credentials = pika.PlainCredentials("user", os.environ.get("AMQT_PASSWORD"))
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                host="rabbitmq.production.svc.cluster.local", credentials=credentials
+            )
+        )
+        channel = connection.channel()
+        body = self.serialize(data).decode("utf-8")
+        print(body)
+        channel.basic_publish(
+            exchange="amq.topic",
+            routing_key=self.routing_key,
+            body=body,
+            properties=pika.BasicProperties(headers={"X-Proto-Symbol": self.sym}),
+        )
+
