@@ -16,7 +16,7 @@ class DurationCalcProccessor(QueueProccessorBase):
     queue_name = "duration_calc_processor"
     routing_key = "async.calulate_duration"
 
-    async def async_process(self, message: DurationPayload) -> bool:
+    async def async_process(self, message: DurationPayload, headers) -> bool:
         pod_file = io.BytesIO()
 
         try:
@@ -40,13 +40,11 @@ class DurationCalcProccessor(QueueProccessorBase):
         timestring = str(duration).split(".")[0]
 
         self.log.info(f"{message.handle}: {timestring}")
-        # TODO! Get auth from rabbit headers :)
-        ac = AuthClient("http://auth-server-appshell.production.svc.cluster.local")
-        res = ac.login(LoginRequest(service_name="postprocessor"))
 
+        token = headers.get("X-Auth-Token")
         requests.patch(
             f"http://postgrest-api.production.svc.cluster.local/episodes?id=eq.{message.episode}",
-            headers={"Authorization": f"Bearer {res.token}"},
+            headers={"Authorization": f"Bearer {token}"},
             data={"duration": timestring},
         ).raise_for_status()
 

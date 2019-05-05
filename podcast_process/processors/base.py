@@ -51,7 +51,7 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
         except Exception:
             message.reject()
         try:
-            if await self.async_process(body):
+            if await self.async_process(body, headers):
                 message.ack()
             else:
                 message.reject(requeue=should_requeue_if_failure)
@@ -61,5 +61,5 @@ class QueueProccessorBase(metaclass=abc.ABCMeta):
             message.reject(requeue=should_requeue_if_failure)
 
     @abc.abstractclassmethod
-    async def async_process(self, message) -> bool:
+    async def async_process(self, message, headers) -> bool:
         pass

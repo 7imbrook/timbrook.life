@@ -16,7 +16,7 @@ class PermissionProcessor(QueueProccessorBase):
         self.log.info(f"Updated permissions on {asset} to: {acl}")
         return True
 
-    async def async_process(self, message) -> bool:
+    async def async_process(self, message, headers) -> bool:
         if message.storage_key is None or message.podcast is None:
             self.log.info(
                 "Message missing storage key or not part of podcast, skipping"
@@ -35,7 +35,7 @@ class AssetPurgeProcessor(QueueProccessorBase):
         self.log.info(f"Deleted asset {asset}")
         return True
 
-    async def async_process(self, message) -> bool:
+    async def async_process(self, message, headers) -> bool:
         if message.storage_key is None:
             self.log.critical(f"Missing storate key for payload {json.dumps(message)}")
             return True
