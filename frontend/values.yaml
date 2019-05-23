@@ -10,5 +10,6 @@ ingress:
     hosts:
         - timbrook.tech 
         - timbrook.dev
+        - timbrook.life
     paths:
         - /
